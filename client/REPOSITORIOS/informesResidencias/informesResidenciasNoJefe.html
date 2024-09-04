@@ -1,0 +1,58 @@
+<!-- ************************************************************************************************************** -->
+<!--                               BARRA DE HERRAMIENTAS DE INFORMES DE RESIDENCIAS                                 -->
+<!-- ************************************************************************************************************** -->
+<template name="toolBoxInformesResidenciasNoJefe">
+    <div class="toolBox well well-sm text-center">
+        {{> catPeriodos}}
+        {{> catCarreras}}
+        <span class="text-primary">Cantidad:</span><span class="text-success">{{cantidad}}</span>
+    </div>	
+</template>
+<!-- ************************************************************************************************************** -->
+<!--                                            INFORMES DE RESIDENCIAS                                             -->
+<!-- ************************************************************************************************************** -->
+<template name="informesResidenciasNoJefe">
+    {{> toolBoxInformesResidenciasNoJefe}}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-1">
+            </div>
+            <div class="col-md-10 text-center">
+                <input class="form-control myTxtBoxFiltro" id="myFiltro" type="text" placeholder="Filtrar por cualquier campo...">
+            </div>
+            <div class="col-md-1">
+                
+            </div>
+        </div>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <tbody id="myTable">
+                <tr class="success">
+                    <th>NC</th>
+                    <th>Nombre</th>
+                    <th>Proyecto</th>
+                    <th>Descargas</th>
+                    <th></th> 
+                </tr>  
+                {{#each informeResidencias}} 
+                    <tr>
+                        <td>
+                            {{nc}}
+                        </td>
+                        <td>{{nombre}}</td>
+                        <td>{{proyecto}}</td>
+                        <td class="text-center">{{numDescargas}}</td>
+                        <td>
+                            {{#if tieneInforme}}
+                                <a href="{{ip}}{{path}}" target="_blank"  title="Descargar Documento" class="descargar">
+                                    <i class="fa fa-file-pdf-o" aria-hidden="true"></i>
+                                </a>
+                            {{/if}}
+                        </td>
+                    </tr>  
+                {{/each}}
+            </tbody>  
+        </table>
+    </div>
+</template>

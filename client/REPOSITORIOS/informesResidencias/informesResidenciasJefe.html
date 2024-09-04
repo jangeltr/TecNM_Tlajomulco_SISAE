@@ -1,0 +1,155 @@
+<!-- ************************************************************************************************************** -->
+<!--                               BARRA DE HERRAMIENTAS DE INFORMES DE RESIDENCIAS                                 -->
+<!-- ************************************************************************************************************** -->
+<template name="toolBoxInformesResidenciasJefe">
+    <div class="toolBox well well-sm text-center">
+        {{> catPeriodos}}
+        {{> catCarreras}}
+        <button type="button" class="agregar btn btn-success" data-toggle="modal" data-target="#addInformeResidencias" title="Subir un informe de residencias">
+            <i class="fa fa-plus" aria-hidden="true"></i>
+        </button>
+        <span class="text-primary">Cantidad:</span><span class="text-success">{{cantidad}}</span>
+    </div>	
+</template>
+<!-- ************************************************************************************************************** -->
+<!--                                         INFORMES DE RESIDENCIAS DEL JEFE                                       -->
+<!-- ************************************************************************************************************** -->
+<template name="informesResidenciasJefe">
+    {{> toolBoxInformesResidenciasJefe}}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-1">
+            </div>
+            <div class="col-md-10 text-center">
+                <input class="form-control myTxtBoxFiltro" id="myFiltro" type="text" placeholder="Filtrar por cualquier campo...">
+            </div>
+            <div class="col-md-1">
+                
+            </div>
+        </div>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <tbody id="myTable">
+                <tr class="success">
+                    <th>NC</th>
+                    <th>Nombre</th>
+                    <th>Proyecto</th>
+                    <th>Descargas</th>
+                    <th></th> 
+                </tr>  
+                {{#each informeResidencias}} 
+                    <tr>
+                        <td>
+                            <a href="#">
+                                <i class="borrar fa fa-trash text-danger" aria-hidden="true"></i>
+                            </a>
+                            {{nc}}
+                        </td>
+                        <td>{{nombre}}</td>
+                        <td>{{proyecto}}</td>
+                        <td class="text-center">{{numDescargas}}</td>
+                        <td class="small" style="width: 50px;">
+                            {{#if tieneInforme}}
+                                <a href="{{ip}}{{path}}" target="_blank"  title="Descargar Documento" class="descargar">
+                                    <i class="fa fa-file-pdf-o" aria-hidden="true"></i>
+                                </a>
+                            {{/if}}
+                            <a href="#"  title="Subir Documento" class="subirInforme" data-toggle="modal" data-target="#uploadInformeResidencias">
+                                <i class="fa fa-upload text-success" aria-hidden="true"></i>
+                            </a>
+                            <a href="#"  title="Actualiza datos de la residencia" class="updateProyecto" data-toggle="modal" data-target="#updateInformeResidencias">
+                                <i class="fa fa-pencil text-success" aria-hidden="true"></i>
+                            </a>
+                        </td>
+                    </tr>  
+                {{/each}}
+            </tbody>  
+        </table>
+    </div>
+    {{> addInformeResidencias}}
+    {{> updateInformeResidencias}}
+    {{> avisos}}
+    {{> uploadInformeResidencias}}
+</template>
+<!-- ************************************************************************************************************** -->
+<!--                                      MODAL PARA AGREGAR INFORMES DE RESIDENCIAS                                -->
+<!-- ************************************************************************************************************** -->
+<template name="addInformeResidencias">
+    <div class="modal fade" id="addInformeResidencias" tabindex="-1" role="dialog">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+                    <h3 class="text-primary">Agrega un informe de residencias<h5>{{periodo}}</h5><h5>{{carrera}}</h5></h3>
+				</div>
+                <div class="modal-body">
+                    <label for="nc">NC:</label>
+                    <input type="text" class="form-control" id="nc">
+                    <label for="nombre">Nombre del Alumno:</label>
+                    <input type="text" class="form-control text-uppercase" id="nombre">
+                    <label for="proyecto">Nombre del Proyecto:</label>
+                    <input type="text" class="form-control  text-uppercase" id="proyecto">
+                </div>
+				<div class="modal-footer">
+                        <button type="button" class="registrar btn btn-success" id="btnAgregar" data-toggle="modal" data-target="#avisos" data-dismiss="modal">
+                            Registrar
+                        </button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</template>
+<!-- ************************************************************************************************************** -->
+<!--                                         PARA SUBIR EL INFORMES DE RESIDENCIAS                                  -->
+<!-- ************************************************************************************************************** -->
+<template name="uploadInformeResidencias">
+    <div class="modal fade" id="uploadInformeResidencias">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="text-primary">Sube el Informe de Residencias <h4 class="text-success">{{alumno}}</h4></h3>
+                </div>
+                <div class="modal-body">
+                    <div class="fileupload fileupload-new" data-provides="fileupload" style="text-align:center">
+                        <br><span class="fileupload-exists"><h6 class="text-primary">Subelo en formato .pdf</h6></span><br>
+                        <span class="btn btn-file" style="width: 100%">
+                            <input id="b" name="fileUploadName" class="file-upload-input" method="fileUploadMethod" type="file" accept=".pdf" style="width: 100%"/>
+                        </span>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button id="btnCerrar" type="button" class="cerrar btn btn-primary" data-toggle="modal" data-target="#avisos" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+<!-- ************************************************************************************************************** -->
+<!--                                      MODAL PARA MODIFICAR INFORMES DE RESIDENCIAS                                -->
+<!-- ************************************************************************************************************** -->
+<template name="updateInformeResidencias">
+    <div class="modal fade" id="updateInformeResidencias" tabindex="-1" role="dialog">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+                    <h3 class="text-primary">Modifica los datos del informe de residencias<h5>{{periodo}}</h5><h5>{{carrera}}</h5></h3>
+				</div>
+                <div class="modal-body">
+                    <label for="ncU">NC:</label>
+                    <input type="text" class="form-control" id="ncU" value="{{nc}}" disabled>
+                    <label for="nombreU">Nombre del Alumno:</label>
+                    <input type="text" class="form-control text-uppercase" id="nombreU" value="{{nombre}}">
+                    <label for="proyectoU">Nombre del Proyecto:</label>
+                    <input type="text" class="form-control  text-uppercase" id="proyectoU" value="{{proyecto}}">
+                </div>
+				<div class="modal-footer">
+                        <button type="button" class="registrar btn btn-success" id="btnAgregar" data-toggle="modal" data-target="#avisos" data-dismiss="modal">
+                            Registrar
+                        </button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</template>

@@ -1,0 +1,232 @@
+<!-- ************************************************************************************************************** -->
+<!--                                               PLATILLA DE PERFIL                                               -->
+<!-- ************************************************************************************************************** -->
+<template name="miPerfil">  
+    {{#if soyDocente}}
+        {{> siSoyDocente}}
+    {{else}}
+        {{> siSoyAlumno}}
+    {{/if}}
+    {{> uploadFotoMiPerfil}}
+    {{> avisos}}
+</template>
+<!-- ************************************************************************************************************** -->
+<!--                                               PLATILLA DEL ALUMNO                                              -->
+<!-- ************************************************************************************************************** -->
+<template name="siSoyAlumno">
+    <div class="row">
+        <div class="col-md-5">
+            <div class="card">
+                <div class="card-header" style="text-align: center;">
+                    <h5 class="card-title">{{nombre}}</h5>
+                    <button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#uploadFotoMiPerfil" 
+                    title="Actualiza tu foto de perfil">
+                        Sube o cambia tu foto de perfil
+                    </button>
+                </div>
+                <div class="card-body text-center">
+                    <div class="table-responsive text-left">
+                        <table class="table">
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <h6 class="card-text">Num. Control</h6>
+                                    </td>
+                                    <td>
+                                        <h6 class="card-text">{{username}}</h6>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <h6 class="card-text">eMail</h6>
+                                    </td>
+                                    <td>
+                                        <h6 class="card-text">{{eMail}}</h6>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <h6 class="card-text">Telefono</h6>
+                                    </td>
+                                    <td>
+                                        <h6 class="card-text">{{telefono}}</h6>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <h6 class="card-title">Carrera</h6>
+                                    </td>
+                                    <td>
+                                        <h6 class="card-title">{{carrera}}</h6>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <h6 class="card-text">Semestre</h6>
+                                    </td>
+                                    <td>
+                                        <h6 class="card-text">{{semestre}}</h6>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <h6 class="card-text">Modalidad</h6>
+                                    </td>
+                                    <td>
+                                        <h6 class="card-text">{{modalidad}}</h6>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <h6 class="card-title">Modulo</h6>
+                                    </td>
+                                    <td>
+                                        <h6 class="card-title">{{modulo}}</h6>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <h6 class="card-text">Nacimiento</h6>
+                                    </td>
+                                    <td>
+                                        <h6 class="card-text">{{fechaNacimiento}}</h6>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <h6 class="card-text">Sexo</h6>
+                                    </td>
+                                    <td>
+                                        <h6 class="card-text">{{sexo}}</h6>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-7">
+            <div class="card">
+                <div class="card-header" style="text-align: center;">
+                    <h5 class="card-title">Actualiza tus datos</h5>
+                </div>
+                <div class="card-body" style="text-align: justify;">
+                    <div class="form-group">
+                        <label for="usr">Telefono:</label>
+                        <input type="text" class="form-control" id="txtTelefono"  placeholder="{{telefono}}">
+                        <label for="usr">eMail:</label>
+                        <input type="email" class="form-control" id="txteMail" placeholder="{{eMail}}">
+                        <div class="text-right p-3">
+                            <button type="button" class="guardar btn btn-primary"  id="btnGuardarAlumno" 
+                            data-toggle="modal" data-target="#avisos">
+                            Guardar
+                        </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+<!-- ************************************************************************************************************** -->
+<!--                                              PLATILLA DEL DOCENTE                                              -->
+<!-- ************************************************************************************************************** -->
+<template name="siSoyDocente">
+    <div class="row">
+        <div class="col-md-5">
+            <div class="card">
+                <div class="card-header" style="text-align: center">
+                    <h5 class="card-title">{{nombre}}</h5>
+				</div>
+				<div class="card-body" style="text-align: justify">
+                    <h6 class="card-text">Cuenta de inicio: <b> {{cuenta}} </b> </h6>
+                    <h6 class="card-text">Area de adscripción: {{areaDeAdscripcion}}</h6>
+                    <h6 class="card-text">Correo electrónico: {{eMail}}</h6>
+                    <h6 class="card-text">Telefono: {{telefono}}</h6>
+                    <button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#uploadFotoMiPerfil"
+                    title="Actualiza tu foto de perfil">
+                        Sube o cambia tu foto de perfil
+                    </button>
+				</div>
+			</div>
+        </div>
+        <div class="col-md-7">
+            <div class="card">
+                <div class="card-body" style="text-align: justify">
+                    <div class="card-header" style="text-align: center">
+                        <h5 class="card-title">Actualiza tus datos</h5>
+                    </div>
+                    <div class="form-group">
+                        <label for="usr">Telefono:</label>
+                        <input type="text" class="form-control" id="txtTelefono" placeholder="{{telefono}}">
+                        <label for="usr">eMail:</label>
+                        <input type="email" class="form-control" id="txteMail" placeholder="{{eMail}}">
+                        <label for="comment">Agrega una descripción propia que los alumnos puedan ver de ti:</label>
+                        <textarea class="form-control" rows="5" id="txtDescripcion" placeholder="{{descripcion}}"></textarea>
+                        <div class="text-right p-3">
+                            <button type="button" class="guardar btn btn-primary" id="btnGuardarDocente" 
+                            data-toggle="modal" data-target="#avisos">
+                                Guardar
+                            </button>
+                        </div>
+                    </div>
+				</div>
+			</div>
+        </div>
+    </div>
+</template>
+<!-- ************************************************************************************************************** -->
+<!--                                          PLATILLA PARA SUBIR LA FOTO                                           -->
+<!-- ************************************************************************************************************** -->
+<template name="uploadFotoMiPerfil">
+    <div class="modal fade" id="uploadFotoMiPerfil">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="text-primary">Sube tu foto de perfil</h3>
+                </div>
+                <div class="modal-body text-center">
+                    <div class="text-center">
+                        <input id="btnFileMiPerfil2" class="file-upload-input" method="fileUploadMethod" 
+                        type="file" accept=".jpg,.png" hidden/>
+                        <button class="btnSubirArchivo btn btn-outline-success">1.- Selecciona una foto</button><br><br>
+                        <span class="text-success" style="display: none;" id="dos">
+                            <b>2.- Selecciona el area de la foto que tiene tu rostro</b>
+                        </span><br><br>
+					</div>
+
+                    <!-- En este div se inserta un elemento img para mostrar la imagen completa -->
+                    <div id="divImg1"></div>
+
+                    <!-- En este canvas se corta la imagen -->
+                    <canvas id="previewCanvas" hidden></canvas>
+
+                    <!-- En este img donde se muestra la imagen ya recortada pero ajustandose al ancho -->
+                    <div class="container-sm" id="cuatro"  style="display: none;">
+                        <br>
+                        <div class="row align-items-center">
+                            <div class="col-6 text-right">
+                                <h4 class="text-primary">Tu foto de perfil:</h4>
+                            </div>
+                            <div class="col-6 text-left">
+                                <img src="" alt="" id="previewImg" class="rounded-circle">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="col-6 text-left">
+                        <button class="btnGuardar btn btn-outline-success" style="display: none;" id="tres">
+                            3.- Establecer como imagen de perfil
+                        </button>
+                    </div>
+                    <div class="col-6 text-right">
+                        <img src="/Si.png" height="40px" id="imgCargoMiFotoPerfil" style="display: none;">
+                        <button type="button" class="btnCerrar btn btn-outline-primary" data-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>

@@ -1,0 +1,229 @@
+<!-- ************************************************************************************************************** -->
+<!--                                                    CONFIGURACIONES                                             -->
+<!-- ************************************************************************************************************** -->
+<template name="configuracion">
+    {{#if esJefe}}  
+        <br>
+        <div>
+            <h4 class="text-center text-primary">Periodos o ciclos escolares</h4>
+        </div>
+        <br>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-6">
+                    <h6 class="text-primary">Nuevo ciclo escolar</h6>
+                    <input type="text" class="newPeriodo form-control" id="newPer"><br>
+                    <button type="button" class="guardar btn btn-success" data-toggle="modal"
+                    data-target="#avisos">Registrar el ciclo escolar</button>
+                </div>
+                <div class="col-sm-6 text-center">
+                    <h6 class="text-primary">Ciclos escolares existentes</h6>
+                    <select name="Periodos" size="13" multiple style="width: 200px;">
+                        {{#each periodos}}
+                            <option value="{{periodo}}">{{periodo}}</option>
+                        {{/each}}
+                    </select>
+                </div>
+            </div>
+        </div>
+        <br>
+        <hr>
+        <br>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <h4 class="text-center text-primary">Selecciona el ciclo escolar</h4>
+                </div>
+            </div>
+            <br><br>
+            <div class="row">
+                <div class="col-sm-6 text-center">
+                    <h6 class="text-primary">Ciclo escolar actualmente electo</h6>
+                    <h6 class="text-success">{{periodoElecto}}</h6>
+                </div>
+                <div class="col-sm-6 text-center">
+                    <h6 class="text-success">Selecciona el nuevo ciclo escolar:</h6>
+                    {{> catPeriodos}}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12 text-center">
+                    <br><br>
+                    <button type="button" class="guardarCicloElecto btn btn-success" 
+                    data-toggle="modal" data-target="#avisos">Guardar</button>
+                </div>
+            </div>
+        </div>
+        <br>
+        <hr>
+        <br>
+        <div>
+            <h4 class="text-center text-primary">Subir los formatos del SAD</h4>
+        </div>
+        <br>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-4">
+                    <button type="button" class="subirFormatoInstrumentacion btn text-success" 
+                    data-toggle="modal" data-target="#uploadFileFormatoSADenADMON">Formato instrumentación</button>
+                </div>
+                <div class="col-sm-4">
+                    <button type="button" class="subirFormatoEvidenciaEntrega btn text-success" 
+                    data-toggle="modal" data-target="#uploadFileFormatoSADenADMON">Formato evidencia de entrega</button>
+                </div>
+                <div class="col-sm-4">
+                    <button type="button" class="subirFormatoHorario btn text-success" 
+                    data-toggle="modal" data-target="#uploadFileFormatoSADenADMON">Formato del horario</button>
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-sm-4">
+                    <button type="button" class="subirFormatoR1 btn text-success" 
+                    data-toggle="modal" data-target="#uploadFileFormatoSADenADMON">Formato del Reporte 1</button>
+                </div>
+                <div class="col-sm-4">
+                    <button type="button" class="subirFormatoR2 btn text-success" 
+                    data-toggle="modal" data-target="#uploadFileFormatoSADenADMON">Formato del Reporte 2</button>
+                </div>
+                <div class="col-sm-4">
+                    <button type="button" class="subirFormatoR3 btn text-success" 
+                    data-toggle="modal" data-target="#uploadFileFormatoSADenADMON">Formato del Reporte 3</button>
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-sm-4">
+                    <button type="button" class="subirFormatoRF btn text-success" 
+                    data-toggle="modal" data-target="#uploadFileFormatoSADenADMON">Formato del Reporte Final</button>
+                </div>
+                <div class="col-sm-4">
+                    <button type="button" class="subirFormatoPI btn text-success" 
+                    data-toggle="modal" data-target="#uploadFileFormatoSADenADMON">Formato del Reporte Proy. Ind.</button>
+                </div>
+            </div>
+        </div>
+        <br>
+        <hr>
+        {{#if esAdministrador}}
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-12 text-center">
+                        <br>
+                        <h4 class="text-primary">Permisos en las diferentes secciones del SISAE</h4>
+                        <br>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-8 text-center">
+                        {{> buscarDocente}}
+                    </div>
+                    <div class="col-sm-2 text-center">
+                        <select class="btn btn-default" id="selectPermiso">
+                            <option value="Lectura">Lectura</option>
+                            <option value="Escritura">Escritura</option>
+                        </select>
+                    </div>
+                    <div class="col-sm-2 text-center">
+                        <button class="btnAsignarPermiso btn btn-success"
+                        data-toggle="modal" data-target="#avisos">
+                            Asignar Permiso
+                        </button>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-sm-4">
+                        <select class="selectAreaSisae btn btn-default">
+                            {{#each areasSisae}}
+                                <option value={{_id}}>{{nombre}}</option>
+                            {{/each}}
+                        </select>
+                    </div>
+                    <div class="col-sm-8">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr class="success">
+                                        <th class="text-primary">Usuario</th>
+                                        <th class="text-primary">Permiso</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {{#each permisos}}
+                                        <tr class="small">
+                                            <td>{{nombre}}</td>
+                                            <td>{{permiso}}</td>
+                                            <td>
+                                                <i class="removePermiso fa fa-trash text-danger"
+                                                aria-hidden="true" id="{{idDocente}}"></i>
+                                            </td>
+                                        </tr>
+                                    {{/each}}
+                                </tbody>  
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <br>
+            </div>
+            <hr>
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <br>
+                        <div>
+                            <h4 class="text-primary">Configuración actual</h4>
+                        </div>
+                        <br>
+                        <h6 class="text-primary">IP del servidor</h6>
+                        <h6 class="text-success">{{ip}}</h6>
+                        <br>
+                        <h6 class="text-primary">Número de puerto del servidor de archivos</h6>
+                        <h6 class="text-success">{{puerto}}</h6>
+                    </div>
+                    <div class="col-sm-6">
+                        <br>
+                        <div>
+                            <h4 class="text-primary">Nueva configuración</h4>
+                        </div>
+                        <br>
+                        <h6>Nueva IP:</h6>
+                        <input type="text" class="newPeriodo form-control" id="newIP" value={{ip}}><br>
+                        <h6>Nuevo número de puerto:</h6>
+                        <input type="text" class="newPeriodo form-control" id="newPuerto" value={{puerto}}><br>
+                        <div class="text-right">
+                            <button type="button" class="guardarConfiguracion btn btn-success" 
+                            data-toggle="modal" data-target="#avisos">Guardar nueva configuración</button>
+                        </div>
+                    </div>
+                </div>
+                <br>
+            </div>
+            <hr>
+        {{/if}}
+        <hr>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <h4 class="text-primary">Frases a mostrar a un lado del perfil</h4>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <h6 class="text-success">Frase</h6>
+                    <input type="text" class="form-control" id="newFrase"><br>
+                    <h6 class="text-success">Autor</h6>
+                    <input type="text" class="form-control" id="newAutor"><br>
+                    <div class="text-right">
+                        <button type="button" class="guardarFrase btn btn-success" 
+                        data-toggle="modal" data-target="#avisos">Guardar nueva frase</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{> avisos}}
+        {{> uploadFileFormatoSADenADMON}}
+    {{/if}}
+</template>

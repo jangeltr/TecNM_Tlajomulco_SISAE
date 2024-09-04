@@ -1,0 +1,104 @@
+<!-- ************************************************************************************************************** -->
+<!--                      BARRA DE HERRAMIENTAS PARA LA CONSTANCIA DE TERMINACION                                   -->
+<!-- ************************************************************************************************************** -->
+<template name="toolBoxConstanciaTerminacion">
+	<div class="toolBox well well-sm text-center">
+		{{> catPeriodos}}
+	</div>	
+</template>
+<!-- ************************************************************************************************************** -->
+<!--                                       CONSTANCIA DE TERMINACION                                                -->
+<!-- ************************************************************************************************************** -->
+<template name="constanciaTerminacion">
+    {{#if esDocente}}
+        {{> toolBoxConstanciaTerminacion}}
+        {{#if Template.subscriptionsReady}}
+            {{#if esJefe}}
+                <div class="container">
+                    <input class="form-control myTxtBoxConstanciaTerminacion" id="myFiltroConstanciaTerminacion" 
+                    type="text" placeholder="Filtrar por cualquier campo...">
+                </div>
+                <table class="table table-striped">
+                    <thead>
+                        <tr class="success">
+                            <th>Nombre</th>
+                            <th>Constacia</th>
+                        </tr>
+                    </thead>
+                    <tbody id="myTableConstanciaTerminacion">
+                        {{#each listaDocentes}}
+                            <tr>
+                                <td>{{profile.prefijo}} {{profile.name}}</td>
+                                <td>
+                                    <button type="button" class="subir btn btn-default" data-toggle="modal" 
+                                    data-target="#uploadConstanciaTerminacionJefe" title="Subir la constancia de terminación">
+                                        <i class="fa fa-upload" aria-hidden="true"></i>
+                                    </button>
+                                    {{#if tieneConstanciaTerminacion}}
+                                        <button type="button" class="btn btn-default" title="Descargar la constancia de terminación">
+                                            <a href="{{ip}}{{path}}" target="_blank"><i class="fa fa-arrow-down" aria-hidden="true"></i></a>
+                                        </button>
+                                    {{/if}}
+                                </td>
+                            </tr>  
+                        {{/each}}
+                    </tbody>  
+                </table>
+                {{> uploadConstanciaTerminacionJefe}}
+            {{else}}
+                {{#if tieneConstanciaTerminacion}}
+                    <br><br><br><br><br>
+                    <div class="text-center">
+                        <button type="button" class="btn btn-default">
+                            <a href="{{ip}}{{path}}" target="_blank">Descarga tu constancia aqui</a>
+                        </button>
+                    </div>
+                    <br><br><br><br><br>
+                {{else}}
+                    <br><br><br><br><br>
+                    <div class="text-center">
+                        <button type="button" class="btn btn-primary">Tu jefe de departamento aun no ha subido tu constancia de liberación</button>
+                    </div>
+                    <br><br><br><br><br>
+                {{/if}}
+            {{/if}}
+        {{else}}
+            {{> spinner}}
+        {{/if}}
+    {{/if}}
+</template>
+<!-- ************************************************************************************************************** -->
+<!--                            MODAL PRA SUBIR LAS CONSTANCIAS DE TERMINACION                                      -->
+<!-- ************************************************************************************************************** -->
+<template name="uploadConstanciaTerminacionJefe">
+	<div id="uploadConstanciaTerminacionJefe" class="modal fade">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="text-primary">{{periodo}}
+                        <h5>Sube la constancia de terminación de</h5><br>
+                        <h5 class="text-success">{{docente}}</h5>
+                    </h4>
+				</div>
+				<div class="modal-body">
+                    <div class="fileupload fileupload-new" data-provides="fileupload" style="text-align:center">
+                        <span class="text-success">Sube la constancia en pdf</span><br><br>
+                        <input id="btnFileConstanciaTerminacion" class="file-upload-input" method="fileUploadMethod" 
+                        type="file" accept=".pdf" hidden/>
+                        <button class="btnSubirArchivo btn btn-outline-primary">Seleccionar y subir archivo</button><br><br>
+                        <span class="text-success">Archivo subido: </span>
+                        <span><b id="txtFileNameConstanciaTerminacion" class="text-danger">Sin archivo</b></span>
+					</div>
+                </div>
+                <div class="modal-footer">
+                    <div>
+                        <img src="/Si.png" height="40px" id="imgCargoConstanciaTerminacion" style="display: none;">
+                    </div>
+                    <div>
+                        <button type="button" class="btnCerrar btn btn-outline-primary" data-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+			</div>
+		</div>
+	</div>
+</template> 

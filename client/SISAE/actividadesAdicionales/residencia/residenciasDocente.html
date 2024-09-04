@@ -1,0 +1,750 @@
+<!-- ************************************************************************************************************** -->
+<!--                                BARRA DE HERRAMIENTAS PARA RESIDENCIAS DOCENTE                                  -->
+<!-- ************************************************************************************************************** -->
+<template name="toolBoxResidenciasDocente">
+	<div class="toolBox well well-sm text-center">
+        {{> catPeriodos}}
+    </div>	
+</template>
+<!-- ************************************************************************************************************** -->
+<!--                                             RESIDENCIAS DOCENTE                                                -->
+<!-- ************************************************************************************************************** -->
+<template name="residenciasDocente">
+    {{> toolBoxResidenciasDocente}} 
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <tbody>    
+                    {{#each residencias}}
+                        <tr>
+                            <td width="65%">
+                                <a href="#">
+                                    <span class="datosAlumno text-success" data-toggle="modal" data-target="#showDatosAlumnoEnResidenciasDocente" title="Ver datos del alumno">
+                                        {{residente.nc}}
+                                    </span>
+                                </a>
+                                <span>&nbsp;&nbsp;{{residente.nombre}}</span>
+                            </td>
+                            <td  width="35%">
+                            </td>
+                        </tr>
+                        <tr>  
+                            <td class="text-left">
+                                <span><b>Carrera</b>: {{residente.carrera}}</span><br>
+                                <span><b>Proyecto</b>: {{solicitud.nombreProyecto}}</span><br>
+                                <span><b>Empresa</b>: {{empresa.nombre}}</span><br>
+                                <br><hr>
+                                {{#if tieneOficioAsignacionAsesorInterno}}
+                                    <a href="{{ip}}{{asesor.pathOficioAsignacion}}" target="_blank">
+                                        <i class="fa fa-file-pdf-o text-success" aria-hidden="true"></i>
+                                    </a>
+                                    <span>Oficio de asignación del asesor</span>
+                                {{else}}
+                                    <span class="text-danger">Sin Oficio de asignacion de asesor interno</span>
+                                {{/if}}
+                                <br><hr>
+                                <a href="#" class="sendeMail" data-toggle="modal" data-target="#sendeMailResidenciasDocentes">
+                                    <i class="fa fa-envelope-o text-success" aria-hidden="true"></i>
+                                </a>
+                                <span>Enviar email</span>
+                            </td>
+                            <td>
+                                {{#if tieneSolicitudFirmada}}
+                                    <a href="{{ip}}{{expedienteInicio.pathSolicitud}}" target="_blank" title="Solicitud Firmada">
+                                        <i class="fa fa-file-pdf-o" aria-hidden="true"></i>
+                                    </a>
+                                    <span>&nbsp;&nbsp;</span>
+                                {{else}}
+                                    <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                {{/if}}
+                                <span>Solicitud de Residencia</span>
+                                <br>
+                                {{#if tieneAnteproyecto}}
+                                    <a href="{{ip}}{{expedienteInicio.pathAnteproyecto}}" target="_blank"  title="Anteproyecto">
+                                        <i class="fa fa-file-pdf-o" aria-hidden="true"></i>
+                                    </a>
+                                    <span>&nbsp;&nbsp;</span>
+                                {{else}}
+                                    <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                {{/if}}
+                                <span>Anteproyecto</span>
+                                <br>
+                                {{#if tieneCartaDePresentacionFirmada}}
+                                    <a href="{{ip}}{{expedienteInicio.pathCartaPresentacionFirmada}}" target="_blank"  title="Carta de presentacion">
+                                        <i class="fa fa-file-pdf-o" aria-hidden="true"></i>
+                                    </a>
+                                    <span>&nbsp;&nbsp;</span>
+                                {{else}}
+                                    <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                {{/if}}
+                                <span>Carta de Presentacion</span>
+                                <br>
+                                {{#if tieneCartaDeAceptacion}}
+                                    <a href="{{ip}}{{expedienteInicio.pathCartaAceptacion}}" target="_blank"  title="Carta de aceptacion">
+                                        <i class="fa fa-file-pdf-o" aria-hidden="true"></i>
+                                    </a>
+                                    <span>&nbsp;&nbsp;</span>
+                                {{else}}
+                                    <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                {{/if}}
+                                <span>Carta de Aceptacion</span>
+                                <br>
+                                
+                                <a href="#">
+                                    <i class="estaResidencia fa fa-calendar text-primary" aria-hidden="true" title="Plan de actividades" data-toggle="modal" data-target="#verSeguimientoResidenciasAlumnoEnDocente"></i>
+                                </a>
+                                <span>&nbsp;&nbsp;</span>
+                                <span>Planeacion de Actividades</span>
+                                <br>
+                                <a href="#">
+                                    <i class="estaResidencia fa fa-calendar text-primary" aria-hidden="true" title="Realización de las actividades" data-toggle="modal" data-target="#verRealizacionResidenciasAlumnoEnDocente"></i>
+                                </a>
+                                <span>&nbsp;&nbsp;</span>
+                                <span>Realización de Actividades</span>
+                                
+                                <br>
+                                {{#if tieneRealizacion}}
+                                    <a href="#">
+                                        <i class="evaluarPrimerSeguimiento fa fa-check text-success" aria-hidden="true" title="Evaluar el primer seguimiento" data-toggle="modal" data-target="#evaluarPrimerSeguimientoResidencia"></i>
+                                    </a>
+                                    <span>&nbsp;&nbsp;</span>
+                                    <span>Evaluar 1er seguimiento</span>
+                                    <br>
+                                    <a href="#">
+                                        <i class="evaluarSegundoSeguimiento fa fa-check text-success" aria-hidden="true" title="Evaluar el segundo seguimiento" data-toggle="modal" data-target="#evaluarSegundoSeguimientoResidencia"></i>
+                                    </a>
+                                    <span>&nbsp;&nbsp;</span>
+                                    <span>Evaluar 2do seguimiento</span>
+                                {{else}}
+                                    <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                    <span>Evaluar 1er seguimiento</span>
+                                    <br>
+                                    <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                    <span>Evaluar 2do seguimiento</span>
+                                {{/if}}
+                                <br>
+                                {{#if tieneInformeTecnico}}
+                                    <a href="{{ip}}{{expedienteEvaluacion.pathInformeTecnico}}" target="_blank"  title="Informe Técnico">
+                                        <i class="fa fa-file-pdf-o" aria-hidden="true"></i>
+                                    </a>
+                                    <span>&nbsp;&nbsp;</span>
+                                    <span>Informe Técnico</span>
+                                    <br>
+                                    <a href="#">
+                                        <i class="evaluarTercerSeguimiento fa fa-check text-success" aria-hidden="true" title="Evaluar el tercer seguimiento" data-toggle="modal" data-target="#evaluarTercerSeguimientoResidencia"></i>
+                                    </a>
+                                    <span>&nbsp;&nbsp;</span>
+                                    <span>Evaluar 3er seguimiento</span>
+                                {{else}}
+                                    <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                    <span>Informe Técnico</span>
+                                    <br>
+                                    <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                    <span>Evaluar tercer seguimiento</span>
+                                {{/if}}
+                            </td>
+                        </tr>
+                    {{/each}}
+                </tbody>  
+            </table>
+        </div>
+        {{> avisos}}
+        {{> showDatosAlumnoEnResidenciasDocente}}
+        {{> verSeguimientoResidenciasAlumnoEnDocente}}
+        {{> verRealizacionResidenciasAlumnoEnDocente}}
+        {{> evaluarPrimerSeguimientoResidencia}}
+        {{> evaluarSegundoSeguimientoResidencia}}
+        {{> evaluarTercerSeguimientoResidencia}}
+        {{> sendeMailResidenciasDocentes}}
+</template>
+<!-- ************************************************************************************************************** -->
+<!--                                MUESTRA LOS DATOS DE UN ALUMNO EN UNA MODAL                                     -->
+<!-- ************************************************************************************************************** -->
+<template name="showDatosAlumnoEnResidenciasDocente">
+    {{#if Template.subscriptionsReady}}
+        <div id="showDatosAlumnoEnResidenciasDocente" class="modal fade">
+            <div class="modal-dialog modal-md" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 class="text-primary">{{alumnoDatos.username}}<h4>{{alumnoDatos.profile.name}}</h4></h3>
+                        <img class="rounded" src="{{foto}}" height="120px" width="120px"> 
+                    </div>
+                    <div class="modal-body">
+                            <table class="table table-bordered">
+                                    <tbody>
+                                        <tr>
+                                            <td>Carrera</td>
+                                            <td>{{alumnoDatos.profile.carrera}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Semestre</td>
+                                            <td>{{alumnoDatos.profile.semestre}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Modalidad</td>
+                                            <td>{{alumnoDatos.profile.modalidad}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Módulo</td>
+                                            <td>{{alumnoDatos.profile.modulo}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Nivel</td>
+                                            <td>{{alumnoDatos.profile.nivelEscolar}}</td>
+                                        </tr>
+                                            <tr>
+                                            <td>Periodo de Ingreso</td>
+                                            <td>{{alumnoDatos.profile.periodoIngreso}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Fecha de Nacimiento</td>
+                                            <td>{{alumnoDatos.profile.fechaNacimiento}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Sexo</td>
+                                            <td>{{alumnoDatos.profile.sexo}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Telefono</td>
+                                            <td>{{alumnoDatos.profile.telefono}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Email</td>
+                                            <td>{{eMailAlumno}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Semestres con Tutoria Terminada</td>
+                                            <td>{{alumnoDatos.profile.semestresConTutoria}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {{else}}
+        {{> spinner}}
+	{{/if}}
+</template>
+<!-- ************************************************************************************************************** -->
+<!--                               VER EL SEGUIMIENTO DE LA RESIDENCIA DEL ALUMNO                                   -->
+<!-- ************************************************************************************************************** -->
+<template name="verSeguimientoResidenciasAlumnoEnDocente">
+    <div class="modal fade" id="verSeguimientoResidenciasAlumnoEnDocente">
+        <div class="modal-dialog  modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="text-primary">Plan de actividades del alumno <h5 class="text-primary">{{residencia.residente.nombre}}</h5></h4>
+                </div>
+                <div class="modal-body">
+                    {{#if tieneDictamenAceptado}}
+                        <dt class="text-primary">Titulo</dt>
+                        <t class="text-success">{{residencia.solicitud.nombreProyecto}}</t>
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-striped">
+                                <thead class="text-primary">
+                                    <tr>
+                                        <th rowspan="2">
+                                            <div style="width:300px" class="text-center">Actividades</div>
+                                        </th>
+                                        <th class="text-center" colspan="18">
+                                            Semanas
+                                        </th>
+                                    </tr>
+                                    <tr class="small text-center">
+                                        <th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th>
+                                        <th>10</th><th>11</th><th>12</th><th>13</th><th>14</th><th>15</th><th>16</th><th>17</th><th>18</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {{#each actividades}}
+                                    <tr class="text-center small">
+                                        <td class="text-primary">
+                                            {{actividad}}
+                                        </td>
+                                        <td>{{#if semana1}} <i class="fa fa-check text-success" aria-hidden="true"></i> {{/if}}</td>
+                                        <td>{{#if semana2}} <i class="fa fa-check text-success" aria-hidden="true"></i> {{/if}}</td>
+                                        <td>{{#if semana3}} <i class="fa fa-check text-success" aria-hidden="true"></i> {{/if}}</td>
+                                        <td>{{#if semana4}} <i class="fa fa-check text-success" aria-hidden="true"></i> {{/if}}</td>
+                                        <td>{{#if semana5}} <i class="fa fa-check text-success" aria-hidden="true"></i> {{/if}}</td>
+                                        <td>{{#if semana6}} <i class="fa fa-check text-success" aria-hidden="true"></i> {{/if}}</td>
+                                        <td>{{#if semana7}} <i class="fa fa-check text-success" aria-hidden="true"></i> {{/if}}</td>
+                                        <td>{{#if semana8}} <i class="fa fa-check text-success" aria-hidden="true"></i> {{/if}}</td>
+                                        <td>{{#if semana9}} <i class="fa fa-check text-success" aria-hidden="true"></i> {{/if}}</td>
+                                        <td>{{#if semana10}} <i class="fa fa-check text-success" aria-hidden="true"></i> {{/if}}</td>
+                                        <td>{{#if semana11}} <i class="fa fa-check text-success" aria-hidden="true"></i> {{/if}}</td>
+                                        <td>{{#if semana12}} <i class="fa fa-check text-success" aria-hidden="true"></i> {{/if}}</td>
+                                        <td>{{#if semana13}} <i class="fa fa-check text-success" aria-hidden="true"></i> {{/if}}</td>
+                                        <td>{{#if semana14}} <i class="fa fa-check text-success" aria-hidden="true"></i> {{/if}}</td>
+                                        <td>{{#if semana15}} <i class="fa fa-check text-success" aria-hidden="true"></i> {{/if}}</td>
+                                        <td>{{#if semana16}} <i class="fa fa-check text-success" aria-hidden="true"></i> {{/if}}</td>
+                                        <td>{{#if semana17}} <i class="fa fa-check text-success" aria-hidden="true"></i> {{/if}}</td>
+                                        <td>{{#if semana18}} <i class="fa fa-check text-success" aria-hidden="true"></i> {{/if}}</td>
+                                    </tr>
+                                    {{/each}}
+                                </tbody>
+                            </table>
+                        </div>
+                    {{else}}
+                        <dt class="text-danger">Aun no se ha aceptado su proyecto de residencia</dt>
+                    {{/if}}
+                </div>
+                <div class="modal-footer">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-6 text-left">
+                                <input type="checkbox" value="" id="aceptoPlanActividades" {{planeacionAceptada}}>
+                                <label for="aceptoPlanActividades" class="text-success">Aceptar el plan de actividades</label>
+                            </div>
+                            <div class="col-6 text-lg-right">
+                                <button type="button" class="registrarAnteproyectoAceptado btn btn-success" data-toggle="modal" data-target="#avisos" data-dismiss="modal">Registrar</button>
+                                <button type="button" class="cerrar btn btn-danger" data-dismiss="modal">Cerrar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+<!-- ************************************************************************************************************** -->
+<!--                       VER LA REALIZACION DE LAS ACTIVIDADES DE LA RESIDENCIA DEL ALUMNO                        -->
+<!-- ************************************************************************************************************** -->
+<template name="verRealizacionResidenciasAlumnoEnDocente">
+    <div class="modal fade" id="verRealizacionResidenciasAlumnoEnDocente">
+        <div class="modal-dialog  modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="text-primary">Realización de actividades del alumno <h5 class="text-primary">{{residencia.residente.nombre}}</h5></h4>
+                </div>
+                <div class="modal-body">
+                    {{#if tieneDictamenAceptado}}
+                        <dt class="text-primary">Titulo</dt>
+                        <t class="text-success">{{residencia.solicitud.nombreProyecto}}</t>
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-striped">
+                                <thead class="text-primary">
+                                    <tr>
+                                        <th rowspan="2">
+                                            <div style="width:300px" class="text-center">Actividades</div>
+                                        </th>
+                                        <th class="text-center" colspan="18">
+                                            Semanas
+                                        </th>
+                                    </tr>
+                                    <tr class="small text-center">
+                                        <th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th>
+                                        <th>10</th><th>11</th><th>12</th><th>13</th><th>14</th><th>15</th><th>16</th><th>17</th><th>18</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {{#each actividades}}
+                                    <tr class="text-center small">
+                                        <td class="text-primary">
+                                            {{actividad}}
+                                        </td>
+                                        <td>{{#if semana1}} <i class="fa fa-check text-success" aria-hidden="true"></i> {{/if}}</td>
+                                        <td>{{#if semana2}} <i class="fa fa-check text-success" aria-hidden="true"></i> {{/if}}</td>
+                                        <td>{{#if semana3}} <i class="fa fa-check text-success" aria-hidden="true"></i> {{/if}}</td>
+                                        <td>{{#if semana4}} <i class="fa fa-check text-success" aria-hidden="true"></i> {{/if}}</td>
+                                        <td>{{#if semana5}} <i class="fa fa-check text-success" aria-hidden="true"></i> {{/if}}</td>
+                                        <td>{{#if semana6}} <i class="fa fa-check text-success" aria-hidden="true"></i> {{/if}}</td>
+                                        <td>{{#if semana7}} <i class="fa fa-check text-success" aria-hidden="true"></i> {{/if}}</td>
+                                        <td>{{#if semana8}} <i class="fa fa-check text-success" aria-hidden="true"></i> {{/if}}</td>
+                                        <td>{{#if semana9}} <i class="fa fa-check text-success" aria-hidden="true"></i> {{/if}}</td>
+                                        <td>{{#if semana10}} <i class="fa fa-check text-success" aria-hidden="true"></i> {{/if}}</td>
+                                        <td>{{#if semana11}} <i class="fa fa-check text-success" aria-hidden="true"></i> {{/if}}</td>
+                                        <td>{{#if semana12}} <i class="fa fa-check text-success" aria-hidden="true"></i> {{/if}}</td>
+                                        <td>{{#if semana13}} <i class="fa fa-check text-success" aria-hidden="true"></i> {{/if}}</td>
+                                        <td>{{#if semana14}} <i class="fa fa-check text-success" aria-hidden="true"></i> {{/if}}</td>
+                                        <td>{{#if semana15}} <i class="fa fa-check text-success" aria-hidden="true"></i> {{/if}}</td>
+                                        <td>{{#if semana16}} <i class="fa fa-check text-success" aria-hidden="true"></i> {{/if}}</td>
+                                        <td>{{#if semana17}} <i class="fa fa-check text-success" aria-hidden="true"></i> {{/if}}</td>
+                                        <td>{{#if semana18}} <i class="fa fa-check text-success" aria-hidden="true"></i> {{/if}}</td>
+                                    </tr>
+                                    {{/each}}
+                                </tbody>
+                            </table>
+                        </div>
+                    {{else}}
+                        <dt class="text-danger">Aun no se ha aceptado su proyecto de residencia</dt>
+                    {{/if}}
+                    <br>
+                    <label class="text-primary">Para la aceptación de las actividades es necesario dar el visto bueno de acuerdo a 3 fechas programadas por el jefe de departamento.</label>
+                    <input type="checkbox" id="VoBoFecha1" {{VoBoFecha1}}>
+                    <label for="aceptoPlanActividades" class="text-success">Vo. Bo. de las actividades realizadas hasta la fecha {{configuracion.fecha1}}</label>
+                    <hr>
+                    <input type="checkbox" id="VoBoFecha2" {{VoBoFecha2}}>
+                    <label for="aceptoPlanActividades" class="text-success">Vo. Bo. de las actividades realizadas hasta la fecha {{configuracion.fecha2}}</label>
+                    <hr>
+                    <input type="checkbox" id="VoBoFecha3" {{VoBoFecha3}}>
+                    <label for="aceptoPlanActividades" class="text-success">Vo. Bo. de las actividades realizadas hasta la fecha {{configuracion.fecha3}}</label>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="registrarVoBoRealizacion btn btn-success" data-toggle="modal" data-target="#avisos" data-dismiss="modal">Registrar</button>
+                    <button type="button" class="cerrar btn btn-danger" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+<!-- ************************************************************************************************************** -->
+<!--                          EVALUAR EL PRIMER SEGUIMIENTO DE RESIDENCIA DEL ESTUDIANTE                            -->
+<!-- ************************************************************************************************************** -->
+<template name="evaluarPrimerSeguimientoResidencia">
+    <div class="modal fade" id="evaluarPrimerSeguimientoResidencia">
+        <div class="modal-dialog  modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="text-primary">Evaluar el 1er seguimiento de la residencia<br> 
+                        <h5 class="text-success">{{configuracion.fecha1}}</h5>
+                        Residente
+                        <h5 class="text-success">{{residencia.residente.nombre}}</h5>
+                        Titulo: 
+                        <h5 class="text-success">{{residencia.solicitud.nombreProyecto}}</h5>
+                    </h5>
+                </div>
+                <div class="modal-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped">
+                            <thead class="text-primary text-center">
+                                <tr>
+                                    <th colspan="3">
+                                        En qué medida el residente cumple con lo siguiente
+                                    </th>
+                                </tr>
+                                <tr class="small">
+                                    <th>Criterios a evaluar</th>
+                                    <th>Valor</th>
+                                    <th>Evaluacón</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-center small">
+                                <tr>
+                                    <td>Asistió puntualmente a las reuniones de asesoría</td> 
+                                    <td>0-10</td>
+                                    <td>
+                                        <input type="number" id="p1" min="0" max="10" value="{{valor1}}">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Demuestra conocimiento en el área de su especialidad</td> 
+                                    <td>0-20</td>
+                                    <td>
+                                        <input type="number" id="p2" min="0" max="20" value="{{valor2}}">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Trabaja en equipo y se comunica de forma efectiva (oral y escrita)</td> 
+                                    <td>0-15</td>
+                                    <td>
+                                        <input type="number" id="p3" min="0" max="15" value="{{valor3}}">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Es dedicado y proactivo a las actividades encomendadas</td> 
+                                    <td>0-20</td>
+                                    <td>
+                                        <input type="number" id="p4" min="0" max="20" value="{{valor4}}">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Es ordenado y cumple satisfactoriamente con las actividades encomendadas en los timpos establecidos en el cronograma</td> 
+                                    <td>0-20</td>
+                                    <td>
+                                        <input type="number" id="p5" min="0" max="20" value="{{valor5}}">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Propone mejoras al proyecto</td> 
+                                    <td>0-15</td>
+                                    <td>
+                                        <input type="number" id="p6" min="0" max="15" value="{{valor6}}">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-right">Calificación total</td> 
+                                    <td></td>
+                                    <td>{{res}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="registrarSeguimiento btn btn-success" data-toggle="modal" data-target="#avisos" data-dismiss="modal">Registrar</button>
+                    <button type="button" class="cerrar btn btn-danger" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+<!-- ************************************************************************************************************** -->
+<!--                          EVALUAR EL SEGUNDO SEGUIMIENTO DE RESIDENCIA DEL ESTUDIANTE                            -->
+<!-- ************************************************************************************************************** -->
+<template name="evaluarSegundoSeguimientoResidencia">
+    <div class="modal fade" id="evaluarSegundoSeguimientoResidencia">
+        <div class="modal-dialog  modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="text-primary">Evaluar el 2do seguimiento de la residencia<br> 
+                        <h5 class="text-success">{{configuracion.fecha2}}</h5>
+                        Residente
+                        <h5 class="text-success">{{residencia.residente.nombre}}</h5>
+                        Titulo: 
+                        <h5 class="text-success">{{residencia.solicitud.nombreProyecto}}</h5>
+                    </h5>
+                </div>
+                <div class="modal-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped">
+                            <thead class="text-primary text-center">
+                                <tr>
+                                    <th colspan="3">
+                                        En qué medida el residente cumple con lo siguiente
+                                    </th>
+                                </tr>
+                                <tr class="small">
+                                    <th>Criterios a evaluar</th>
+                                    <th>Valor</th>
+                                    <th>Evaluacón</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-center small">
+                                <tr>
+                                    <td>Asistió puntualmente a las reuniones de asesoría</td> 
+                                    <td>0-10</td>
+                                    <td>
+                                        <input type="number" id="pp1" min="0" max="10" value="{{valor1}}">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Demuestra conocimiento en el área de su especialidad</td> 
+                                    <td>0-20</td>
+                                    <td>
+                                        <input type="number" id="pp2" min="0" max="20" value="{{valor2}}">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Trabaja en equipo y se comunica de forma efectiva (oral y escrita)</td> 
+                                    <td>0-15</td>
+                                    <td>
+                                        <input type="number" id="pp3" min="0" max="15" value="{{valor3}}">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Es dedicado y proactivo a las actividades encomendadas</td> 
+                                    <td>0-20</td>
+                                    <td>
+                                        <input type="number" id="pp4" min="0" max="20" value="{{valor4}}">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Es ordenado y cumple satisfactoriamente con las actividades encomendadas en los timpos establecidos en el cronograma</td> 
+                                    <td>0-20</td>
+                                    <td>
+                                        <input type="number" id="pp5" min="0" max="20" value="{{valor5}}">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Propone mejoras al proyecto</td> 
+                                    <td>0-15</td>
+                                    <td>
+                                        <input type="number" id="pp6" min="0" max="15" value="{{valor6}}">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-right">Calificación total</td> 
+                                    <td></td>
+                                    <td>{{res}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="registrarSeguimiento btn btn-success" data-toggle="modal" data-target="#avisos" data-dismiss="modal">Registrar</button>
+                    <button type="button" class="cerrar btn btn-danger" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+<!-- ************************************************************************************************************** -->
+<!--                          EVALUAR EL TERCER SEGUIMIENTO DE RESIDENCIA DEL ESTUDIANTE                            -->
+<!-- ************************************************************************************************************** -->
+<template name="evaluarTercerSeguimientoResidencia">
+    <div class="modal fade" id="evaluarTercerSeguimientoResidencia">
+        <div class="modal-dialog  modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="text-primary">Evaluar el 3er seguimiento de la residencia<br> 
+                        <h5 class="text-success">{{configuracion.fecha3}}</h5>
+                        Residente
+                        <h5 class="text-success">{{residencia.residente.nombre}}</h5>
+                        Titulo: 
+                        <h5 class="text-success">{{residencia.solicitud.nombreProyecto}}</h5>
+                    </h5>
+                </div>
+                <div class="modal-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped table-sm">
+                            <thead class="text-primary text-center">
+                                <tr>
+                                    <th colspan="3">
+                                        En qué medida el residente cumple con lo siguiente
+                                    </th>
+                                </tr>
+                                <tr class="small">
+                                    <th>Criterios a evaluar</th>
+                                    <th>Valor</th>
+                                    <th>Evaluacón</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-center small">
+                                <tr>
+                                    <td>Portada</td> 
+                                    <td>0-2</td>
+                                    <td>
+                                        <input type="number" id="e3pp1" min="0" max="2" value="{{valor1}}">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Agradecimientos</td> 
+                                    <td>0-2</td>
+                                    <td>
+                                        <input type="number" id="e3pp2" min="0" max="2" value="{{valor2}}">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Resumen</td> 
+                                    <td>0-2</td>
+                                    <td>
+                                        <input type="number" id="e3pp3" min="0" max="2" value="{{valor3}}">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Indice</td> 
+                                    <td>0-2</td>
+                                    <td>
+                                        <input type="number" id="e3pp4" min="0" max="2" value="{{valor4}}">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Introducción</td> 
+                                    <td>0-2</td>
+                                    <td>
+                                        <input type="number" id="e3pp5" min="0" max="2" value="{{valor5}}">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Problemas a resolver, priorizándolos</td> 
+                                    <td>0-5</td>
+                                    <td>
+                                        <input type="number" id="e3pp6" min="0" max="5" value="{{valor6}}">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Objetivos</td> 
+                                    <td>0-5</td>
+                                    <td>
+                                        <input type="number" id="e3pp7" min="0" max="5" value="{{valor7}}">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Justificación</td> 
+                                    <td>0-5</td>
+                                    <td>
+                                        <input type="number" id="e3pp8" min="0" max="5" value="{{valor8}}">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Marco teórico</td> 
+                                    <td>0-10</td>
+                                    <td>
+                                        <input type="number" id="e3pp9" min="0" max="10" value="{{valor9}}">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Procedimiento y descripción de las actividades realizadas</td> 
+                                    <td>0-5</td>
+                                    <td>
+                                        <input type="number" id="e3pp10" min="0" max="5" value="{{valor10}}">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><p>Resultados, planos, gráficas, prototipos, programas, análisis estadísticos, modelos matemáticos,
+                                        simulaciones, normativas, regulaciones y restricciones, entre otros. Solo para proyectos que por su naturaleza
+                                        lo requieran: estudio de mercado, estudio técnico y estudio económico.
+                                    </p></td> 
+                                    <td>0-40</td>
+                                    <td>
+                                        <input type="number" id="e3pp11" min="0" max="40" value="{{valor11}}">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Conclusiones, recomendaciones y experiencia profesional adquirida</td> 
+                                    <td>0-15</td>
+                                    <td>
+                                        <input type="number" id="e3pp12" min="0" max="15" value="{{valor12}}">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Competencias desarrolladas y/o aplicadas</td> 
+                                    <td>0-3</td>
+                                    <td>
+                                        <input type="number" id="e3pp13" min="0" max="3" value="{{valor13}}">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Fuentes de información</td> 
+                                    <td>0-2</td>
+                                    <td>
+                                        <input type="number" id="e3pp14" min="0" max="2" value="{{valor14}}">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-right">Calificación total</td> 
+                                    <td></td>
+                                    <td>{{res}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="registrarSeguimiento btn btn-success" data-toggle="modal" data-target="#avisos" data-dismiss="modal">Registrar</button>
+                    <button type="button" class="cerrar btn btn-danger" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+<!-- ************************************************************************************************************** -->
+<!--                                                ENVIO DE EMAIL                                                  -->
+<!-- ************************************************************************************************************** --> 
+<template name="sendeMailResidenciasDocentes">
+    <div id="sendeMailResidenciasDocentes" class="modal fade">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="text-primary">Envia un eMail a <h5 class="text-success">{{alumno}}</h5></h3>
+                </div>
+                <div class="modal-body">
+                    {{#autoForm schema="emailSchema" id="eMailResidenciasDocentes"}}
+                        <fieldset>
+                            {{> afQuickField name='from' value=from}}
+                            {{> afQuickField name='to' value=to}}
+                            {{> afQuickField name='subject' value='ITTJ Residencias'}}
+                            {{> afQuickField name='text' rows=8}}
+                        </fieldset>
+                    {{/autoForm}}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="enviar btn btn-success" data-toggle="modal" data-target="#avisos" data-dismiss="modal">Enviar</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>

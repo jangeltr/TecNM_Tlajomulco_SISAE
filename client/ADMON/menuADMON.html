@@ -1,0 +1,53 @@
+<!-- ************************************************************************************************************** -->
+<!--                                        PLANTILLA PARA EL MENU DEL SISAE                                        -->
+<!-- ************************************************************************************************************** -->
+<template name="menuADMON">
+		<nav class="navbar navbar-expand-xl bg-white navbar-primary border border-danger">
+			<button class="navbar-toggler bg-success navbar-light" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse bg-light" id="collapsibleNavbar">
+				<ul class="navbar-nav">
+					<li class="text-success p-2">
+						ADMON:
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="/"><i class="fa fa-home" aria-hidden="true"></i></a>
+					</li>
+					{{#if esJefe}}
+						<li  class="nav-item">
+							<a class="nav-link" href="/admon/materias">Materias</a>
+						</li>
+						<li  class="nav-item">
+							<a class="nav-link" href="/admon/docentes">Docentes</a>
+						</li>
+						<li class="nav-item dropdown">
+							<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">Alumnos</a>
+							<div class="dropdown-menu">
+								<a class="dropdown-item" href="/admon/alumnos">Alumnos</a>
+								<a class="dropdown-item" href="/admon/alumnosBajas">Bajas</a>
+								<a class="dropdown-item" href="/admon/agregarAlumnos">Agregar</a>
+								<a class="dropdown-item" href="/admon/alumnosAjustes">Ajustes</a>
+								<a class="dropdown-item" href="/admon/buscarAlumno">Buscar</a>
+							</div>
+						</li>
+						<li  class="nav-item">
+							<a class="nav-link" href="/admon/egresados">Egresados</a>
+						</li>
+						<li  class="nav-item">
+							<a class="nav-link" href="/admon/movimientos">Movimientos</a>
+						</li>
+						<li  class="nav-item">
+							<a class="nav-link" href="/admon/emails">eMails</a>
+						</li>
+						<li  class="nav-item">
+							<a class="nav-link" href="/admon/usuarios">Usuarios</a>
+						</li>
+						<li  class="nav-item">
+							<a class="nav-link" href="/admon/configuracion">Configuración</a>
+						</li>
+					{{/if}}
+				</ul>
+			</div>  
+		</nav>
+</template>

@@ -1,0 +1,57 @@
+<!-- ************************************************************************************************************** -->
+<!--                                                 BITACORA DE MOVIMINETOS                                        -->
+<!-- ************************************************************************************************************** -->
+<template name="movimientos">
+    {{#if esJefe}}  
+        <br>
+        <div>
+            <h4 class="text-center text-primary">Bitacora de movimientos</h4>
+        </div>
+        <br>
+        <ul class="nav nav-pills justify-content-center">
+            <li class="nav-item">
+                <select class="selectArea btn btn-default">
+                    <option value="SISAE">SISAE</option>
+                    <option value="SAD">SAD</option>
+                    <option value="ADMON">ADMON</option>
+                    <option selected hidden value={{area}}>{{area}}</option>
+                </select>
+            </li>
+            <li>
+                <input type="date" id="start" name="trip-start" class="start" value={{start}}>
+            </li>
+            <li>
+                <input type="date" id="end" name="trip-start" class="end" value={{end}}>
+            </li>
+        </ul>
+        <div class="text-center">
+            <input class="form-control myTxtBoxFiltro" id="myMovimientosFiltro" type="text" placeholder="Filtrar por cualquier campo...">
+        </div>
+        {{#if Template.subscriptionsReady}}
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr class="success">
+                            <th class="text-primary">Sección</th>
+                            <th class="text-primary">Acción</th>
+                            <th class="text-primary">Nombre</th>
+                            <th class="text-primary">Fecha</th>
+                        </tr>
+                    </thead>
+                    <tbody id="myTableMovimientos">
+                        {{#each movimientos}}
+                        <tr class="sobre">
+                            <td class="small">{{seccion}}</td>
+                            <td class="small">{{accion}}</td>
+                            <td class="small">{{userName}}</td>
+                            <td class="small">{{date}}</td>
+                        </tr>
+                        {{/each}}
+                    </tbody>  
+                </table>
+            </div>
+        {{else}}
+            {{> spinner}}
+        {{/if}}
+    {{/if}}
+</template>

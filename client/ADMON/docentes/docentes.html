@@ -1,0 +1,181 @@
+<!-- ************************************************************************************************************** -->
+<!--                                        BARRA DE HERRAMIENTAS DE DOCENTES                                       -->
+<!-- ************************************************************************************************************** -->
+<template name="toolBoxDocentes">
+    <div class="toolBox container p-3 my-3" style="text-align: center;">
+        <p class="seccion text-primary">({{totalDocentes}})Docentes Activos</p>
+        <button class="roles btn btn-default" title="Puestos administrativos" data-toggle="modal" data-target="#roles"><i class="fa fa-users" aria-hidden="true"></i></button>
+        <button class="btn btn-default" title="Agregar docente" data-toggle="modal" data-target="#addDocente"><i class="fa fa-user-plus" aria-hidden="true"></i></button>
+        <button class="btn btn-default" title="Buscar por nombre" data-toggle="collapse" data-target="#zonaFind1"><i class="fa fa-search" aria-hidden="true"></i></button>		
+        <div id="zonaFind1" class="collapse">
+            {{> buscarDocente}}
+            <button class="findDocente btn btn-default"  data-toggle="modal" data-target="#editDocente"><i class="fa fa-check" aria-hidden="true"></i></button>
+        </div>
+        <br>
+    </div>	
+    <div class="container">
+        <input class="form-control myTxtBoxFiltro" id="myFiltro" type="text" placeholder="Filtrar por cualquier campo...">
+    </div>
+</template>
+<!-- ************************************************************************************************************** -->
+<!--                                        PLANTILLA DE DOCENTES                                                   -->
+<!-- ************************************************************************************************************** -->
+<template name="admonDocentes">
+    {{#if Template.subscriptionsReady}}
+        {{#if esJefe}}
+            {{> toolBoxDocentes}}
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr class="table-success">
+                        <th style="width: 30px"></th>
+                        <th><a class="ordDocentes" href="">Nombre</a></th>
+                        <th>Cuenta</th>
+                        <th>email</th>
+                        <th>Telefono</th>
+                        <th>Area de Adscripcion</th>
+                        <th>Estado</th>
+                        <th>Cambios</th>
+                        </tr>
+                    </thead>
+                    <tbody id="myTableDocentes">
+                        {{#each listaDocentes}}
+                            {{> showDocente}}
+                        {{/each}}
+                    </tbody>  
+                </table>
+            </div>
+            {{> addDocente}}
+            {{> editDocente}}
+            {{> roles}}
+            {{> avisos}}
+        {{else}}
+            {{> sinAcceso}}
+        {{/if}}
+    {{else}}
+        {{> spinner}}
+    {{/if}}
+</template>
+<!-- ************************************************************************************************************** -->
+<!--                                     PLANTILLA PARA MOSTRAR CADA DOCENTE                                        -->
+<!-- ************************************************************************************************************** -->
+<template name="showDocente">
+    <tr>
+        <td class="small">{{inicial}}</td>
+        <td class="small">{{profile.prefijo}} {{profile.name}}</td>
+        <td>{{username}}</td>
+        <td class="small">
+            {{#each emails}}
+            {{address}}
+            {{/each}}
+        </td>
+        <td class="small">{{profile.telefono}}</td>
+        <td class="small">{{profile.areaDeAdscripcion}}</td>
+        {{#if isActivo}}
+            <td class="small">{{profile.estado}}</td>
+        {{else}}
+            <td class="small text-danger">{{profile.estado}}</td>
+        {{/if}}
+        <td>
+            {{#if puedeModificar}}
+                <button type="button" class="editar btn text-success small" data-toggle="modal" data-target="#editDocente">
+                    <i class="fa fa-pencil" aria-hidden="true"></i>
+                </button>
+            {{/if}}
+            {{#if puedeEliminar}}
+                <button type="button" class="borrar btn text-danger small" data-toggle="modal" data-target="#avisos">
+                    <i class="fa fa-trash" aria-hidden="true"></i>
+                </button>
+            {{/if}}
+        </td>
+    </tr>
+</template>
+<!-- ************************************************************************************************************** -->
+<!--                                        PLANTILLA MODAL PARA AGREGAR DOCENTES                                   -->
+<!-- ************************************************************************************************************** -->
+<template name="addDocente">
+    <div class="modal fade" id="addDocente" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="text-primary">Agrega docentes</h3>
+                </div>
+                <div class="modal-body">
+                    {{#autoForm schema="docentesSchema" id="addDocenteForm" type="method" autocomplete="off"}}
+                        <fieldset>
+                            {{> afQuickField name='username'}}
+                            {{> afQuickField name='prefijo'}}
+                            {{> afQuickField name='nombre'}}
+                            {{> afQuickField name='email'}}
+                            {{> afQuickField name='telefono'}}
+                            {{> afQuickField name='areaDeAdscripcion'}}
+                            {{> afQuickField name='password'}}
+                            {{> afQuickField name='estado'}} 
+                        </fieldset>
+                        <button type="button" class="agregar btn btn-success" data-toggle="modal" data-target="#avisos" data-dismiss="modal">Registar el usuario</button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                    {{/autoForm}}
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+<!-- ************************************************************************************************************** -->
+<!--                             PLANTILLA MODAL PARA EDITAR LOS DATOS DE LOS DOCENTES                              -->
+<!-- ************************************************************************************************************** -->
+<template name="editDocente">
+    <div class="modal fade" id="editDocente" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="text-primary">Edita los datos del Docente</h3>
+                </div>
+                <div class="modal-body">
+                    {{#autoForm schema="docentesSchema" id="editaDocente" doc=docente}}
+                        <fieldset>
+                            {{> afQuickField name='prefijo' value=docente.profile.prefijo}}
+                            {{> afQuickField name='nombre' value=docente.profile.name}}
+                            {{> afQuickField name='areaDeAdscripcion' value=docente.profile.areaDeAdscripcion}}
+                            {{> afQuickField name='email' value=email}}
+                            {{> afQuickField name='telefono' value=docente.profile.telefono}}
+                            {{#if esJefe}}
+                                {{> afQuickField name='estado' value=docente.profile.estado}}
+                            {{/if}}
+                            {{#if puedeCambiarRol}}
+                                {{> afQuickField name='rol' value=rol}}
+                            {{/if}}
+                        </fieldset>
+                        <button type="button" class="actualiza btn btn-success" data-toggle="modal" data-target="#avisos" data-dismiss="modal">Guardar cambios</button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                    {{/autoForm}}
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+<!-- ************************************************************************************************************** -->
+<!--                                        PLANTILLA MODAL PAR VER LOS ROLES                                       -->
+<!-- ************************************************************************************************************** -->
+<template name="roles">
+    <div class="modal fade" id="roles" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="text-primary">Puestos administrativos</h3>
+                </div>
+                <div class="modal-body">
+                    <table class="table table-striped">
+                    <tbody>
+                        {{#each roles}}
+                            <tr>
+                                <td>{{rol}}</td>
+                            </tr>
+                        {{/each}}
+                    </tbody>  
+                    </table>    
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>

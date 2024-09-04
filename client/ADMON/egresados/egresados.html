@@ -1,0 +1,190 @@
+<!-- ************************************************************************************************************** -->
+<!--                                                 EGRESADOS                                                      -->
+<!-- ************************************************************************************************************** -->
+<template name="alumnosEgresados">
+    {{#if esJefe}}  
+        <ul class="nav nav-pills nav-justified">
+            <li class="nav-item">
+                {{> catCarreras}}
+            </li>
+            <li class="nav-item">
+                <select class="selectModalidad btn btn-default">
+                    <option value="Escolarizado">Escolarizado</option>
+                    <option value="Mixto">Mixto</option>
+                    <option selected hidden value={{modalidad}}>{{modalidad}}</option>
+                </select>
+            </li>
+            <li class="nav-item">
+                <select class="selectModulo btn btn-default">
+                    <option value="Tlajomulco">Tlajomulco</option>
+                    <option value="Sayula">Sayula</option>
+                    <option selected hidden value={{modulo}}>{{modulo}}</option>
+                </select>
+            </li>
+        </ul>
+        <div class="text-center">
+            <input class="form-control myTxtBoxFiltro" id="myAlumnosFiltro" type="text" placeholder="Filtrar por cualquier campo...">
+        </div>
+        {{#if Template.subscriptionsReady}}
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr class="success">
+                            <th class="text-primary">NC</th>
+                            <th class="text-primary">Nombre</th>
+                            <th class="text-primary text-center">Titulado</th>
+                            <th class="text-primary">Per. ingreso</th>
+                            <th class="text-primary">eMail</th>
+                            <th class="text-primary">Telefono</th>
+                            <th class="text-primary"></th>
+                        </tr>
+                    </thead>
+                    <tbody id="myTableAlumnos">
+                        {{#each listaAlumnos}}
+                        <tr class="sobre">
+                            <td class="small">
+                                <button type="button" class="datos text-success" data-toggle="modal" data-target="#showDatosAlumnoEnEgresados">
+                                    <i class="fa fa-address-card" aria-hidden="true"></i>
+                                </button>
+                                {{username}}</td>
+                            <td class="small">{{profile.name}}</td>
+                            <td class="small text-center">
+                                {{#if estaTitulado}}
+                                    <i class="fa fa-check-square-o" aria-hidden="true"></i>
+                                {{else}}
+                                    <button type="button" class="titulado text-success">
+                                        <input type="checkbox" unchecked>Se tituló
+                                    </button>
+                                {{/if}}
+                            </td>
+                            <td class="small text-center">{{profile.periodoIngreso}}</td>
+                            <td class="small">{{email}}</td>
+                            <td class="small">{{profile.telefono}}</td>
+                            <td class="small">
+                                <button type="button" class="datos text-success" data-toggle="modal" data-target="#editAlumnoEgresado">
+                                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        {{/each}}
+                    </tbody>  
+                </table>
+            </div>
+            {{> showDatosAlumnoEnEgresados}}
+            {{> editAlumnoEgresado}}
+            {{> avisos}}
+        {{else}}
+            {{> spinner}}
+        {{/if}}
+    {{/if}}
+</template>
+<!-- ************************************************************************************************************** -->
+<!--                                MUESTRA LOS DATOS DE UN EGRESADO EN UNA MODAL                                     -->
+<!-- ************************************************************************************************************** -->
+<template name="showDatosAlumnoEnEgresados">
+    {{#if Template.subscriptionsReady}}
+    <div id="showDatosAlumnoEnEgresados" class="modal fade">
+        <div class="modal-dialog modal-md" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="text-primary">{{alumnoDatos.username}}<h4>{{alumnoDatos.profile.name}}</h4></h3>
+                    <img class="rounded" src="{{foto}}" height="120px" width="120px"> 
+                </div>
+                <div class="modal-body">
+                        <table class="table table-bordered">
+                                <tbody>
+                                    <tr>
+                                        <td>Carrera</td>
+                                        <td>{{alumnoDatos.profile.carrera}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Semestre</td>
+                                        <td>{{alumnoDatos.profile.semestre}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Modalidad</td>
+                                        <td>{{alumnoDatos.profile.modalidad}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Módulo</td>
+                                        <td>{{alumnoDatos.profile.modulo}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Nivel</td>
+                                        <td>{{alumnoDatos.profile.nivelEscolar}}</td>
+                                    </tr>
+                                        <tr>
+                                        <td>Periodo de Ingreso</td>
+                                        <td>{{alumnoDatos.profile.periodoIngreso}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Fecha de Nacimiento</td>
+                                        <td>{{alumnoDatos.profile.fechaNacimiento}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Sexo</td>
+                                        <td>{{alumnoDatos.profile.sexo}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Telefono</td>
+                                        <td>{{alumnoDatos.profile.telefono}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Email</td>
+                                        <td>{{eMailAlumno}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Semestres con Tutoria Terminada</td>
+                                        <td>{{alumnoDatos.profile.semestresConTutoria}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Ultimo tutor</td>
+                                        <td>{{alumnoDatos.profile.tutor}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{else}}
+        {{> spinner}}
+	{{/if}}
+</template>
+<!-- ************************************************************************************************************** -->
+<!--                                       EDITA LOS DATOS DE UN EGRESADO                                           -->
+<!-- ************************************************************************************************************** -->
+<template name="editAlumnoEgresado">
+    <div class="modal fade" id="editAlumnoEgresado">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="text-primary">Edita los datos del Alumno<h4>NC:  {{alumno.username}}</h4><h5>Nombre:  {{alumno.profile.name}}</h5></h3>
+                </div>
+                <div class="modal-body">
+                    {{#autoForm schema="alumnosSchema" id="editaAlumno"}}
+                        <fieldset>
+                            {{> afQuickField name='carrera' value=alumno.profile.carrera}}
+                            {{> afQuickField name='semestre' value=alumno.profile.semestre}}
+                            {{> afQuickField name='modalidad' value=alumno.profile.modalidad}}
+                            {{> afQuickField name='modulo' value=alumno.profile.modulo}}
+                            {{> afQuickField name='nivelEscolar' value=alumno.profile.nivelEscolar}}
+                            {{> afQuickField name='periodoIngreso' value=alumno.profile.periodoIngreso}}
+                            {{> afQuickField name='fechaNacimiento' value=alumno.profile.fechaNacimiento}}
+                            {{> afQuickField name='telefono' value=alumno.profile.telefono}}
+                            {{> afQuickField name='sexo' value=alumno.profile.sexo}}
+                            {{> afQuickField name='email' value=email}}
+                            {{> afQuickField name='semestresConTutoria' value=alumno.profile.semestresConTutoria}}
+                            {{> afQuickField name='status' value=alumno.profile.status}}
+                        </fieldset>
+                    {{/autoForm}}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="actualiza btn btn-success" data-toggle="modal" data-target="#avisos"  data-dismiss="modal">Guardar cambios</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>

@@ -1,0 +1,372 @@
+<!-- ************************************************************************************************************** -->
+<!--                                CONSTANCIAS DE ACTIVIDADES EXTRAESCOLARES                                       -->
+<!-- ************************************************************************************************************** -->
+<template name="sisaeConstanciasActividadesComplementarias">
+    {{#if esJefe}}  
+        <br>
+        <ul class="nav nav-pills nav-justified">
+            <li class="nav-item">
+                {{> catCarreras}}
+            </li>
+            <li class="nav-item">
+                <select class="selectModalidad btn btn-default">
+                    <option value="Escolarizado">Escolarizado</option>
+                    <option value="Mixto">Mixto</option>
+                    <option selected hidden value={{modalidad}}>{{modalidad}}</option>
+                </select>
+            </li>
+            <li class="nav-item">
+                <select class="selectModulo btn btn-default">
+                    <option value="Tlajomulco">Tlajomulco</option>
+                    <option value="Sayula">Sayula</option>
+                    <option selected hidden value={{modulo}}>{{modulo}}</option>
+                </select>
+            </li>
+            <li class="nav-item">
+                <txt class="text-primary">Semestre</txt>
+                <input type="number" id="semestre" name="quantity" min="1" max="15" value="{{semestre}}" class="selectSemestre btn btn-default">
+            </li>
+        </ul>
+        <div class="text-center">
+            <button type="button" class="datos text-success" data-toggle="modal" data-target="#buscarAlumnoEnConstanciasActividadesComplementarias">
+                <i class="fa fa-search" aria-hidden="true"></i>
+            </button>
+            <txt class="text-primary">Alumnos: <txt class="text-success">{{cantidad}}</txt></txt><br>
+            <input class="form-control myTxtBoxFiltro" id="myAlumnosFiltro" type="text" placeholder="Filtrar por cualquier campo...">
+        </div>
+        {{#if Template.subscriptionsReady}}
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th rowspan="2" class="text-primary">NC</th>
+                            <th rowspan="2" class="text-primary">Nombre</th>
+                            <th rowspan="2" class="text-primary">Per. ingreso</th>
+                            <th rowspan="2" class="text-primary">eMail</th>
+                            <th colspan="3" class="text-primary text-center">Constancias</th>
+                        </tr>
+                        <tr>
+                            <th class="text-primary text-center small">Tutorias</th>
+                            <th class="text-primary text-center small">Extraescolares</th>
+                            <th class="text-primary text-center small">Académicas</th>
+                        </tr>
+                    </thead>
+                    <tbody id="myTableAlumnos">
+                        {{#each listaAlumnos}}
+                        <tr class="sobre">
+                            <td class="small">
+                                <button type="button" class="datos text-success" data-toggle="modal" data-target="#showDatosAlumnoEnConstanciasActividadesComplementarias">
+                                    <i class="fa fa-address-card" aria-hidden="true"></i>
+                                </button>
+                                {{username}}</td>
+                            <td class="small">{{profile.name}}</td>
+                            <td class="small text-center">{{profile.periodoIngreso}}</td>
+                            <td class="small">{{email}}</td>
+                            <td class="small text-center">
+                                {{#if esJefeTutorias}}
+                                    <i class="generarConstancia fa fa-print small text-primary" aria-hidden="true" data-toggle="modal" data-target="#solicitudDatosParaConstanciaTerminacionActividadComplementaria" title="Generar la Constancia de Terminación"></i>
+                                    <i class="subirConstancia fa fa-upload small text-success" aria-hidden="true" data-toggle="modal" data-target="#uploadConstanciaTermicacionActividadComplementariaTutoria" title="Subir la Constancia de Terminación"></i>
+                                {{/if}}
+                                {{#if profile.constanciaActividadTutorias}}
+                                    <a href="{{ip}}{{profile.constanciaActividadTutorias}}" target="_blank">
+                                        <i class="fa fa-file-pdf-o text-success"></i>
+                                    </a>
+                                {{/if}}
+                            </td>
+                            <td class="small text-center">
+                                {{#if profile.constanciaActividadExtraescolar1}}
+                                    <a href="{{ip}}{{profile.constanciaActividadExtraescolar1}}" target="_blank">
+                                        <i class="fa fa-file-pdf-o text-success" title="Constancia 1"></i>
+                                    </a>
+                                {{/if}}
+                                {{#if profile.constanciaActividadExtraescolar2}}
+                                    <a href="{{ip}}{{profile.constanciaActividadExtraescolar2}}" target="_blank">
+                                        <i class="fa fa-file-pdf-o text-success" title="Constancia 2"></i>
+                                    </a>
+                                {{/if}}
+                            </td>
+                            <td class="small text-center">
+                                {{#if profile.constanciaActividadAcademica}}
+                                    <a href="{{ip}}{{profile.constanciaActividadAcademica}}" target="_blank">
+                                        <i class="fa fa-file-pdf-o text-success"></i>
+                                    </a>
+                                {{/if}}
+                            </td>
+                        </tr>
+                        {{/each}}
+                    </tbody>  
+                </table>
+            </div>
+            {{> showDatosAlumnoEnConstanciasActividadesComplementarias}}
+            {{> buscarAlumnoEnConstanciasActividadesComplementarias}}
+            {{> solicitudDatosParaConstanciaTerminacionActividadComplementaria}}
+            {{> avisos}}
+            {{> uploadConstanciaTermicacionActividadComplementariaTutoria}}
+        {{else}}
+            {{> spinner}}
+        {{/if}}
+    {{/if}}
+</template>
+<!-- ************************************************************************************************************** -->
+<!--                                MUESTRA LOS DATOS DE UN ALUMNO EN UNA MODAL                                     -->
+<!-- ************************************************************************************************************** -->
+<template name="showDatosAlumnoEnConstanciasActividadesComplementarias">
+    {{#if Template.subscriptionsReady}}
+    <div id="showDatosAlumnoEnConstanciasActividadesComplementarias" class="modal fade">
+        <div class="modal-dialog modal-md" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="text-primary">{{alumnoDatos.username}}<h4>{{alumnoDatos.profile.name}}</h4></h3>
+                    <img class="rounded" src="{{foto}}" height="120px" width="120px"> 
+                </div>
+                <div class="modal-body">
+                        <table class="table table-bordered">
+                                <tbody>
+                                    <tr>
+                                        <td>Carrera</td>
+                                        <td>{{alumnoDatos.profile.carrera}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Semestre</td>
+                                        <td>{{alumnoDatos.profile.semestre}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Modalidad</td>
+                                        <td>{{alumnoDatos.profile.modalidad}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Módulo</td>
+                                        <td>{{alumnoDatos.profile.modulo}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Nivel</td>
+                                        <td>{{alumnoDatos.profile.nivelEscolar}}</td>
+                                    </tr>
+                                        <tr>
+                                        <td>Periodo de Ingreso</td>
+                                        <td>{{alumnoDatos.profile.periodoIngreso}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Fecha de Nacimiento</td>
+                                        <td>{{alumnoDatos.profile.fechaNacimiento}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Sexo</td>
+                                        <td>{{alumnoDatos.profile.sexo}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Telefono</td>
+                                        <td>{{alumnoDatos.profile.telefono}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Email</td>
+                                        <td>{{eMailAlumno}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Semestres con Tutoria Terminada</td>
+                                        <td>{{alumnoDatos.profile.semestresConTutoria}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Ultimo tutor</td>
+                                        <td>{{alumnoDatos.profile.tutor}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{else}}
+        {{> spinner}}
+	{{/if}}
+</template>
+<!-- ************************************************************************************************************** -->
+<!--                                      BUSCA UN ALUMNO EN UNA MODAL                                              -->
+<!-- ************************************************************************************************************** -->
+<template name="buscarAlumnoEnConstanciasActividadesComplementarias">
+    <div id="buscarAlumnoEnConstanciasActividadesComplementarias" class="modal fade">
+        <div class="modal-dialog modal-md" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="form-group">
+                        <label for="numControl" class="text-primary">Numero de Control:</label>
+                        <input type="text" class="form-control" id="numControl"><br>
+                        <button type="button" class="btn btn-success buscar">Buscar</button>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <label class="text-primary">Numero de Control: </label><label class="text-success">{{alumno.username}}</label><br>
+                    <label class="text-primary">Nombre: </label><label class="text-success">{{alumno.profile.name}}</label><br>
+                    <label class="text-primary">Carrera: </label><label class="text-success">{{alumno.profile.carrera}}</label><br>
+                    <label class="text-primary">Semestre: </label><label class="text-success">{{alumno.profile.semestre}}</label><br>
+                    <label class="text-primary">Modalidad: </label><label class="text-success">{{alumno.profile.modalidad}}</label><br>
+                    <label class="text-primary">Modulo: </label><label class="text-success">{{alumno.profile.modulo}}</label><br>
+                    <label class="text-primary">Nivel escolar: </label><label class="text-success">{{alumno.profile.nivelEscolar}}</label><br>
+                    <label class="text-primary">Periodo de Ingreso: </label><label class="text-success">{{alumno.profile.periodoIngreso}}</label><br>
+                    <label class="text-primary">Fecha de Nacimiento: </label><label class="text-success">{{alumno.profile.fechaNacimiento}}</label><br>
+                    <label class="text-primary">Telefono: </label><label class="text-success">{{alumno.profile.telefono}}</label><br>
+                    <label class="text-primary">eMail: </label><label class="text-success">{{email}}</label><br>
+                    <label class="text-primary">Num. de semetres con tutoria: </label><label class="text-success">{{alumno.profile.semestresConTutoria}}</label><br>
+                    <label class="text-primary">Status: </label><label class="text-success">{{alumno.profile.status}}</label><br>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+
+<!-- ************************************************************************************************************** -->
+<!--                        SOLICITA LOS DATOS PARA GENERAR LA CONSTANCIA DE TERMINACION                            -->
+<!-- ************************************************************************************************************** -->
+<template name="solicitudDatosParaConstanciaTerminacionActividadComplementaria">
+    <div id="solicitudDatosParaConstanciaTerminacionActividadComplementaria" class="modal fade">
+        <div class="modal-dialog modal-mg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="text-primary">Proporciona los datos necesarios para la constancia de terminación de actividad académica</h3>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="nombreJefeDeptoServiciosEscolares">Nombre del Jefe de Departamento de Servicios Escolares:</label>
+                        <input  class="form-control typeahead text-center" 
+                                name="nombreJefeDeptoServiciosEscolares" id="nombreJefeDeptoServiciosEscolares" 
+                                type="text" style="width: 465px"
+                                placeholder="Docente" autocomplete="off" 
+                                spellcheck="off" data-source="docente"  
+                        />
+                        <label for="nombreJefeDeptoAcademico">Nombre del Jefe de Departamento Académico:</label>
+                        <input  class="form-control typeahead text-center" 
+                                name="nombreJefeDeptoAcademico" id="nombreJefeDeptoAcademico" 
+                                type="text" style="width: 465px"
+                                placeholder="Docente" autocomplete="off" 
+                                spellcheck="off" data-source="docente"  
+                        />
+                        <label for="nombreResponsableActividadComplentaria">Nombre del responsable de la Actividad Complementaria:</label>
+                        <input  class="form-control typeahead text-center" 
+                                name="nombreResponsableActividadComplentarias" id="nombreResponsableActividadComplentaria" 
+                                type="text" style="width: 465px"
+                                placeholder="Docente" autocomplete="off" 
+                                spellcheck="off" data-source="docente"  
+                        />
+                        <label for="nombreActividad">Nombre de la Actividad:</label>
+                        <input  class="form-control typeahead text-center" 
+                                name="nombreActividad" id="nombreActividad" 
+                                type="text" style="width: 465px"
+                        />
+                        <label for="numCreditos">Número de créditos de la actividad:</label>
+                        <input  class="form-control" 
+                                name="numCreditos" id="numCreditos" 
+                                type="number"
+                                min="1" max="2"
+                                value="1"
+                        />
+                        <label for="valorDesempeño">Cuál es el valor de desempeño?</label>
+                        <input  class="form-control typeahead" 
+                                name="valorDesempeño" id="valorDesempeño" 
+                                type="text" style="width: 465px"
+                        />
+                        <label for="valorNumerico">Cuál es su valor numérico?</label>
+                        <input  class="form-control" 
+                                name="valorNumerico" id="valorNumerico" 
+                                type="text" style="width: 465px"
+                        />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="generarConstanciaTerminacionActividadComplementaria btn btn-success" data-dismiss="modal">Aceptar</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+<!-- ************************************************************************************************************** -->
+<!--                       VISTA PREVIA DE LA CONSTANCIA DE TERMINACION DE ACTIVIDAD ACADEMICA                      -->
+<!-- ************************************************************************************************************** -->
+<template name="vistaConstanciaTerminacionActividadComplementaria">
+    <div id="prueba" style="background-color: white">
+        <br><br>
+        <div class="container" style="text-align: center">
+            <img src="/encabezadoConstanciaTerminacionActividadAcademica.png" width="100%">
+            <br>
+            <br>
+            <div class="row text-left">
+                <div class="col-md-12">
+                    <br><br><br><br>
+                    C. {{datos.nombreJefeDeptoServiciosEscolares}}<br>
+                    JEFE(A) DEL DEPARTAMENTO DE SERVICIOS ESCOLARES<br>
+                    PRESENTE<br><br><br>
+                </div>
+            </div> 
+            <div class="row text-justify">
+                <div class="col-md-12">
+                    <br><br>
+                    <p>El que sucribe <u><b>{{datos.responsableActividad}}</b></u>, por este medio se permite hacer de su conocimiento que el estudiante 
+                        <u><b>{{datos.alumnoNombre}}</b></u> con número de control <u><b>{{datos.alumnoNC}}</b></u> de la carrera de <u><b>{{datos.alumnoCarrera}}</b></u> 
+                        ha CUMPLIDO su actividad complementaria <u><b>{{datos.actividadNombre}}</b></u> con el nivel de desempeño <u><b>{{datos.alumnoNivelDesempeño}}</b></u> 
+                        y un valor numérico de <u><b>{{datos.valorNumerico}}</b></u> durente el período escolar <u><b>{{datos.periodoEscolar}}</b></u> 
+                        con un valor curriculcar de 1 crédito.
+                    </p><br><br>
+                    <p>
+                        Se extiende la presente en Tlajomulco de Zuñiga, Jalisco., a los {{dia}} días de {{mes}} del {{año}}.
+                    </p>
+                </div>
+            </div>
+            <br><br><br><br><br>
+            <div class="row text-center">
+                <div class="col-md-12">
+                    A t e n t a m e n t e<br><br><br>
+                </div>
+            </div> 
+            <br><br>
+            <div class="row text-center">
+                <div class="col-md-5">
+                    __________________________________________<br>
+                    {{datos.responsableActividad}}<br>
+                    RESPONSABLE DE LA ACTIVIDAD COMPLEMENTARIA
+                </div>
+                <div class="col-md-2">
+                
+                </div>
+                <div class="col-md-5">
+                    ______________________________________<br>
+                    {{datos.nombreJefeDeptoAcademico}}<br>
+                    Vo. Bo. JEFE DE DEPARTAMENTO ACADEMICO
+                </div>
+            </div> 
+            <br><br><br><br><br><br><br>
+            <div class="row text-left">
+                <txt>C.p. Estudiante</txt><br>
+                <txt>C.p. Archivo</txt>
+            </div>
+        </div> 
+    </div>
+    <button id="btnImprimir" type="button" class="imprimirConstancia btn btn-success btn-block" style="position: fixed; left:0px; top:0px; animation: blink 1s linear infinite;"><i class="fa fa-file-pdf-o"></i>  Imprimir oficio de asesor interno de residencia profesional</button>
+</template>
+<!-- ************************************************************************************************************** -->
+<!--                             PLANTILLA PARA SUBIR LA CONSTANCIA DE TERMINACION DE TUTORIA                       -->
+<!-- ************************************************************************************************************** -->
+<template name="uploadConstanciaTermicacionActividadComplementariaTutoria">
+    <div id="uploadConstanciaTermicacionActividadComplementariaTutoria" class="modal fade">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="text-primary">Sube la constancia de terminación de la Tutoria</h3>
+                </div>
+                <div class="modal-body">
+                    <div class="fileupload fileupload-new" data-provides="fileupload" style="text-align:center">
+                        <span class="btn btn-file" style="width: 100%">
+                            <span class="fileupload-exists">Sube la constancia en .pdf</span><br><br>
+                            <input name="fileUploadName" class="file-upload-input" method="fileUploadMethod" type="file" accept=".pdf" style="width: 100%"/>
+                        </span>
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>

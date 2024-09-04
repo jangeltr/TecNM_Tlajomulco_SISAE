@@ -1,0 +1,45 @@
+<!-- ************************************************************************************************************** -->
+<!--                                        PLANTILLA PARA EL MENU DEL SISAE                                        -->
+<!-- ************************************************************************************************************** -->
+<template name="menuSISAE">
+	<nav class="navbar navbar-expand-xl bg-white navbar-primary border border-primary">
+		<button class="navbar-toggler bg-success navbar-light" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse bg-light" id="collapsibleNavbar">
+			<ul class="navbar-nav">
+				<li class="text-success p-2">
+					SISAE:
+				</li>
+				<li  class="nav-item">
+					<a class="nav-link" href="/"><i class="fa fa-home" aria-hidden="true"></i></a>
+				</li>
+                <li  class="nav-item">
+					<a class="nav-link" href="/sisae/materias">Materias</a>
+				</li>
+				<li  class="nav-item">
+					<a class="nav-link" href="/sisae/docentes">Docentes</a>
+				</li>
+				<li class="nav-item dropdown">
+					<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" title="Actividades Complementarias">Actividades Complementarias</a>
+					<div class="dropdown-menu">
+						<a class="dropdown-item" href="/sisae/tutorias">Tutorias</a>
+						<a class="dropdown-item" href="/sisae/extraescolares">Actividades Extraescolares</a>
+						<a class="dropdown-item" href="/sisae/academicas">Actividades Académicas</a>
+						{{#unless alumno}}
+							<a class="dropdown-item" href="/sisae/constanciasActividadesComplementarias">Constancias</a>
+						{{/unless}}
+					</div>
+				</li>
+				<li class="nav-item dropdown">
+					<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" title="Actividades Adicionales a las Clases">Actividades Adicionales</a>
+					<div class="dropdown-menu">
+						<a class="dropdown-item" href="/sisae/servicioSocial" title="Servicio Social">Serv. Social</a>
+						<a class="dropdown-item" href="/sisae/residencias" title="Residencia Profesional">Res. Prof.</a>
+						<a class="dropdown-item" href="/sisae/titulacion">Titulación</a>
+					</div>
+				</li>
+			</ul>
+		</div>  
+	</nav>
+</template>

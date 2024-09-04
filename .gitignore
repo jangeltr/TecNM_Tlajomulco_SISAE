@@ -1,0 +1,7 @@
+node_modules/
+
+//settings de vscode
+.vscode
+
+//script para ejecutar mi proyecto
+ejecutar.sh

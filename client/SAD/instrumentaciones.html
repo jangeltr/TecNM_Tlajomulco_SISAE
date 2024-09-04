@@ -1,0 +1,252 @@
+<!-- ************************************************************************************************************** -->
+<!--                           BARRA DE HERRAMIENTAS PARA LA INSTRUMENTACION                                        -->
+<!-- ************************************************************************************************************** -->
+<template name="toolBoxInstrumentaciones">
+	<div class="toolBox well well-sm text-center">
+        {{> catPeriodos}}
+        <button type="button" class="btn btn-default">
+            <a href="{{ip}}/planeacion/Formato Oficial.docx" title="Formato de Instrumentación Didactica" target="_blank">  Formato Oficial  </a>
+        </button>
+        <button type="button" class="btn btn-default">
+            <a href="{{ip}}/planeacion/Formato evidencia.docx" title="Formato de evidencia de entrega de la instrumentación al estudiante" target="_blank">  Formato de entrega  </a>
+        </button>
+        {{#if esJefe}}
+            <select class="selectDepto btn btn-default">
+                <option value="De todos los Departamentos">De todos los Departamentos</option>
+                <option value="Depto de Ingenierias">Depto de Ingenierias</option>
+                <option value="Depto de Ciencias Básicas">Depto de Ciencias Básicas</option>
+                <option value="Depto de Ciencias Agropecuarias">Depto de Ciencias Agropecuarias</option>
+                <option selected hidden value={{deptoPlaneacion}}>{{deptoPlaneacion}}</option>
+            </select>
+            <button type="button" class="grafica btn btn-default" title="Grafica de Instrumentaciones entregadas" data-toggle="modal" data-target="#graficaInstrumentaciones">
+                <i class="fa fa-pie-chart"></i>
+            </button>
+            <txt class="text-primary">Docentes: </txt><txt class="text-success">{{numAsignaciones}}</txt>
+		{{/if}}	
+    </div>	
+</template>
+<!-- ************************************************************************************************************** -->
+<!--                                         INSTRUMENTACIONES                                                      -->
+<!-- ************************************************************************************************************** -->
+<template name="instrumentaciones">
+    {{#if esDocente}}
+        <br>
+        {{> toolBoxInstrumentaciones}} 
+        <br>
+        {{#if puedeModificar}}
+            <div class="container">
+                <input class="form-control myTxtBoxFiltroAsignacionMaterias" id="myFiltroAsignacionMaterias" 
+                type="text" placeholder="Filtrar por cualquier campo...">
+            </div>	
+            {{#each asignaciones}}
+                <table class="table table-hover  m-0 p-0" style="table-layout: fixed">
+                    <tbody id="myTableAsignacionMaterias">
+                        <tr>
+                            <td class= "text-success" style="width: 80%;">  
+                                <div data-toggle="collapse" data-target="#{{_id}}" aria-expanded="false" 
+                                aria-controls="collapseExample" class="editar">{{docente}}</div>
+                            </td>
+                            <td class= "text-success" style="width: 20%;">
+                                    <div style="position: static; right: 20px;">
+                                        <b>{{cantidadDeMaterias}}</b> Materias
+                                    </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div  class="collapse" id="{{_id}}">
+                    <table class="table table-hover  m-0 p-0" style="table-layout: fixed">
+                        <tbody>
+                            {{#each materia}}
+                                {{#if esDelDepto}}
+                                    <tr>
+                                        <td class="small" style="width: 20%;">{{nombre}}</td>
+                                        <td class="small" style="width: 25%;">{{carrera}}</td>
+                                        <td class="small" style="width: 5%;">{{grupo}}</td>
+                                        <td class="small" style="width: 20%;">{{departamento}}</td>
+                                        <td class="small" style="width: 10%;">
+                                            {{#if linkPlaneacion}}
+                                                <a href="{{ip}}{{pathPlaneacion}}" target="_blank" title="Instrumentación {{fechaPlaneacion}}">
+                                                    <i class="fa fa-download" aria-hidden="true"></i>
+                                                </a>
+                                            {{/if}}
+                                            {{#if linkEvidencia}}
+                                                |
+                                                <a href="{{ip}}{{pathEvidencia}}" target="_blank" title="Evidencia de entrega {{fechaEvidencia}}">
+                                                    <i class="fa fa-download" aria-hidden="true"></i>
+                                                </a>
+                                            {{/if}}
+                                        </td>
+                                        <td class="small text-center" style="width: 20%;">
+                                            {{#if revisado}}
+                                                <button type="button" class="revisado btn btn-default" 
+                                                title="Instrumentación y evidencia revisadas y aprobadas">
+                                                    <input id="checkBox" type="checkbox"  checked>
+                                                </button>
+                                            {{else}}
+                                                <button type="button" class="subirPlaneacion btn btn-default" data-toggle="modal" 
+                                                data-target="#uploadPlaneacion" title="Subir la planeación de curso">
+                                                    <i class="fa fa-upload"></i><i class="fa fa-file-word-o"></i>
+                                                </button>
+                                                <button type="button" class="subirEvidencia btn btn-default" data-toggle="modal" 
+                                                data-target="#uploadEvidenciaPlaneacion" title="Subir la evidencia de entrega">
+                                                    <i class="fa fa-upload"></i><i class="fa fa-file-pdf-o"></i>
+                                                </button>
+                                                <button type="button" class="revisado btn btn-default" 
+                                                title="He revisado y aprobado la instrumentación y la evidencia">
+                                                    <input id="checkBox" type="checkbox">
+                                                </button>
+                                            {{/if}}
+                                        </td>
+                                    </tr>
+                                {{/if}}
+                            {{/each}}
+                        </tbody>
+                    </table>  
+                </div>
+            {{/each}}	
+        {{else}}
+            <table>
+                <thead>
+                    <tr class="">
+                        <th style="width: 25%">Nombre</th>
+                        <th style="width: 25%">Carrera</th>
+                        <th class="text-center" style="width: 10%">Grupo</th>
+                        <th class="text-center" style="width: 15%">Departamento</th>
+                        <th class="text-center" style="width: 10%">Documentos</th>
+                        <th class="text-center" style="width: 10%">Subir Doctos.</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each asignaciones}} 
+                        {{#each materia}}
+                            <tr>
+                                <td class="small"><a href="{{ip}}{{path}}" target="_blank">{{nombre}}</a></td>
+                                <td class="small">{{carrera}}</td>  
+                                <td class="small text-center">{{grupo}}</td>
+                                <td class="small text-center">{{departamento}}</td>
+                                <td class="small text-center">
+                                    {{#if linkPlaneacion}}
+                                        <a href="{{ip}}{{pathPlaneacion}}" target="_blank" title="Instrumentación {{fechaPlaneacion}}">
+                                            <i class="fa fa-download" aria-hidden="true"></i>
+                                        </a>
+                                    {{/if}}
+                                    {{#if linkEvidencia}}
+                                        |
+                                        <a href="{{ip}}{{pathEvidencia}}" target="_blank" title="Evidencia de entrega {{fechaEvidencia}}">
+                                            <i class="fa fa-download" aria-hidden="true"></i>
+                                        </a>
+                                    {{/if}}
+                                </td>
+                                <td class="small text-center">
+                                    {{#if revisado}}
+                                        <i class="fa fa-check-square-o text-success" aria-hidden="true" 
+                                        title="Instrumentación y evidencia revisadas y aprobadas"></i>
+                                    {{else}}
+                                        <button type="button" class="subirPlaneacion btn btn-default" 
+                                        data-toggle="modal" data-target="#uploadPlaneacion" title="Subir la planeación de curso">
+                                            <i class="fa fa-upload"></i><i class="fa fa-file-word-o"></i>
+                                        </button>
+                                        <button type="button" class="subirEvidencia btn btn-default" 
+                                        data-toggle="modal" data-target="#uploadEvidenciaPlaneacion" title="Subir la evidencia de entrega">
+                                            <i class="fa fa-upload"></i><i class="fa fa-file-pdf-o"></i>
+                                        </button>
+                                    {{/if}}
+                                </td>
+                            </tr>
+                        {{/each}}
+                    {{/each}}			 
+                </tbody>  
+            </table>
+        {{/if}}
+        {{> avisos}}
+        {{#if Template.subscriptionsReady}}
+            {{> graficaInstrumentaciones}}
+            {{> uploadPlaneacion}}
+            {{> uploadEvidenciaPlaneacion}}
+        {{/if}}
+    {{else}}
+        {{>sinAcceso}}
+    {{/if}}
+</template>
+<!-- ************************************************************************************************************** -->
+<!--                          GRAFICA DE INSTRUMENTACIONES ENTREGADAS POR DEPTO                                     -->
+<!-- ************************************************************************************************************** -->
+<template name="graficaInstrumentaciones">
+    <div class="modal fade" id="graficaInstrumentaciones">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="text-primary">Instrumentaciones para {{numAsignadas}} materias asignadas<h4>{{periodo}}</h4><h5>{{depto}}</h5></h3>
+                </div>
+                <div id="myChart" class="modal-body" style="width:800px; height:500px;">
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+<!-- ************************************************************************************************************** -->
+<!--                                   MODAL PARA SUBIR LA PLANEACION                                               -->
+<!-- ************************************************************************************************************** -->
+<template name="uploadPlaneacion">
+    <div id="uploadPlaneacion" class="modal fade">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="text-primary">Sube la planeación de tu materia</h3>
+                </div>
+                <div class="modal-body">
+                    <div class="fileupload fileupload-new" data-provides="fileupload" style="text-align:center">
+                        <span class="text-success">Subela en formato Word</span><br><br>
+                        <input id="btnFilePlaneacion" class="file-upload-input" method="fileUploadMethod" 
+                        type="file" accept=".docx" hidden/>
+                        <button class="btnSubirArchivo btn btn-outline-primary">Seleccionar y subir archivo</button><br><br>
+                        <span class="text-success">Archivo subido: </span>
+                        <span><b id="txtFileNamePlaneacion" class="text-danger">Sin archivo</b></span>
+					</div>
+                </div>
+                <div class="modal-footer">
+                    <div>
+                        <img src="/Si.png" height="40px" id="imgCargoPlaneacion" style="display: none;">
+                    </div>
+                    <div>
+                        <button type="button" class="btnCerrar btn btn-outline-primary" data-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+<!-- ************************************************************************************************************** -->
+<!--                      MODAL PARA SUBIR LA EVIDENCIA DE ENTREGA DE LA PLANEACION                                 -->
+<!-- ************************************************************************************************************** -->
+<template name="uploadEvidenciaPlaneacion">
+    <div id="uploadEvidenciaPlaneacion" class="modal fade">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="text-primary">Sube la evidencia de entrega de tu planeacion a los Estudiantes</h3>
+                </div>
+                <div class="modal-body">
+                    <div class="fileupload fileupload-new" data-provides="fileupload" style="text-align:center">
+                        <span class="text-success">Subela de preferencia en PDF</span><br><br>
+                        <input id="btnFileEvidenciaEntregaPlaneacion" class="file-upload-input" method="fileUploadMethod" 
+                        type="file" accept=".jpg,.pdf" hidden/>
+                        <button class="btnSubirArchivo btn btn-outline-primary">Seleccionar y subir archivo</button><br><br>
+                        <span class="text-success">Archivo subido: </span>
+                        <span><b id="txtFileNameEvidenciaEntregaPlaneacion" class="text-danger">Sin archivo</b></span>
+					</div>
+                </div>
+                <div class="modal-footer">
+                    <div>
+                        <img src="/Si.png" height="40px" id="imgCargoEvidenciaEntregaPlaneacion" style="display: none;">
+                    </div>
+                    <div>
+                        <button type="button" class="btnCerrar btn btn-outline-primary" data-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>

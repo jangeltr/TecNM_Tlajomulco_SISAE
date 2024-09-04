@@ -1,0 +1,287 @@
+<!-- ************************************************************************************************************** -->
+<!--                             BARRA DE HERRAMIENTAS PARA HORARIOS Y REPORTES                                     -->
+<!-- ************************************************************************************************************** -->
+<template name="toolBoxHorarioYReportes">
+	<div class="toolBox well well-sm text-center">
+		{{> catPeriodos}}
+        <button type="button" class="btn btn-default">
+            Formatos:
+            <a href="{{ip}}/horarios/Formato Oficial.xlsm" target="_blank">  Horario  </a>|
+            <a href="{{ip}}/reporte1/Formato Oficial.docx" target="_blank">  R1 </a>|
+            <a href="{{ip}}/reporte2/Formato Oficial.docx" target="_blank">  R2 </a>|
+            <a href="{{ip}}/reporte3/Formato Oficial.docx" target="_blank">  R3 </a>|
+            <a href="{{ip}}/reporteFinal/Formato Oficial.docx" target="_blank">  Final </a>|
+            <a href="{{ip}}/proyectoIndividual/Formato Oficial.docx" target="_blank">  Proy. Individual  </a>
+        </button>
+	</div>	
+</template>
+<!-- ************************************************************************************************************** -->
+<!--                                           HORARIO Y REPORTES                                                   -->
+<!-- ************************************************************************************************************** -->
+<template name="horarioYReportes">
+    {{#if esDocente}}
+        {{> toolBoxHorarioYReportes}} 
+        <table class="table table-striped">
+            <tbody>
+                <tr class="success">
+                    <th style="width: 5%">
+                        <button type="button" class="agregarHorario btn btn-outline-success pt-0 pb-0 m-0" 
+                        data-toggle="modal" data-target="#uploadFileHorarioReporte" 
+                        title="Subir horario para revision en (excel)">
+                            <i class="fa fa-upload" aria-hidden="true"></i>
+                            <i class="fa fa-file-excel-o" aria-hidden="true"></i>
+                        </button>
+                    </th> 
+                    <th style="width: 35%">Horario para revisión</th>
+                    <th style="width: 5%">
+                        <button type="button" class="agregarHorarioFirmado btn btn-outline-success pt-0 pb-0 m-0" 
+                        data-toggle="modal" data-target="#uploadFileHorarioReporte" 
+                        title="Subir Reporte firmado con evidencias en (pdf)">
+                            <i class="fa fa-upload" aria-hidden="true"></i>
+                            <i class="fa fa-file-pdf-o"></i>
+                        </button>
+                    </th>
+                    <th style="width: 55%">Horario firmado y sellado</th>
+                </tr>
+                {{#each horario}}
+                    <tr>  
+                        <td></td>
+                        <td>
+                            <a href="{{ip}}{{path}}" target="_blank">{{fechaP}}</a>
+                        </td>
+                        <td></td>
+                        <td>
+                            <a href="{{ip}}{{pathFirmado}}" target="_blank">{{fechaFirmadoP}}</a>
+                        </td>
+                    </tr>
+                {{/each}}	
+            </tbody>  
+        </table>
+        {{#if tieneHorario}}
+            <table class="table table-striped">
+                <tbody>
+                    <tr class="success">
+                        <th style="width: 5%">
+                            {{#unless revisadoR1}}
+                                <button type="button" class="agregarReporte1 btn btn-outline-success pt-0 pb-0 m-0" 
+                                data-toggle="modal" data-target="#uploadFileHorarioReporte" 
+                                title="Subir Reporte para revision en (word)">
+                                    <i class="fa fa-upload" aria-hidden="true"></i>
+                                    <i class="fa fa-file-word-o"></i>
+                                </button>
+                            {{/unless}}
+                        </th>
+                        <th style="width: 35%">Reporte 1 para Revisión</th>
+                        <th style="width: 5%">
+                            {{#unless revisadoR1}}
+                                <button type="button" class="agregarEvidencia1 btn btn-outline-success pt-0 pb-0 m-0" 
+                                data-toggle="modal" data-target="#uploadFileHorarioReporte" 
+                                title="Subir Reporte firmado con evidencias en (pdf)">
+                                    <i class="fa fa-upload" aria-hidden="true"></i>
+                                    <i class="fa fa-file-pdf-o"></i>
+                                </button>
+                            {{/unless}}
+                        </th>
+                        <th style="width: 55%">Reporte 1 firmado y sellado con evidencias</th>
+                    </tr>
+                    {{#each reporte1}}
+                        <tr>  
+                            <td></td>
+                            <td>
+                                <a href="{{ip}}{{path}}" target="_blank">{{fechaP}}</a>
+                                {{#if revisado}}
+                                    <i class="fa fa-check-square-o" title="Revisado"></i>
+                                {{/if}}
+                            </td>
+                            <td></td>
+                            <td>
+                                <a href="{{ip}}{{pathEvidencia}}" target="_blank">{{fechaEvidenciaP}}</a>
+                            </td>
+                        </tr>
+                    {{/each}}
+                </tbody>  
+            </table>
+        {{/if}}
+        {{#if tieneR1}}
+            <table class="table table-striped">
+                <tbody>
+                    <tr class="success">
+                        <th style="width: 5%">
+                            {{#unless revisadoR2}}
+                                <button type="button" class="agregarReporte2 btn btn-outline-success pt-0 pb-0 m-0" 
+                                data-toggle="modal" data-target="#uploadFileHorarioReporte" 
+                                title="Subir Reporte para revision en (word)">
+                                    <i class="fa fa-upload" aria-hidden="true"></i>
+                                    <i class="fa fa-file-word-o"></i>
+                                </button>
+                            {{/unless}}
+                        </th>
+                        <th style="width: 35%">Reporte 2 para Revisión</th>
+                        <th style="width: 5%">
+                            {{#unless revisadoR2}}
+                                <button type="button" class="agregarEvidencia2 btn btn-outline-success pt-0 pb-0 m-0" 
+                                data-toggle="modal" data-target="#uploadFileHorarioReporte" 
+                                title="Subir Reporte firmado con evidencias en (pdf)">
+                                    <i class="fa fa-upload" aria-hidden="true"></i>
+                                    <i class="fa fa-file-pdf-o"></i>
+                                </button>
+                            {{/unless}}
+                        </th>
+                        <th style="width: 55%">Reporte 2 firmado y sellado con evidencias</th>
+                    </tr>
+                    {{#each reporte2}}
+                        <tr>  
+                            <td></td>
+                            <td>
+                                <a href="{{ip}}{{path}}" target="_blank">{{fechaP}}</a>
+                                {{#if revisado}}
+                                    <i class="fa fa-check-square-o" title="Revisado"></i>
+                                {{/if}}
+                            </td>
+                            <td></td>
+                            <td>
+                                <a href="{{ip}}{{pathEvidencia}}" target="_blank">{{fechaEvidenciaP}}</a>
+                            </td>
+                        </tr>
+                    {{/each}}
+                </tbody>  
+            </table>  
+        {{/if}}
+        {{#if tieneR2}}
+            <table class="table table-striped">
+                <tbody>
+                    <tr class="success">
+                        <th style="width: 5%">
+                            {{#unless revisadoR3}}
+                                <button type="button" class="agregarReporte3 btn btn-outline-success pt-0 pb-0 m-0" 
+                                data-toggle="modal" data-target="#uploadFileHorarioReporte" 
+                                title="Subir Reporte para revision en (word)">
+                                    <i class="fa fa-upload" aria-hidden="true"></i>
+                                    <i class="fa fa-file-word-o"></i>
+                                </button>
+                            {{/unless}}
+                        </th>
+                        <th style="width: 35%">Reporte 3 para Revisión</th>
+                        <th style="width: 5%">
+                            {{#unless revisadoR3}}
+                                <button type="button" class="agregarEvidencia3 btn btn-outline-success pt-0 pb-0 m-0" 
+                                data-toggle="modal" data-target="#uploadFileHorarioReporte" 
+                                title="Subir Reporte firmado con evidencias en (pdf)">
+                                    <i class="fa fa-upload" aria-hidden="true"></i>
+                                    <i class="fa fa-file-pdf-o"></i>
+                                </button>
+                            {{/unless}}
+                        </th>
+                        <th style="width: 55%">Reporte 3 firmado y sellado con evidencias</th>
+                    </tr>
+                    {{#each reporte3}}
+                        <tr>  
+                            <td></td>
+                            <td>
+                                <a href="{{ip}}{{path}}" target="_blank">{{fechaP}}</a>
+                                {{#if revisado}}
+                                    <i class="fa fa-check-square-o" title="Revisado"></i>
+                                {{/if}}
+                            </td>
+                            <td></td>
+                            <td>
+                                <a href="{{ip}}{{pathEvidencia}}" target="_blank">{{fechaEvidenciaP}}</a>
+                            </td>
+                        </tr>
+                    {{/each}}
+                </tbody>  
+            </table>
+        {{/if}}
+        {{#if tieneR3}}
+            <table class="table table-striped">
+                <tbody>
+                    <tr class="success">
+                        <th style="width: 5%">
+                            {{#unless revisadoRF}}
+                                <button type="button" class="agregarReporteF btn btn-outline-success pt-0 pb-0 m-0" 
+                                data-toggle="modal" data-target="#uploadFileHorarioReporte" 
+                                title="Subir Reporte para revision en (word)">
+                                    <i class="fa fa-upload" aria-hidden="true"></i>
+                                    <i class="fa fa-file-word-o"></i>
+                                </button>
+                            {{/unless}}
+                        </th>
+                        <th style="width: 35%">Reporte final para Revisión</th>
+                        <th style="width: 5%">
+                            {{#unless revisadoRF}}
+                                <button type="button" class="agregarEvidenciaF btn btn-outline-success pt-0 pb-0 m-0" 
+                                data-toggle="modal" data-target="#uploadFileHorarioReporte" 
+                                title="Subir Reporte firmado con evidencias en (pdf)">
+                                    <i class="fa fa-upload" aria-hidden="true"></i>
+                                    <i class="fa fa-file-pdf-o"></i>
+                                </button>
+                            {{/unless}}
+                        </th>
+                        <th style="width: 55%">Reporte final firmado y sellado con evidencias</th>
+                    </tr>
+                    {{#each reporteF}}
+                        <tr>  
+                            <td></td>
+                            <td>
+                                <a href="{{ip}}{{path}}" target="_blank">{{fechaP}}</a>
+                                {{#if revisado}}
+                                    <i class="fa fa-check-square-o" title="Revisado"></i>
+                                {{/if}}
+                            </td>
+                            <td></td>
+                            <td>
+                                <a href="{{ip}}{{pathEvidencia}}" target="_blank">{{fechaEvidenciaP}}</a>
+                            </td>
+                        </tr>
+                    {{/each}}
+                </tbody>  
+            </table>   
+        {{/if}}
+        {{#if tieneRF}}
+            <table class="table table-striped">
+                <tbody>
+                    <tr class="success">
+                        <th style="width: 5%">
+                            {{#unless revisadoPI}}
+                                <button type="button" class="agregarReportePI btn btn-outline-success pt-0 pb-0 m-0" 
+                                data-toggle="modal" data-target="#uploadFileHorarioReporte" 
+                                title="Subir Reporte para revision en (word)">
+                                    <i class="fa fa-upload" aria-hidden="true"></i>
+                                    <i class="fa fa-file-word-o"></i>
+                                </button>
+                            {{/unless}}
+                        </th>
+                        <th style="width: 35%">Reporte de proyecto individual para Revisión</th>
+                        <th style="width: 5%">
+                            {{#unless revisadoPI}}
+                                <button type="button" class="agregarEvidenciaPI btn btn-outline-success pt-0 pb-0 m-0" 
+                                data-toggle="modal" data-target="#uploadFileHorarioReporte" 
+                                title="Subir Reporte firmado con evidencias en (pdf)">
+                                    <i class="fa fa-upload" aria-hidden="true"></i>
+                                    <i class="fa fa-file-pdf-o"></i>
+                                </button>
+                            {{/unless}}
+                        </th>
+                        <th style="width: 55%">Reporte de proyecto individual firmado y sellado con evidencias</th>
+                    </tr>
+                    {{#each reportePI}}
+                        <tr>  
+                            <td></td>
+                            <td>
+                                <a href="{{ip}}{{path}}" target="_blank">{{fechaP}}</a>
+                                {{#if revisado}}
+                                    <i class="fa fa-check-square-o" title="Revisado"></i>
+                                {{/if}}
+                            </td>
+                            <td></td>
+                            <td>
+                                <a href="{{ip}}{{pathEvidencia}}" target="_blank">{{fechaEvidenciaP}}</a>
+                            </td>
+                        </tr>
+                    {{/each}}
+                </tbody>  
+            </table> 
+        {{/if}}
+        {{> uploadFileHorarioReporte}}
+    {{/if}}
+</template>

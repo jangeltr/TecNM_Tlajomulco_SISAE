@@ -1,0 +1,12 @@
+<Template name="sisaeExtraescolares">
+    {{#if esJefe}}
+        {{> extraescolaresJefe}}
+    {{else}}
+        {{#if esDocente}}
+            {{> extraescolaresDocente}}
+        {{/if}}
+        {{#if esAlumno}}
+            {{> extraescolaresAlumno}}
+        {{/if}}
+    {{/if}}
+</Template>

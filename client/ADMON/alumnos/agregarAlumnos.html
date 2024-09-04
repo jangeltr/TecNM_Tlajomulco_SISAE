@@ -1,0 +1,107 @@
+<!-- ************************************************************************************************************** -->
+<!--                                                AGREGAR ALUMNOS                                                 -->
+<!-- ************************************************************************************************************** -->
+<template name="agregarAlumnos">
+    {{#if esJefe}}  
+        <div class="text-center">
+            <br>
+            <h3 class="text-primary">Agregar alumno</h3>
+            <br>
+        </div>
+        {{#autoForm schema="alumnosSchema" id="addAlumno" type="method" meteormethod="addAlumno" autocomplete="off"}}
+        <table>
+            <tr>
+                <fieldset>
+                    <td>
+                        {{> afQuickField name='username'}}
+                        {{> afQuickField name='nombre'}}
+                        {{> afQuickField name='email'}}
+                        {{> afQuickField name='carrera'}}
+                        {{> afQuickField name='semestre'}}
+                        {{> afQuickField name='modalidad'}}
+                        {{> afQuickField name='modulo'}}
+                    </td>
+                    <td style="width: 100px;"></td>
+                    <td>
+                        {{> afQuickField name='fechaNacimiento'}}
+                        El periodo de ingreso debe llevar el año de ingreso<br>
+                        y un numero para el mes del 1 al 3 <br>
+                        [1]Enero-Febrero, [2]Junio, [3]Julio-Agosto <br>
+                        ejemplo <b>20223</b>
+                        {{> afQuickField name='periodoIngreso'}}
+                        {{> afQuickField name='nivelEscolar'}}
+                        {{> afQuickField name='telefono'}}
+                        {{> afQuickField name='sexo'}}
+                        {{> afQuickField name='password'}}
+                        <br><button type="submit" class="btn btn-success">Registar el usuario</button>
+                    </td>
+                </fieldset>
+            </tr>
+        </table>
+        {{/autoForm}}
+        {{#if esAdministrador}}
+            <button type="button" class="importar btn btn-primary" data-toggle="modal" data-target="#subirAlumnosNuevoIngreso">Importar de archivo</button>
+        {{/if}}
+        {{> avisos}}
+        {{> subirAlumnosNuevoIngreso}}
+    {{/if}}
+</template>
+<!-- ************************************************************************************************************** -->
+<!--                                   PARA SUBIR LA LISTA DE ALUMNOS DE NUEVO INGRESO                              -->
+<!-- ************************************************************************************************************** -->
+<template name="subirAlumnosNuevoIngreso">
+	<div id="subirAlumnosNuevoIngreso" class="modal fade">
+		<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h3 class="text-primary">Selecciona el archivo con la lista de alumnos de nuevo ingreso</h3>
+				</div>
+				<div class="modal-body">
+					<div class="fileupload fileupload-new" data-provides="fileupload" style="text-align:center">
+						<span class="btn btn-file" style="width: 100%">
+							<span class="fileupload-exists">El formato del archivo debe ser JSON</span><br><br>
+							<input name="fileUploadName" class="file-upload-input" method="fileUploadMethod" type="file" accept=".json" style="width: 100%"/>
+						</span>
+                        <hr>
+                        <div class="text-left">
+                        {{#if puedecargar}}
+                            <txt class="text-success">Alumnos de Sistemas Computacionales: </txt><txt class="text-danger">{{alumnosSistemas}}</txt><br>
+                            <txt class="text-success">Alumnos de Agronomia: </txt><txt class="text-danger">{{alumnosAgronomia}}</txt><br>
+                            <txt class="text-success">Alumnos de Industrias Alimentarias: </txt><txt class="text-danger">{{alumnosIndustrias}}</txt><br>
+                            <txt class="text-success">Alumnos de Innovacion Agricola: </txt><txt class="text-danger">{{alumnosInnovacion}}</txt><br>
+                            <txt class="text-success">Alumnos de Ing. Ambiental: </txt><txt class="text-danger">{{alumnosAmbiental}}</txt><br><br>
+                            <txt class="text-success">TOTAL DE ALUMNOS A CARGAR: </txt><txt class="text-danger">{{alumnos}}</txt><br><br>
+                            <label for="periodoIngreso">Periodo de Ingreso "Año[1:Febrero,2:Verano,3:Agosto]", <b>Ejemplo:20223</b></label>
+                            <input type="text" class="form-control" id="periodoIngreso" placeholder="20221">
+                        {{else}}
+                            <txt class="text-success">LA ESTRUCTURA DEL ARCHIVO DEBE SER COMO EN EL SIGUIENTE EJEMPLO</txt><br>
+                            <P>
+                                [<br>
+                                {"NC":"21940294","nombre":"KENYA ALEXANDRA DUARTE MENDOZA",<br>
+                                "email":"l21940294@tlajomulco.tecnm.mx",<br>
+                                "carrera":"Ingenieria en Industrias Alimentarias","modalidad":"Escolarizado",<br>
+                                "nacimiento":"2001-06-12","sexo":"M","nivel":"L"},<br>
+                                {"NC":"21940086","nombre":"CESAR ASCENCIO ZUÑIGA",<br>
+                                "email":"chicharito.az24@gmail.com",<br>
+                                "carrera":"Ingenieria en Sistemas Computacionales","modalidad":"Mixto",<br>
+                                "nacimiento":"2001-09-24","sexo":"M","nivel":"L"},<br>
+                                {"NC":"21940087","nombre":"CITLALLI MARIA BARBOSA CUEVAS",<br>
+                                "email":"barbosa.tally1030@gmail.com",<br>
+                                "carrera":"Ingenieria en Agronomia","modalidad":"Mixto",<br>
+                                "nacimiento":"2000-10-30","sexo":"F","nivel":"L"}
+                                <br>]
+                            </P>
+                        {{/if}}
+                        </div>
+					</div>
+                </div>
+                <div class="modal-footer text-center">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Cancelar</button>
+                    {{#if puedecargar}}
+                        <button type="button" class="cargar btn btn-success" data-toggle="modal" data-target="#avisos" data-dismiss="modal">Cargar Alumnos en el Sistema</button>
+                    {{/if}}
+                    </div>
+			</div>
+		</div>
+	</div>
+</template>

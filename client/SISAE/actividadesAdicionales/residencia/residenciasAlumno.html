@@ -1,0 +1,2227 @@
+<!-- ************************************************************************************************************** -->
+<!--                             BARRA DE HERRAMIENTAS DE RESIDENCIAS PARA ALUMNOS                                  -->
+<!-- ************************************************************************************************************** -->
+<template name="toolBoxResidenciasAlumno">
+    <nav class="navbar navbar-expand-xl bg-white navbar-primary">
+		<button class="navbar-toggler bg-success navbar-light" type="button" data-toggle="collapse" data-target="#collapsibleNavbarResidencias">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse bg-light" id="collapsibleNavbarResidencias">
+            <div class="container">
+                <div class="row justify-content-between">
+                    <div class="col-md-10">
+                        <ul class="navbar-nav align-items-center">
+                            <li class="text-success p-2">
+                                Residencias:
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">1.Expediente de Inicio</a>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" href="/sisae/residencias/inicio/solicitud">1.1.Solicitud</a>
+                                    <a class="dropdown-item" href="/sisae/residencias/inicio/proponerAsesor">1.1.1.Proponer un asesor</a>
+                                    <a class="dropdown-item" href="/sisae/residencias/inicio/anteproyecto">1.2.Anteproyecto</a>
+                                    <a class="dropdown-item" href="/sisae/residencias/inicio/cartaTerminacionServicioSocial">1.3.Carta de terminación del Servicio Social</a>
+                                    <a class="dropdown-item" href="/sisae/residencias/inicio/cartaPresentacion">1.4.Carta de presentación</a>
+                                    <a class="dropdown-item" href="/sisae/residencias/inicio/cartaAceptacion">1.5.Carta de aceptación</a>
+                                </div>
+                            </li>
+                            <li  class="nav-item">
+                                <a class="nav-link" href="/sisae/residencias/seguimiento">2.Seguimiento</a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">3.Evaluación</a>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" href="/sisae/residencias/evaluacion/evaluacion1">3.1.Primera evaluación de seguimiento</a>
+                                    <a class="dropdown-item" href="/sisae/residencias/evaluacion/evaluacion2">3.2.Segunda evaluación de seguimiento</a>
+                                    <a class="dropdown-item" href="/sisae/residencias/informeTecnico">3.3.Informe Técnico</a>
+                                    <a class="dropdown-item" href="/sisae/residencias/evaluacion/evaluacionF">3.4.Evaluación Final</a>
+                                </div>
+                            </li>
+                            <li  class="nav-item">
+                                <a class="nav-link" href="/sisae/residencias/cartaTerminacionResidencia">4.Carta de Terminación</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-md-2 text-right">
+                        {{> catPeriodos}}
+                    </div>
+                </div>
+            </div>
+		</div>  
+	</nav>
+</template>
+<!-- ************************************************************************************************************** -->
+<!--                                         RESIDENCIAS PARA ALUMNOS                                               -->
+<!-- ************************************************************************************************************** -->
+<template name="residenciasAlumno">
+    <div class="toolBox well well-sm text-center">
+        <img src="/residencias/residencias.jpg" height="170px">
+    </div>
+    {{> toolBoxResidenciasAlumno}}
+    {{> detalleResidenciasAlumno}}
+</template>
+<!-- ************************************************************************************************************** -->
+<!--                                 DETALLE DE RESIDENCIAS PARA ALUMNOS                                            -->
+<!-- ************************************************************************************************************** -->
+<template name="detalleResidenciasAlumno">
+    <div class="row align-items-center">
+        <div class="col-md-12" style="text-align: justify">
+            <p style="font-size:small">
+                <br>
+                La <b>Residencia Profesional</b> es una estrategia educativa de carácter curricular, que permite al estudiante emprender un proyecto teórico-práctico, analítico, reflexivo,
+crítico y profesional; con el propósito de resolver un problema específico de la realidad
+social y productiva, para fortalecer y aplicar sus competencias profesionales.<br><br>
+El <b>proyecto de Residencia Profesional</b> puede realizarse de manera individual,grupal o interdisciplinaria; dependiendo de los requerimientos, condiciones y
+características del proyecto de la empresa, organismo o dependencia. La Residencia Profesional puede ser realizada a través de proyectos integradores, bajo el esquema
+de educación dual, entre otros<br><br>
+                <b>Políticas de Operación</b><br><br>
+                El valor curricular para la residencia profesional es de 10 créditos, y su duración queda determinada por un período de 4 meses como tiempo mínimo y 6 meses como tiempo máximo,
+debiendo acumularse un mínimo de 500 horas.<br><br>
+La residencia profesional se cursará por una única ocasión. En el caso de existir causas justificadas fuera del alcance del residente, será necesario proponer una segunda asignación de
+proyecto de residencia profesional.<br><br>
+El proyecto de residencia profesional debe ser autorizado por el Jefe del Departamento Académico.<br><br>
+El número exacto de participantes requerido en cada proyecto, así como su perfil idóneo, lo determinará oficialmente el Jefe de Departamento Académico, con el apoyo de la academia
+correspondiente.<br><br>
+El departamento de Servicios Escolares es el responsable de emitir el acta de calificación de Residencias Profesional a los Departamentos Académicos.<br><br>
+El(La) Director(a) es el único facultado para firmar y autorizar, bases de concertación y/o convenios con las empresas, organismos o dependencias.<br><br>
+El Departamento de Gestión Tecnológica y Vinculación en colaboración con la Academia identifican necesidades en las empresas, organismos o dependencias para generar proyectos
+pertinentes a la Residencia Profesional.<br><br>
+Para poder ser ejecutados los proyectos de residencias profesionales se requerirá de la autorización del Jefe del Departamento Académico, quien asignará al asesor interno. El asesor
+deberá de visitar y/o tener contacto con el asesor externo de la empresa al menos en una ocasión durante la ejecución del proyecto.
+            </p>
+        </div>	
+    </div>
+</template>
+<!-- ************************************************************************************************************** -->
+<!--                                SOLICITUD DE RESIDENCIAS PARA ALUMNOS                                           -->
+<!-- ************************************************************************************************************** -->
+<template name="solicitudResidenciasAlumno">
+    <div class="toolBox well well-sm text-center">
+        <img src="/residencias/residencias.jpg" height="150px">
+    </div>
+    {{> toolBoxResidenciasAlumno}}
+    <div class="container text-center bg-light">
+        <br>
+        <h5 class="text-primary">Solicitud de Residencia para el periodo {{periodo}}</h5>
+        <br>
+        <h5 class="text-success">NOTA: Una vez aceptada tu solicitud y aprobado tu anteproyecto, no podrás realizar cambios</h5>
+        <br>
+        <div class="row text-left">
+            <ol>
+                {{#if seAceptoSolictud}}
+                    <dt class="text-success">Ya subiste solicitud firmada y ha sido aceptada, descargala 
+                        <a href="{{ip}}{{miResidencia.expedienteInicio.pathSolicitud}}" target="_blank">(aquí)</a>
+                    </dt>
+                {{else}}
+                    <li>Llena tu solicitud y registrala aquí [<i class="agregar text-primary fa fa-save"  data-toggle="modal" data-target="#avisos"></i>]</li>
+                    {{#if tieneRegistradaSolicitud}}
+                        <li>Imprimela aquí [<i class="imprimirSolicitud text-primary fa fa-print"></i>], y firmala</li>
+                        <li>Subela firmada aquí [
+                            <i class="subirSolicitud fa fa-upload text-primary" aria-hidden="true" data-toggle="modal" data-target="#uploadSolicitudResidencia"></i>]
+                        </li>
+                    {{else}}
+                        <li>Despues de registrarla, imprimela aquí [<i class="text-primary fa fa-print"></i>], y firmala</li>
+                        <li>Después de firmarla podrás subirla aquí [<i class="text-primary subirSolicitud fa fa-upload" aria-hidden="true"></i>]</li>
+                    {{/if}}
+                    {{#if yaSubioSolicitud}}
+                        <li class="text-success">Ya subiste solicitud firmada aunque aun no ha sido aceptada, descargala 
+                            <a href="{{ip}}{{miResidencia.expedienteInicio.pathSolicitud}}" target="_blank">(aquí)</a>
+                        </li>
+                    {{/if}}
+                {{/if}}
+            </ol>
+        </div>
+        <br>
+    </div>
+    {{#autoForm schema="solicitudResidenciaSchema" id="solicitudresidenciaForm" autocomplete="off"}}
+        <fieldset>
+            <div class="row">
+                <div class="col-md-6">
+                    {{> afQuickField name='lugar' class="text-uppercase" value=miResidencia.solicitud.lugar}}
+                    {{> afQuickField name='jefeDEP' value=jefeDivisionEstudiosProfesionales data-toggle="modal" data-target="#SeleccionarJefeDivEstudiosPrfesionales"}}
+                    {{> afQuickField name='carrera' value=carrera readonly=true}}
+                    {{> afQuickField name='coordinadorCarrera' value=coordinadorCarrera data-toggle="modal" data-target="#SeleccionarCoordinadorCarrera"}}    
+                    {{> afQuickField name='nombreProyecto' rows=3 class="text-uppercase" value=miResidencia.solicitud.nombreProyecto}}
+                </div>
+                <div class="col-md-1"></div>
+                <div class="col-md-5">
+                    {{> afQuickField name='fecha' value=fecha}}
+                    {{> afQuickField name='bancoDeProyectos' type="boolean-radios" trueLabel="Si" falseLabel="No" value=esDeBancoDeProyectos}}
+                    {{> afQuickField name='propuestaPropia' type="boolean-radios" trueLabel="Si" falseLabel="No" value=esPropuestaPropia}}
+                    {{> afQuickField name='trabajador' type="boolean-radios" trueLabel="Si" falseLabel="No" value=eresTrabajadorDeLaEmpresa}}
+                    {{> afQuickField name='numeroResidentes' value=numResidentesDelProyecto}}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <br>
+                    <h5 class="text-primary">Datos de la empresa</h5>
+                    <br>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    {{> afQuickField name='nombreEmpresa' class="text-uppercase" value=miResidencia.empresa.nombre}}
+                    {{> afQuickField name='mision' rows=9 class="text-uppercase" value=miResidencia.empresa.mision}}
+                    {{> afQuickField name='giroRamoSector' value=miResidencia.empresa.giro}}
+                    {{> afQuickField name='RFC' class="text-uppercase" value=miResidencia.empresa.rfc}}
+                    {{> afQuickField name='domicilioEmpresa' class="text-uppercase" value=miResidencia.empresa.domicilio}}
+                    {{> afQuickField name='coloniaEmpresa' class="text-uppercase" value=miResidencia.empresa.colonia}}
+                    {{> afQuickField name='ciudadEmpresa' class="text-uppercase" value=miResidencia.empresa.ciudad}}
+                </div>
+                <div class="col-md-1"></div>
+                <div class="col-md-5">
+                    {{> afQuickField name='CPEmpresa' value=miResidencia.empresa.cp}}
+                    {{> afQuickField name='eMailEmpresa' type="email" value=miResidencia.empresa.email}}
+                    {{> afQuickField name='telefonoEmpresa' value=miResidencia.empresa.telefono}}
+                    {{> afQuickField name='titular' class="text-uppercase" value=miResidencia.empresa.nombreTitular}}
+                    {{> afQuickField name='puestoTitular' class="text-uppercase" value=miResidencia.empresa.puestoTitular}}
+                    {{> afQuickField name='asesorExterno' class="text-uppercase" value=miResidencia.empresa.nombreAsesor}}
+                    {{> afQuickField name='puestoAsesorExterno' class="text-uppercase" value=miResidencia.empresa.puestoAsesor}}
+                    {{> afQuickField name='quienFirmaAcuerdo' class="text-uppercase" value=miResidencia.empresa.nombreDeQuienFirma}}
+                    {{> afQuickField name='puestoFirmaAcuerdo' class="text-uppercase" value=miResidencia.empresa.puestoDeQuienFirma}}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <br>
+                    <h5 class="text-primary">Datos del residente</h5>
+                    <br>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-2">
+                    <h6 class="card-text">Num. Control</h6>
+                    <h6 class="card-text">Nombre</h6>
+                    <h6 class="card-text">Carrera</h6>
+                    <h6 class="card-text">Correo electrónico</h6>
+                </div>
+                <div class="col-md-10">
+                    <h6 class="text-success">{{username}}</h6>
+                    <h6 class="text-success">{{nombre}}</h6>
+                    <h6 class="text-success">{{carrera}}</h6>
+                    <h6 class="text-success">{{email}}</h6>
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-md-6">
+                    {{> afQuickField name='domicilioResidente' class="text-uppercase" value=miResidencia.residente.domicilio}}
+                    {{> afQuickField name='coloniaResidente' class="text-uppercase" value=miResidencia.residente.colonia}}
+                    {{> afQuickField name='ciudadResidente' class="text-uppercase" value=miResidencia.residente.ciudad}}
+                    {{> afQuickField name='CPResidente' value=miResidencia.residente.cp}}
+                    {{> afQuickField name='telefonoResidente' value=miResidencia.residente.telefono}}
+                </div>
+                <div class="col-md-1"></div>
+                <div class="col-md-5">
+                    {{> afQuickField name='seguridadSocial' value=miResidencia.residente.seguridadSocial}}
+                    {{> afQuickField name='numeroSeguridadSocial' value=miResidencia.residente.numSeguridadSocial}}
+                </div>
+            </div>
+        </fieldset>
+        {{#unless seAceptoSolictud}}
+            <button type = "submit" class="agregar btn btn-success" data-toggle="modal" data-target="#avisos">Registar la solicitud</button>
+        {{/unless}}
+    {{/autoForm}}
+    {{> avisos}}
+    {{> uploadSolicitudResidencia}}
+    {{> SeleccionarJefeDivEstudiosPrfesionales}}
+    {{> SeleccionarCoordinadorCarrera}}
+</template> 
+<!-- ************************************************************************************************************** -->
+<!--                        PLANTILLA PARA VISTA PREVIA DE LA SOLICITUD DE RESIDENCIA                               -->
+<!-- ************************************************************************************************************** -->
+<template name="vistaPreviaSolicitudResidenciaAlumno">
+    <div id="prueba" style="background-color: white">
+        <br>
+        
+        <div class="container" style="text-align: center">
+            <img src="/residencias/encabezadoSolicitudResidencias.png" width="100%">         
+            <h4>INSTITUTO TECNOLOGICO DE TLAJOMULCO JALISCO</h4>
+            <h5>DIVISIÓN DE ESTUDIOS PROFESIONALES</h5>
+            <h5>RESIDENCIAS PROFESIONALES</h5>
+            <h6>SOLICITUD DE RESIDENCIAS PROFESIONALES</h6>
+            <div class="row text-left">
+                <div class="col-md-12">
+                    <!-- <table style="border:1px solid black; text-align: center; font-size: small"> -->
+                    <table class="table table-bordered table-sm">   
+                        <tr>
+                            <td style="width: 10%;"><dt>Lugar</dt></td>
+                            <td style="width: 40%;" class="text-uppercase">{{miResidencia.solicitud.lugar}}</td>
+                            <td style="width: 10%;"><dt>Fecha</dt></td>
+                            <td style="width: 40%;">{{fecha}}</td>
+                        </tr>
+                        <tr>
+                            <td style="width: 10%;"><dt>C.</dt></td>
+                            <td style="width: 40%;">{{miResidencia.solicitud.jefeDivisionEstudiosProfesionales}}</td>
+                            <td style="width: 10%;"><dt>AT'N: C.</dt></td>
+                            <td style="width: 40%;">{{miResidencia.solicitud.coordinadorCarrera}}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" style="width:50%;" class="text-center small"><dt>Jefe(a) de la Div. de Estudios Profesionales</dt></td>
+                            <td colspan="2" style="width:50%;" class="text-center small"><dt>Coor. de la Carrera de {{miResidencia.solicitud.carrera}}</dt></td>
+                        </tr>
+                    </table> 
+                    <table  class="table table-bordered table-sm">
+                        <tr>
+                            <td colspan="1" class="table-secondary"><dt>NOMBRE DEL PROYECTO</dt></td>
+                            <td colspan="5" class="text-uppercase">{{miResidencia.solicitud.nombreProyecto}}</td>
+                        </tr>
+                        <tr>
+                            <td style="width:25%;"><dt>Banco de proyectos</dt></td>
+                            <td style="width:5%;">{{bancoDeProyectos}}</td>
+                            <td style="width:25%;"><dt>Propuesta propia</dt></td>
+                            <td style="width:5%;">{{propuestaPropia}}</td>
+                            <td style="width:25%;"><dt>Trabajador</dt></td>
+                            <td style="width:5%;">{{trabajador}}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="1"><dt>PERIODO PROYECTADO</dt></td>
+                            <td colspan="3">{{miResidencia.periodo}}</td>
+                            <td colspan="1"><dt>No. de Residentes</dt></td>
+                            <td colspan="1">{{miResidencia.solicitud.numResidentesEnProyecto}}</td>
+                        </tr>
+                    </table>
+                    <h5>Datos de la empresa</h5>
+                    <table  class="table table-bordered table-sm">
+                        <tr>
+                            <td colspan="1"><dt>Nombre</dt></td>
+                            <td colspan="5" class="text-uppercase">{{miResidencia.empresa.nombre}}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="2"><dt>Giro, Ramo o Sector</dt></td>
+                            <td colspan="2">{{miResidencia.empresa.giro}}</td>
+                            <td colspan="1"><dt>RFC</dt></td>
+                            <td colspan="1">{{rfc}}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="1"><dt>Domicilio</dt></td>
+                            <td colspan="5" class="text-uppercase">{{miResidencia.empresa.domicilio}}</td>
+                        </tr>
+                        <tr>
+                            <td style="width:14%;"><dt>Colonia</dt></td>
+                            <td style="width:20%;" class="text-uppercase">{{miResidencia.empresa.colonia}}</td>
+                            <td style="width:13%;"><dt>C.P.</dt></td>
+                            <td style="width:20%;">{{miResidencia.empresa.cp}}</td>
+                            <td style="width:13%;"><dt>Email</dt></td>
+                            <td style="width:20%;">{{miResidencia.empresa.email}}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="1"><dt>Misión</dt></td>
+                            <td colspan="5" class="text-uppercase">{{miResidencia.empresa.mision}}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="1" class="small"><dt>Nombre del titular de la empresa</dt></td>
+                            <td colspan="2" class="text-uppercase">{{miResidencia.empresa.nombreTitular}}</td>
+                            <td colspan="1"><dt>Puesto</dt></td>
+                            <td colspan="2" class="text-uppercase">{{miResidencia.empresa.puestoTitular}}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="1" class="small"><dt>Nombre del asesor externo</dt></td>
+                            <td colspan="2" class="text-uppercase">{{miResidencia.empresa.nombreAsesor}}</td>
+                            <td colspan="1"><dt>Puesto</dt></td>
+                            <td colspan="2" class="text-uppercase">{{miResidencia.empresa.puestoAsesor}}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="1" class="small"><dt>Nombre de quien firma el acuerdo de trabajo. Estudiante-Escuela-Empresa</dt></td>
+                            <td colspan="2" class="text-uppercase">{{miResidencia.empresa.nombreDeQuienFirma}}</td>
+                            <td colspan="1"><dt>Puesto</dt></td>
+                            <td colspan="2" class="text-uppercase">{{miResidencia.empresa.puestoDeQuienFirma}}</td>
+                        </tr>
+                    </table>
+                    <h5>Datos de la residente</h5>
+                    <table  class="table table-bordered table-sm">
+                        <tr>
+                            <td colspan="1"><dt>Nombre</dt></td>
+                            <td colspan="5">{{miResidencia.residente.nombre}}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="1"><dt>Carrera</dt></td>
+                            <td colspan="2">{{miResidencia.residente.carrera}}</td>
+                            <td colspan="2"><dt>No. de Control</dt></td>
+                            <td colspan="1">{{miResidencia.residente.nc}}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="1"><dt>Domicilio</dt></td>
+                            <td colspan="5" class="text-uppercase">{{miResidencia.residente.domicilio}}</td>
+                        </tr>
+                        <tr>
+                            <td style="width:10%;"><dt>E-mail</dt></td>
+                            <td style="width:20%;">{{miResidencia.residente.email}}</td>
+                            <td style="width:20%;" class="small"><dt>Para seguridad social acudir a</dt></td>
+                            <td style="width:10%;">{{miResidencia.residente.seguridadSocial}}</td>
+                            <td style="width:20%;" class="small"><dt>No. de seguridad social</dt></td>
+                            <td style="width:20%;">{{miResidencia.residente.numSeguridadSocial}}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="1"><dt>Ciudad</dt></td>
+                            <td colspan="1" class="text-uppercase">{{miResidencia.residente.ciudad}}</td>
+                            <td colspan="2"><dt>Telefono (no celular)</dt></td>
+                            <td colspan="2">{{miResidencia.residente.telefono}}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <br>
+            <br>
+            <div class="row text-center">
+                <div class="col-md-12">
+                    ___________________________________<br>
+                    Firma del estudiante
+                </div>
+            </div> 
+        </div> 
+    </div>
+    <button id="btnImprimir" type="button" class="imprimirSolicitud btn btn-success btn-block" style="position: fixed; left:0px; top:0px; animation: blink 1s linear infinite;"><i class="fa fa-file-pdf-o"></i>  Imprimir solicitud de residencia profesional</button>
+</template>
+<!-- ************************************************************************************************************** -->
+<!--                                  PLANTILLA PARA SUBIR LA SOLICITUD                                             -->
+<!-- ************************************************************************************************************** -->
+<template name="uploadSolicitudResidencia">
+    <div class="modal fade" id="uploadSolicitudResidencia">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="text-primary">Sube tu solicitud de residencia (previamente firmada)</h3>
+                </div>
+                <div class="modal-body">
+                    <div class="fileupload fileupload-new" data-provides="fileupload" style="text-align:center">
+                        <br><span class="fileupload-exists"><h6 class="text-primary">Subela en formato .pdf</h6></span><br>
+                        <span class="btn btn-file" style="width: 100%">
+                            <input id="b" name="fileUploadName" class="file-upload-input" method="fileUploadMethod" type="file" accept=".pdf" style="width: 100%"/>
+                        </span>
+                        <br><br>
+                        <button id="btnCerrar" type="button" class="cerrar btn btn-primary" data-toggle="modal" data-target="#avisos" data-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+<!-- ************************************************************************************************************** -->
+<!--                                          PROPONER UN ASESOR                                                    -->
+<!-- ************************************************************************************************************** -->
+<template name="proponerAsesor">
+    <div class="toolBox well well-sm text-center">
+        <img src="/residencias/residencias.jpg" height="150px">
+    </div>
+    {{> toolBoxResidenciasAlumno}}
+    <div class="container text-center bg-light">
+        <br>
+        <h5 class="text-primary">Residencia Profesional del periodo {{periodo}}</h5>
+        <br>
+        <h5 class="text-success">Qué maestro te gustaria que fuera tu asesor interno para tu Residencia Profesional?</h5>
+        {{> buscarDocente}}
+        <h5 class="small text-success">Propuesta actual: {{asesorPropuesto}}</h5>
+        <br><br><br>
+        <h5 class="text-primary">NOTA 1: Debes tener registrada tu solicitud de residencias</h5>
+        <h5 class="text-primary">NOTA 2: Una vez asignado por el Jefe de departamento no podrás realizar cambios</h5>
+        <br>
+        <button type = "submit" class="registrar btn btn-success" data-toggle="modal" data-target="#avisos">Registrar</button>
+    </div>
+    {{> avisos}}
+</template> 
+<!-- ************************************************************************************************************** -->
+<!--                              PLANTILLA PARA ANTEPEROYECTO DE RESIDENCIA                                        -->
+<!-- ************************************************************************************************************** -->
+<template name="anteProyectoResidenciasAlumno">
+    <div class="toolBox well well-sm text-center">
+        <img src="/residencias/residencias.jpg" height="150px">
+    </div>
+    {{> toolBoxResidenciasAlumno}}
+    <div class="container text-center bg-light">
+        <br>
+        <h5 class="text-primary">Contenido del anteproyecto</h5>
+        <div class="row text-left">
+            <ul>
+                <li>Nombre y objetivo del proyecto</li>
+                <li>Delimitación</li>
+                <li>Objetivos específicos</li>
+                <li>Justificación</li>
+                <li>Cronograma preliminmar de actividades</li>
+                <li>Descripción detallada de las actividades</li>
+                <li>Lugar donde se realizará el proyecto</li>
+                <li>Información sobre la empresa, organismo, o dependencia para la que se desarrollará el proyecto</li>
+            </ul>
+        </div>
+    </div>
+    <br>
+    <h5 class="text-success">NOTA: Una vez aceptada tu solicitud y aprobado tu anteproyecto, no podrás realizar cambios y volver a subir</h5>
+    <br>
+    <div class="container text-center">
+        {{#if subioSolicitudResidencias}}
+            
+                {{#if subioAnteProyectoResidencias}}
+                    <dt class="text-success">Ya subiste tu ante-proyecto de residencias, descargalo 
+                        <a href="{{ip}}{{miResidencia.expedienteInicio.pathAnteproyecto}}"  target="_blank">(aquí)</a>
+                    </dt>
+                {{else}}
+                    <dt>Sube tu ante-proyecto aquí [<i class="subirAnteproyecto fa fa-upload text-primary" data-toggle="modal" data-target="#uploadAnteproyectoResidencia"></i>]</dt>
+                {{/if}}
+                    
+        {{else}}
+            <dt class="text-success">No has subido la solicitud de residencias firmada</dt>
+        {{/if}}
+        <br>
+    </div>
+    {{> avisos}}
+    {{> uploadAnteproyectoResidencia}}
+</template>
+<!-- ************************************************************************************************************** -->
+<!--                                  PLANTILLA PARA SUBIR LA ANTEPROYECTO                                          -->
+<!-- ************************************************************************************************************** -->
+<template name="uploadAnteproyectoResidencia">
+    <div class="modal fade" id="uploadAnteproyectoResidencia">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="text-primary">Sube tu anteproyecto de residencia</h3>
+                </div>
+                <div class="modal-body">
+                    <div class="fileupload fileupload-new" data-provides="fileupload" style="text-align:center">
+                        <br><span class="fileupload-exists"><h6 class="text-primary">Subelo en formato .pdf</h6></span><br>
+                        <span class="btn btn-file" style="width: 100%">
+                            <input id="b" name="fileUploadName" class="file-upload-input" method="fileUploadMethod" type="file" accept=".pdf" style="width: 100%"/>
+                        </span>
+                        <br><br>
+                        <button id="btnCerrar" type="button" class="cerrar btn btn-primary" data-toggle="modal" data-target="#avisos" data-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+<!-- ************************************************************************************************************** -->
+<!--                         PLANTILLA PARA LA CARTA DE TERMINACION DEL SERVICIO SOCIAL                             -->
+<!-- ************************************************************************************************************** -->
+<template name="cartaTerminacionServicioSocialEnResidenciasAlumno">
+    <div class="toolBox well well-sm text-center">
+        <img src="/residencias/residencias.jpg" height="150px">
+    </div>
+    {{> toolBoxResidenciasAlumno}}
+    <div class="container text-center bg-light">
+        <br>
+        <h5 class="text-primary">Carta de terminación del Servicio Social</h5>
+        <br>
+    </div>
+    <br>
+    <div class="container text-center">
+        {{#if tieneDictamenProyecto}}
+            {{#if dictamenAceptado}}
+                <dt class="text-primary">Tu Anteproyecto ha sido</dt> 
+                <dt class="text-success">Aprobado</dt>
+            {{else}}
+                <dt class="text-danger">Tu Anteproyecto ha sido rechazado</dt><br>
+                <dt class="text-primary">Observaciones:</dt><br>
+                <dt class="text-danger">{{observaciones}}</dt>
+            {{/if}}
+        {{else}}
+            <dt class="text-primary">Tu Anteproyecto aun no ha sido evaluado</dt>
+        {{/if}}
+        <br>
+        {{#if tieneAsesorAsignado}}
+            <dt class="text-primary">Tu asesor interno es el profesor: </dt>
+            <dt class="text-success">{{residencia.asesor.nombre}}</dt>
+        {{else}}
+            <dt class="text-primary">Aun no tienes asesor asignado</dt>
+        {{/if}}
+        <br>
+        {{#if tieneCartaTerminacionServicioSocial}}
+            <dt class="text-success">Ya has subido tu carta de terminacion del Servicio Social, descargala
+                <a href="{{ip}}{{residencia.expedienteInicio.pathCartaTerminacionServicioSocial}}" target="_blank"> (aquí) </a>
+            </dt>
+        {{else}}
+            <dt class="text-danger">Aun no has subido tu carta de terminación del servicio social, subela 
+                <a href="" target="_blank"  data-toggle="modal" data-target="#uploadCartaTerminacionServicioSocial" > (aquí) </a>
+            </dt>
+        {{/if}}
+        <br>
+    </div>
+    {{> avisos}}
+    {{> uploadCartaTerminacionServicioSocial}}
+</template> 
+<!-- ************************************************************************************************************** -->
+<!--                       PLATILLA PARA SUBIR LA CARTA DE TERMINACION DEL SERVICIO SOCIAL                          -->
+<!-- ************************************************************************************************************** -->
+<template name="uploadCartaTerminacionServicioSocial">
+    <div class="modal fade" id="uploadCartaTerminacionServicioSocial">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="text-primary">Sube tu Carta de terminación del servicio social</h3>
+                </div>
+                <div class="modal-body">
+                    <div class="fileupload fileupload-new" data-provides="fileupload" style="text-align:center">
+                        <br><span class="fileupload-exists"><h6 class="text-primary">Subela en formato .pdf</h6></span><br>
+                        <span class="btn btn-file" style="width: 100%">
+                            <input id="b" name="fileUploadName" class="file-upload-input" method="fileUploadMethod" type="file" accept=".pdf" style="width: 100%"/>
+                        </span>
+                        <br><br>
+                        <button id="btnCerrar" type="button" class="cerrar btn btn-primary" data-toggle="modal" data-target="#avisos" data-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+<!-- ************************************************************************************************************** -->
+<!--                                PLANTILLA PARA LA CARTA DE PRESENTACION                                         -->
+<!-- ************************************************************************************************************** -->
+<template name="cartaPresentacionResidenciasAlumno">
+    <div class="toolBox well well-sm text-center">
+        <img src="/residencias/residencias.jpg" height="150px">
+    </div>
+    {{> toolBoxResidenciasAlumno}}
+    <div class="container text-center bg-light">
+        <br>
+        <h5 class="text-primary">Carta de presentación</h5>
+        <br>
+        <h6 class="text-success">La carta de presentación es elaborada y puesta a tu disposición por el jefe de departamento de vinculación.</h6> 
+        <div class="container text-left text-success bg-light">
+            <ol>
+                <li>Una vez disponible, descárgala e imprímela dos veces</li>
+                <li>Entrega una en la empresa y que te firmen de recibido la otra</li>
+                <li>Digitaliza la carta de presentación firmada</li>
+                <li>Súbela al SISAE</li>
+            </ol>
+        </div>
+    </div>
+    <br>
+    <div class="container text-center">
+        {{#if tieneDictamenProyecto}}
+            {{#if dictamenAceptado}}
+                <dt class="text-primary">Tu Anteproyecto ha sido</dt> 
+                <dt class="text-success">Aprobado</dt>
+            {{else}}
+                <dt class="text-danger">Tu Anteproyecto ha sido rechazado</dt><br>
+                <dt class="text-primary">Observaciones:</dt><br>
+                <dt class="text-danger">{{observaciones}}</dt>
+            {{/if}}
+        {{else}}
+            <dt class="text-warning">Tu Anteproyecto aun no ha sido evaluado</dt>
+        {{/if}}
+        <br>
+        {{#if tieneAsesorAsignado}}
+            <dt class="text-primary">Tu asesor interno es el profesor: </dt>
+            <dt class="text-success">{{residencia.asesor.nombre}}</dt>
+        {{else}}
+            <dt class="text-warning">Aun no tienes asesor asignado</dt>
+        {{/if}}
+        <br>
+        {{#if tieneCartaPresentacion}}
+            <dt class="text-success">Descarga
+                <a href="{{ip}}{{residencia.expedienteInicio.pathCartaPresentacion}}" target="_blank"> (aquí) </a>
+                tu carta de presentacion y subela con firma de recibido 
+                <a href="" target="_blank"  data-toggle="modal" data-target="#uploadCartaPresentacionFirmada" > (aquí) </a>
+            </dt>
+        {{else}}
+            <dt class="text-warning">El jefe de Depto. correspondiente aun no ha elaborado tu carta de presentación</dt>
+            <br>
+            {{#if tieneDictamenProyecto}}
+                {{#if dictamenAceptado}}
+                    {{#if tieneCartaPresentacionFirmada}}
+                        <dt class="text-primary">Ya subiste tu carta de presentación con firma de recibido</dt>
+                        <a href="{{ip}}{{residencia.expedienteInicio.pathCartaPresentacionFirmada}}" target="_blank"> (Descargala aquí) </a>
+                    {{else}}
+                        <dt class="text-primary">Si tu elaboraste tu carta de presentación y ya la tienes con firma de recibido subela </dt>
+                        <a href="" target="_blank"  data-toggle="modal" data-target="#uploadCartaPresentacionFirmada" > (aquí) </a>
+                    {{/if}}
+                {{/if}}
+            {{/if}}
+        {{/if}}
+        <br>
+    </div>
+    {{> avisos}}
+    {{> uploadCartaPresentacionFirmada}}
+</template>
+<!-- ************************************************************************************************************** -->
+<!--                            PLATILLA PARA SUBIR LA CARTA DE PRESENTACION FIRMADA                                -->
+<!-- ************************************************************************************************************** -->
+<template name="uploadCartaPresentacionFirmada">
+    <div class="modal fade" id="uploadCartaPresentacionFirmada">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="text-primary">Sube tu Carta de Presentación (Firmada)</h3>
+                </div>
+                <div class="modal-body">
+                    <div class="fileupload fileupload-new" data-provides="fileupload" style="text-align:center">
+                        <br><span class="fileupload-exists"><h6 class="text-primary">Subela en formato .pdf</h6></span><br>
+                        <span class="btn btn-file" style="width: 100%">
+                            <input id="b" name="fileUploadName" class="file-upload-input" method="fileUploadMethod" type="file" accept=".pdf" style="width: 100%"/>
+                        </span>
+                        <br><br>
+                        <button id="btnCerrar" type="button" class="cerrar btn btn-primary" data-toggle="modal" data-target="#avisos" data-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+<!-- ************************************************************************************************************** -->
+<!--                                 PLATILLA PARA LA CARTA DE ACEPTACION                                           -->
+<!-- ************************************************************************************************************** -->
+<template name="cartaAceptacionResidenciasAlumno">
+    <div class="toolBox well well-sm text-center">
+        <img src="/residencias/residencias.jpg" height="150px">
+    </div>
+    {{> toolBoxResidenciasAlumno}}
+    <div class="container text-center bg-light">
+        <div class="row">
+            <div class="col-md-12 text-primary">
+                <br>
+                <h5 class="text-primary">Carta de aceptacion</h5>
+                <br>
+            </div>
+        </div>
+        {{#if tengoResidencia}}
+            {{#if seAceptoSolictud}}
+                <div class="row">
+                    <div class="col-md-12 text-danger">
+                        <br>
+                        La carta de aceptación deberá ser impresa en una hoja membretada de la empresa
+                        <br><br>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <br>
+                        Genera tu carta de aceptación <a href="" class="generarCartaAceptacion">(aquí)</a>
+                        <br>
+                    </div>
+                    <div class="col-md-6">
+                        <br>
+                        Sube tu carta de aceptación firmada <a href="" class="subirCartaAceptacion" data-toggle="modal" data-target="#uploadCartaAceptacionResidencia">(aquí)</a>
+                        <br>
+                    </div>
+                    <br>
+                </div>
+                {{#if subiCartaAceptacion}}
+                    <div class="row">
+                        <div class="col-md-12 text-success">
+                            <br>
+                                Ya subiste la Carta de Aceptación firmada y fue aceptada, descargala <a href="{{ip}}{{miResidencia.expedienteInicio.pathCartaAceptacion}}">(aquí)</a>
+                            <br><br>
+                        </div>
+                    </div>
+                {{/if}}
+            {{else}}
+                <div class="row">
+                    <div class="col-md-12 text-danger">
+                        <br>
+                            Tu solicitud aun no ha sido aceptada
+                        <br><br>
+                    </div>
+                </div>
+            {{/if}}
+        {{else}}
+            <div class="row">
+                <div class="col-md-12 text-danger">
+                    <br>
+                    Inicia tus Residencias Profesionales con la solicitud
+                    <br><br>
+                </div>
+            </div>
+        {{/if}}
+    </div>
+    {{> avisos}}
+    {{> uploadCartaAceptacionResidencia}}
+</template>
+<!-- ************************************************************************************************************** -->
+<!--                          PLANTILLA PARA LA VISTA PREVIA DE LA CARTA DE ACEPTACION                              -->
+<!-- ************************************************************************************************************** -->
+<template name="vistaPreviaCartaAceptacion">
+    <div id="vistaPreviaCartaAceptacion" style="background-color: white">
+        <br><br>
+        <div class="container" style="text-align: center">
+            <br><br><br><br>
+            <div class="row text-right">
+                <div class="col-md-12">
+                    <t class="text-uppercase">{{miResidencia.solicitud.lugar}}</t><br>
+                    {{fecha}}<br><br>
+                    Asunto: <b>CARTA DE ACEPTACION</b><br><br><br><br>
+                </div>
+            </div> 
+            <br>
+            <div class="row text-left">
+                <div class="col-md-12">
+                    <b>M.C. María Isabel Becerra Rodríguez</b><br>
+                    <b>Directora del Instituto Tecnológico de Tlajomulco</b><br>
+                    P R E S E N T E<br><br><br><br>
+                    <p class="text-justify">
+                        Por este conducto hago de su conocimiento que la (el) C. {{miResidencia.residente.nombre}}, con número de control {{miResidencia.residente.nc}}, alumna(o) de la carrera de 
+                        {{miResidencia.residente.carrera}}, ha sido aceptada(o) para realizar su Residencia Profesional en nuestras instalaciones, durante el periodo {{miResidencia.periodo}}, 
+                        desarrollando el proyecto <b class="text-uppercase">"{{miResidencia.solicitud.nombreProyecto}}"</b>, cubriendo un total de 500 horas en un periodo de 4 a 6 meses.
+                    </p>
+                    <br>
+                    <p>
+                        Sin otro particular me despido.
+                    </p>
+                    <br><br><br>
+                </div>
+            </div>
+            <br>
+            <br>
+            <div class="row text-center">
+                <div class="col-md-12">
+                    A t e n t a m e n t e<br><br><br>
+                    __________________________________________________________<br>
+                    <t class="text-uppercase">{{miResidencia.empresa.nombreDeQuienFirma}}</t><br>
+                    <t class="text-uppercase">{{miResidencia.empresa.puestoDeQuienFirma}}</t><br>
+                </div>
+            </div> 
+        </div> 
+    </div>
+    <button id="btnImprimir" type="button" class="imprimirCartaAceptacionResidencias btn btn-success btn-block" style="position: fixed; left:0px; top:0px; animation: blink 1s linear infinite;"><i class="fa fa-file-pdf-o"></i>  Imprimir oficio de asesor interno de residencia profesional</button>
+</template>
+<!-- ************************************************************************************************************** -->
+<!--                                  PLATILLA PARA SUBIR LA CARTA DE ACEPTACION                                    -->
+<!-- ************************************************************************************************************** -->
+<template name="uploadCartaAceptacionResidencia">
+    <div class="modal fade" id="uploadCartaAceptacionResidencia">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="text-primary">Sube tu Carta de Aceptacion de residencia (Firmada)</h3>
+                </div>
+                <div class="modal-body">
+                    <div class="fileupload fileupload-new" data-provides="fileupload" style="text-align:center">
+                        <br><span class="fileupload-exists"><h6 class="text-primary">Subela en formato .pdf</h6></span><br>
+                        <span class="btn btn-file" style="width: 100%">
+                            <input id="b" name="fileUploadName" class="file-upload-input" method="fileUploadMethod" type="file" accept=".pdf" style="width: 100%"/>
+                        </span>
+                        <br><br>
+                        <button id="btnCerrar" type="button" class="cerrar btn btn-primary" data-toggle="modal" data-target="#avisos" data-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+<!-- ************************************************************************************************************** -->
+<!--                           PLATILLA PARA EL SEGUIMIENTO DE LA RESIDENCIA DEL ALUMNO                             -->
+<!-- ************************************************************************************************************** -->
+<template name="seguimientoResidenciasAlumno">
+    <div class="toolBox well well-sm text-center">
+        <img src="/residencias/residencias.jpg" height="150px">
+    </div>
+    {{> toolBoxResidenciasAlumno}}
+    <div class="container text-center bg-light">
+        <br>
+        <h5 class="text-primary">Seguimiento</h5>
+        <br>
+    </div>
+    <br>
+    <div class="container text-center">
+        {{#if tieneDictamenAceptado}}
+            <h5 class="text-primary">Plan de actividades (Cronograma)</h5>
+            <h6 class="text-primary">Una vez tenga el visto bueno del asesor no podras realizar cambios</h6>
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped">
+                    <thead class="small">
+                        <tr>
+                            <th rowspan="2" style="width:35%">Actividad</th>
+                            <th colspan="18">Semanas</th>
+                        </tr>
+                        <tr>
+                            <th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th>
+                            <th>10</th><th>11</th><th>12</th><th>13</th><th>14</th><th>15</th><th>16</th><th>17</th><th>18</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#each actividades}}
+                        <tr class="text-center">
+                            <td>
+                                <input type="text" class="form-control" id="actividad{{nAct}}" value={{actividad}}>
+                            </td>
+                            <td><input type="checkbox" class="" value="" id="actividad{{nAct}}semana1" {{semana1}}></td>
+                            <td><input type="checkbox" class="" value="" id="actividad{{nAct}}semana2" {{semana2}}></td>
+                            <td><input type="checkbox" class="" value="" id="actividad{{nAct}}semana3" {{semana3}}></td>
+                            <td><input type="checkbox" class="" value="" id="actividad{{nAct}}semana4" {{semana4}}></td>
+                            <td><input type="checkbox" class="" value="" id="actividad{{nAct}}semana5" {{semana5}}></td>
+                            <td><input type="checkbox" class="" value="" id="actividad{{nAct}}semana6" {{semana6}}></td>
+                            <td><input type="checkbox" class="" value="" id="actividad{{nAct}}semana7" {{semana7}}></td>
+                            <td><input type="checkbox" class="" value="" id="actividad{{nAct}}semana8" {{semana8}}></td>
+                            <td><input type="checkbox" class="" value="" id="actividad{{nAct}}semana9" {{semana9}}></td>
+                            <td><input type="checkbox" class="" value="" id="actividad{{nAct}}semana10" {{semana10}}></td>
+                            <td><input type="checkbox" class="" value="" id="actividad{{nAct}}semana11" {{semana11}}></td>
+                            <td><input type="checkbox" class="" value="" id="actividad{{nAct}}semana12" {{semana12}}></td>
+                            <td><input type="checkbox" class="" value="" id="actividad{{nAct}}semana13" {{semana13}}></td>
+                            <td><input type="checkbox" class="" value="" id="actividad{{nAct}}semana14" {{semana14}}></td>
+                            <td><input type="checkbox" class="" value="" id="actividad{{nAct}}semana15" {{semana15}}></td>
+                            <td><input type="checkbox" class="" value="" id="actividad{{nAct}}semana16" {{semana16}}></td>
+                            <td><input type="checkbox" class="" value="" id="actividad{{nAct}}semana17" {{semana17}}></td>
+                            <td><input type="checkbox" class="" value="" id="actividad{{nAct}}semana18" {{semana18}}></td>
+                        </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+                {{#if planeacionAceptada}}
+                    <t class="text-success">Tu plan de actividades ha sido aceptado por tu asesor</t>
+                {{else}}
+                    <button type="button" class="agregarActividad btn btn-success">Agregar actividad (máximo 10)</button>
+                    <button type="button" class="eliminarActividad btn btn-success">Eliminar la ultima actividad</button>
+                    <button type="button" class="registrar btn btn-success"  data-toggle="modal" data-target="#avisos">Registrar las actividades</button>
+                {{/if}}
+            </div>
+            <br><br><br>
+            <h5 class="text-primary">Realización de actividades</h5>
+            <h6 class="text-primary">Podras registar la semana de realización una vez tengas el visto bueno del asesor</h6>
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped">
+                    <thead class="small">
+                        <tr>
+                            <th rowspan="2" style="width:35%">Actividad</th>
+                            <th colspan="18">Semanas</th>
+                        </tr>
+                        <tr>
+                            <th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th>
+                            <th>10</th><th>11</th><th>12</th><th>13</th><th>14</th><th>15</th><th>16</th><th>17</th><th>18</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#each actividadesRealizadas}}
+                        <tr class="text-center">
+                            <td>
+                                <input type="text" class="form-control" id="ractividad{{nAct}}" value={{actividad}}>
+                            </td>
+                            <td><input type="checkbox" class="" value="" id="ractividad{{nAct}}semana1" {{rsemana1}}></td>
+                            <td><input type="checkbox" class="" value="" id="ractividad{{nAct}}semana2" {{rsemana2}}></td>
+                            <td><input type="checkbox" class="" value="" id="ractividad{{nAct}}semana3" {{rsemana3}}></td>
+                            <td><input type="checkbox" class="" value="" id="ractividad{{nAct}}semana4" {{rsemana4}}></td>
+                            <td><input type="checkbox" class="" value="" id="ractividad{{nAct}}semana5" {{rsemana5}}></td>
+                            <td><input type="checkbox" class="" value="" id="ractividad{{nAct}}semana6" {{rsemana6}}></td>
+                            <td><input type="checkbox" class="" value="" id="ractividad{{nAct}}semana7" {{rsemana7}}></td>
+                            <td><input type="checkbox" class="" value="" id="ractividad{{nAct}}semana8" {{rsemana8}}></td>
+                            <td><input type="checkbox" class="" value="" id="ractividad{{nAct}}semana9" {{rsemana9}}></td>
+                            <td><input type="checkbox" class="" value="" id="ractividad{{nAct}}semana10" {{rsemana10}}></td>
+                            <td><input type="checkbox" class="" value="" id="ractividad{{nAct}}semana11" {{rsemana11}}></td>
+                            <td><input type="checkbox" class="" value="" id="ractividad{{nAct}}semana12" {{rsemana12}}></td>
+                            <td><input type="checkbox" class="" value="" id="ractividad{{nAct}}semana13" {{rsemana13}}></td>
+                            <td><input type="checkbox" class="" value="" id="ractividad{{nAct}}semana14" {{rsemana14}}></td>
+                            <td><input type="checkbox" class="" value="" id="ractividad{{nAct}}semana15" {{rsemana15}}></td>
+                            <td><input type="checkbox" class="" value="" id="ractividad{{nAct}}semana16" {{rsemana16}}></td>
+                            <td><input type="checkbox" class="" value="" id="ractividad{{nAct}}semana17" {{rsemana17}}></td>
+                            <td><input type="checkbox" class="" value="" id="ractividad{{nAct}}semana18" {{rsemana18}}></td>
+                        </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+                {{#if planeacionAceptada}}
+                    {{#unless realizacionAceptada}} 
+                        <button type="button" class="registrarRealizacionActividades btn btn-success" data-toggle="modal" data-target="#avisos">Registrar la realización las actividades</button>
+                    {{else}}
+                        <t class="text-success">La realización de actividades ha sido aceptado por tu asesor</t><br><br>
+                        <button type="submit" class="imprimirFormatoSeguimiento btn btn-primary" data-dismiss="modal">Imprimir el formato de seguimiento</button>
+                    {{/unless}}
+                {{/if}}
+            </div>
+        {{else}}
+            <dt class="text-danger">Aun no se ha aceptado tu proyecto de residencia</dt>
+        {{/if}}
+        <br>
+    </div>
+    {{> avisos}}
+</template>
+<!-- ************************************************************************************************************** -->
+<!--                      PARA SELECCIONAR EL JEFE DE LA DIVISION DE STUDIOS PROFEISONALES                          -->
+<!-- ************************************************************************************************************** -->
+<template name="SeleccionarJefeDivEstudiosPrfesionales">
+    <div class="modal face" id="SeleccionarJefeDivEstudiosPrfesionales">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="text-primary">Jefe de la División de Estudios Profesionales<h6>{{periodo}}</h6><h6>{{alumno}}</h6></h3>
+                </div>
+                <div class="modal-body">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-3">
+                                Docente
+                            </div>
+                            <div class="col-md-7">
+                                {{> buscarDocente}}
+                            </div>
+                        </div>
+                        <hr>
+                    </div>
+                </div>
+                <div class="modal-footer text-right">
+                    <button type="submit" class="escogerJefeDivEstProf btn btn-success" data-dismiss="modal">Aceptar</button>
+                    <button type="button" class="cancelar btn btn-danger" data-dismiss="modal">Cancelar</button>        
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+<!-- ************************************************************************************************************** -->
+<!--                                PARA SELECCIONAR EL COORDINADOR DE CARRERA                                      -->
+<!-- ************************************************************************************************************** -->
+<template name="SeleccionarCoordinadorCarrera">
+    <div class="modal face" id="SeleccionarCoordinadorCarrera">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="text-primary">Coordinador de Carrera<h6>{{periodo}}</h6><h6>{{alumno}}</h6></h3>
+                </div>
+                <div class="modal-body">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-3">
+                                Docente
+                            </div>
+                            <div class="col-md-7">
+                                <input  class="form-control typeahead text-center" 
+                                name="docente" id="findCoordCarrera" type="text" 
+                                placeholder="Docente" autocomplete="off" 
+                                spellcheck="off" data-source="docente"  
+                                style="width: 500px" 
+                                onfocus="this.value='';this.classList.remove('bg-danger');"/>
+                            </div>
+                        </div>
+                        <hr>
+                    </div>
+                </div>
+                <div class="modal-footer text-right">
+                    <button type="submit" class="escogerCoordCarrera btn btn-success" data-dismiss="modal">Aceptar</button>
+                    <button type="button" class="cancelar btn btn-danger" data-dismiss="modal">Cancelar</button>        
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+<!-- ************************************************************************************************************** -->
+<!--                      PLANTILLA PARA VISTA PREVIA DEL FORMATO DE SEGUIMIENTO DEL PROYECTO                       -->
+<!-- ************************************************************************************************************** -->
+<template name="vistaPreviaFormatoSeguimientoAlumno">
+    <div id="prueba" style="background-color: white">
+        <br>
+        
+        <div class="container" style="text-align: center">
+            <img src="/residencias/encabezadoSeguimientoProyecto.png" width="100%">         
+            <h4>INSTITUTO TECNOLOGICO DE TLAJOMULCO JALISCO</h4>
+            <h5>SUBDIRECCION ACADEMICA</h5>
+            <h5>DEPARTAMENTO DE </h5>
+            <h6>SEGUIMIENTO DE PROYECTO DE RESIDENCIAS PROFESIONALES</h6>
+            <div class="row text-left">
+                <div class="col-md-12">
+                    <table class="table table-bordered table-sm small">   
+                        <tr>
+                            <td style="width: 50%;"><b>ESTUDIANTE:</b> {{miResidencia.residente.nombre}}</td>
+                            <td style="width: 50%;"><b>No. DE CONTROL:</b> {{miResidencia.residente.nc}}</td>
+                        </tr>
+                        <tr>
+                            <td style="width: 50%;"><b>NOMBRE DEL PROYECTO:</b> {{miResidencia.solicitud.nombreProyecto}}</td>
+                            <td style="width: 50%;"><b>EMPRESA:</b> {{miResidencia.empresa.nombre}}</td>
+                        </tr>
+                        <tr>
+                            <td style="width: 50%;"><b>ASESOR EXTERNO:</b> {{miResidencia.empresa.nombreAsesor}}</td>
+                            <td style="width: 50%;"><b>ASESOR INTERNO:</b> {{miResidencia.asesor.nombre}}</td>
+                        </tr>
+                        <tr>
+                            <td style="width: 50%;"><b>PERIODO DE REALIZACION:</b> {{miResidencia.periodo}}</td>
+                            <td style="width: 50%;"></td>
+                        </tr>
+                    </table> 
+                    <table  class="table table-bordered table-sm small">
+                        <th class="text-center"><div style="width : 450px">ACTIVIDAD</div></th>
+                        <th>SEM</th>
+                        <th>1</th>
+                        <th>2</th>
+                        <th>3</th>
+                        <th>4</th>
+                        <th>5</th>
+                        <th>6</th>
+                        <th>7</th>
+                        <th>8</th>
+                        <th>9</th>
+                        <th>10</th>
+                        <th>11</th>
+                        <th>12</th>
+                        <th>13</th>
+                        <th>14</th>
+                        <th>15</th>
+                        <th>16</th>
+                        <th>17</th>
+                        <th>18</th>
+                        {{#each actividades}}
+                            <tr>
+                                <td rowspan="2">{{actividad}}</td>
+                                <td>P</td>
+                                <td>
+                                    {{#if sp1}}
+                                        <i class="fa fa-check"></i>
+                                    {{/if}}
+                                </td>
+                                <td>
+                                    {{#if sp2}}
+                                        <i class="fa fa-check"></i>
+                                    {{/if}}
+                                </td>
+                                <td>
+                                    {{#if sp3}}
+                                        <i class="fa fa-check"></i>
+                                    {{/if}}
+                                </td>
+                                <td>
+                                    {{#if sp4}}
+                                        <i class="fa fa-check"></i>
+                                    {{/if}}
+                                </td>
+                                <td>
+                                    {{#if sp5}}
+                                        <i class="fa fa-check"></i>
+                                    {{/if}}
+                                </td>
+                                <td>
+                                    {{#if sp6}}
+                                        <i class="fa fa-check"></i>
+                                    {{/if}}
+                                </td>
+                                <td>
+                                    {{#if sp7}}
+                                        <i class="fa fa-check"></i>
+                                    {{/if}}
+                                </td>
+                                <td>
+                                    {{#if sp8}}
+                                        <i class="fa fa-check"></i>
+                                    {{/if}}
+                                </td>
+                                <td>
+                                    {{#if sp9}}
+                                        <i class="fa fa-check"></i>
+                                    {{/if}}
+                                </td>
+                                <td>
+                                    {{#if sp10}}
+                                        <i class="fa fa-check"></i>
+                                    {{/if}}
+                                </td>
+                                <td>
+                                    {{#if sp11}}
+                                        <i class="fa fa-check"></i>
+                                    {{/if}}
+                                </td>
+                                <td>
+                                    {{#if sp12}}
+                                        <i class="fa fa-check"></i>
+                                    {{/if}}
+                                </td>
+                                <td>
+                                    {{#if sp13}}
+                                        <i class="fa fa-check"></i>
+                                    {{/if}}
+                                </td>
+                                <td>
+                                    {{#if sp14}}
+                                        <i class="fa fa-check"></i>
+                                    {{/if}}
+                                </td>
+                                <td>
+                                    {{#if sp15}}
+                                        <i class="fa fa-check"></i>
+                                    {{/if}}
+                                </td>
+                                <td>
+                                    {{#if sp16}}
+                                        <i class="fa fa-check"></i>
+                                    {{/if}}
+                                </td>
+                                <td>
+                                    {{#if sp17}}
+                                        <i class="fa fa-check"></i>
+                                    {{/if}}
+                                </td>
+                                <td>
+                                    {{#if sp18}}
+                                        <i class="fa fa-check"></i>
+                                    {{/if}}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>R</td>
+                                <td>
+                                    {{#if sr1}}
+                                        <i class="fa fa-check"></i>
+                                    {{/if}}
+                                </td>
+                                <td>
+                                    {{#if sr2}}
+                                        <i class="fa fa-check"></i>
+                                    {{/if}}
+                                </td>
+                                <td>
+                                    {{#if sr3}}
+                                        <i class="fa fa-check"></i>
+                                    {{/if}}
+                                </td>
+                                <td>
+                                    {{#if sr4}}
+                                        <i class="fa fa-check"></i>
+                                    {{/if}}
+                                </td>
+                                <td>
+                                    {{#if sr5}}
+                                        <i class="fa fa-check"></i>
+                                    {{/if}}
+                                </td>
+                                <td>
+                                    {{#if sr6}}
+                                        <i class="fa fa-check"></i>
+                                    {{/if}}
+                                </td>
+                                <td>
+                                    {{#if sr7}}
+                                        <i class="fa fa-check"></i>
+                                    {{/if}}
+                                </td>
+                                <td>
+                                    {{#if sr8}}
+                                        <i class="fa fa-check"></i>
+                                    {{/if}}
+                                </td>
+                                <td>
+                                    {{#if sr9}}
+                                        <i class="fa fa-check"></i>
+                                    {{/if}}
+                                </td>
+                                <td>
+                                    {{#if sr10}}
+                                        <i class="fa fa-check"></i>
+                                    {{/if}}
+                                </td>
+                                <td>
+                                    {{#if sr11}}
+                                        <i class="fa fa-check"></i>
+                                    {{/if}}
+                                </td>
+                                <td>
+                                    {{#if sr12}}
+                                        <i class="fa fa-check"></i>
+                                    {{/if}}
+                                </td>
+                                <td>
+                                    {{#if sr13}}
+                                        <i class="fa fa-check"></i>
+                                    {{/if}}
+                                </td>
+                                <td>
+                                    {{#if sr14}}
+                                        <i class="fa fa-check"></i>
+                                    {{/if}}
+                                </td>
+                                <td>
+                                    {{#if sr15}}
+                                        <i class="fa fa-check"></i>
+                                    {{/if}}
+                                </td>
+                                <td>
+                                    {{#if sr16}}
+                                        <i class="fa fa-check"></i>
+                                    {{/if}}
+                                </td>
+                                <td>
+                                    {{#if sr17}}
+                                        <i class="fa fa-check"></i>
+                                    {{/if}}
+                                </td>
+                                <td>
+                                    {{#if sr18}}
+                                        <i class="fa fa-check"></i>
+                                    {{/if}}
+                                </td>
+                            </tr>
+                        {{/each}}
+                    </table>
+                    <table class="table table-bordered table-sm small">   
+                        <tr>
+                            <td style="width: 40%;" colspan="2"><b>OBSERVACIONES:</b></td>
+                            <td style="width: 20%;"></td>
+                            <td style="width: 20%;"></td>
+                            <td style="width: 20%;"></td>
+                        </tr>
+                        <tr>
+                            <td style="width: 20%;" rowspan="3"><b>ENTREGA DE REPORTES Y/O EVIDENCIA:</b></td>
+                            <td style="width: 20%;">Asesor interno:<br> {{asesorInterno}}</td>
+                            <td style="width: 20%;">firma:<br><br>Fecha: {{configuracion.fecha1}}</td>
+                            <td style="width: 20%;">firma:<br><br>Fecha: {{configuracion.fecha2}}</td>
+                            <td style="width: 20%;">firma:<br><br>Fecha: {{configuracion.fecha3}}</td>
+                        </tr>
+                        <tr>
+                            <td style="width: 20%;">Estudiante:<br>{{estudiante}}</td>
+                            <td style="width: 20%;">firma:<br><br>Fecha: {{configuracion.fecha1}}</td>
+                            <td style="width: 20%;">firma:<br><br>Fecha: {{configuracion.fecha2}}</td>
+                            <td style="width: 20%;">firma:<br><br>Fecha: {{configuracion.fecha3}}</td>
+                        </tr>
+                        <tr>
+                            <td style="width: 20%;">Jefe Depto. Académico:</td>
+                            <td style="width: 20%;">firma:<br><br>Fecha: {{configuracion.fecha1}}</td>
+                            <td style="width: 20%;">firma:<br><br>Fecha: {{configuracion.fecha2}}</td>
+                            <td style="width: 20%;">firma:<br><br>Fecha: {{configuracion.fecha3}}</td>
+                        </tr>
+                    </table> 
+                </div>
+            </div>
+            <br>
+            <br>
+            
+        </div> 
+    </div>
+    <button id="btnImprimir" type="button" class="imprimirFormatoSeguimiento btn btn-success btn-block" style="position: fixed; left:0px; top:0px; animation: blink 1s linear infinite;"><i class="fa fa-file-pdf-o"></i>  Imprimir solicitud de residencia profesional</button>
+</template>
+<!-- ************************************************************************************************************** -->
+<!--                         PLANTILLA PARA PRIMERA EVALUACION DE SEGUIMIENTO DEL PROYECTO                          -->
+<!-- ************************************************************************************************************** -->
+<template name="evaluacionSeguimientoUnoAlumno">
+    <div class="toolBox well well-sm text-center">
+        <img src="/residencias/residencias.jpg" height="150px">
+    </div>
+    {{> toolBoxResidenciasAlumno}}
+    {{#if evaluado}}
+        <div class="container text-center bg-light">
+            <br><br>
+            <h5 class="text-primary">PRIMERA EVALUACIÓN DE SEGUIMIENTO DE RESIDENCIA PROFESIONAL</h5>
+            <br><br>
+            <h5 class="text-success">YA TIENES LA PRIMERA EVALUACION DE TU ASESOR INTERNO</h5>
+            <br><br>
+            <h5 class="text-primary">1. Genera tu formato de evaluación <t class="imprimirEvaluacionSeguimiento text-success">(aquí)</t></h5>
+            <h5 class="text-primary">2. Tu asesor externo deberá evaluarte llenando la primer sección del formato.</h5>
+            <h5 class="text-primary">3. Recaba las firmas y sellos correspondientes.</h5>
+            {{#if subiPrimeraEvaluacion}}
+                <h5 class="text-primary">4. Ya subiste tu primera evaluación firmada y sellada, descárgala 
+                    <a class="text-success" href="{{ip}}{{expedienteEvaluacion.pathPrimeraEvaluacion}}" target="_blank">(aquí)</a>
+                </h5>
+            {{else}}
+                <h5 class="text-primary">4. Sube tu formato debidamente llenado <t class="text-success"  data-toggle="modal" data-target="#uploadPrimeraEvaluacionResidencia">(aquí)</t></h5>
+            {{/if}}
+        </div>
+    {{else}}
+        <div class="container text-center bg-light">
+            <br><br>
+            <h5 class="text-primary">EVALUACIÓN Y SEGUIMIENTO DE RESIDENCIA PROFESIONAL</h5>
+            <br><br><br><br>
+            <h5 class="text-danger">AUN NO HA SIDO EVALUADO POR SU ASESOR INTERNO</h5>
+            <br><br>
+        </div>
+    {{/if}}
+    {{> uploadPrimeraEvaluacionResidencia}}
+    {{> avisos}}
+</template>
+<!-- ************************************************************************************************************** -->
+<!--                   VISTA PREVIA DEL FORMATO DE PRIMERA EVALUACION DE SEGUIMIENTO DEL PROYECTO                   -->
+<!-- ************************************************************************************************************** -->
+<template name="vistaPreviaFormatoEvaluacionSeguimientoUnoAlumno">
+    <div  style="background-color: white" class="container text-center">
+        <img src="/residencias/encabezadoEvaluacionSeguimiento.png" width="100%">    
+            <br>
+            <h4>EVALUACIÓN Y SEGUIMIENTO DE RESIDENCIA PROFESIONAL</h4>
+    </div>
+    <div id="prueba" style="background-color: white">
+        <div class="container text-left">
+            <b>Nombre del residente: </b>{{miResidencia.residente.nombre}}
+            <b>Número de control: </b>{{miResidencia.residente.nc}}<br>
+            <b>Nombre del proyecto: </b><t class="text-uppercase">{{miResidencia.solicitud.nombreProyecto}}</t><br>
+            <b>Programa educativo: </b> {{miResidencia.solicitud.carrera}}<br>
+            <b>Periodo de realización de la Residencia Profesional: </b>{{miResidencia.periodo}}<br>
+            <b>Calificación Parcial (Promedio de ambas evaluaciones ponderado al 10% de la cal. final) </b>_________
+            <br>
+            <div class="row text-left">
+                <div class="col-md-12">
+                    <table class="table table-bordered table-sm small">   
+                        <tr>
+                            <th colspan="3" class="text-center"><h6><b>Evaluación por el Asesor Externo</b></h6>En qué medida el residente cumple con lo siguiente:</th>
+                        </tr>
+                        <tr>
+                            <th style="width: 75%;" class="text-center">Criterios a evaluar</th>
+                            <th style="width: 10%;" class="text-center">Valor</th>
+                            <th style="width: 15%;" class="text-center">Evaluación</th>
+                        </tr>
+                        <tr>
+                            <td>Asiste puntualmente en el horario establecido</td>
+                            <td class="text-center">0-5</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Trabaja en equipo y se comunica de forma efectiva (oral y escrita)</td>
+                            <td class="text-center">0-10</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Tiene iniciativa para colaborar</td>
+                            <td class="text-center">0-5</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Propone mejoras al proyecto</td>
+                            <td class="text-center">0-10</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Cumple con los objetivos correspondientes al proyecto</td>
+                            <td class="text-center">0-15</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Es ordenado y cumple satisfactoriamente con las actividades encomendadas en los tiempos establecidos del cronograma</td>
+                            <td class="text-center">0-15</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Demuestra liderazgo en su actuar</td>
+                            <td class="text-center">0-10</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Demuestra conocimiento en el área de su especialidad</td>
+                            <td class="text-center">0-20</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Demuestra un comportamiento ético (ed disciplinado, acata órdenes, respeta a sus compañeros de trabajo, entre otros)</td>
+                            <td class="text-center">0-10</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td class="text-right"><b>Calificación total</b></td>
+                            <td class="text-center">0-100</td>
+                            <td></td>
+                        </tr>
+                    </table> 
+                    Observaciones:
+                    <hr><hr>
+                    <table class="table table-bordered table-sm small text-center">   
+                        <tr>
+                            <td style="width: 33%;" class="text-uppercase">
+                                <br><br>
+                                {{miResidencia.empresa.nombreAsesor}}<br>
+                                Asesor externo
+                            </td>
+                            <td style="width: 33%;">
+                                <br><br><br>
+                                Sello de la empresa, organismo o dependencia
+                            </td>
+                            <td style="width: 33%;">
+                                <br>
+                                {{configuracion.fecha1}}<br><br>
+                                Fecha de evaluación
+                            </td>
+                        </tr>
+                    </table> 
+                    <table class="table table-bordered table-sm small">   
+                        <tr>
+                            <th colspan="3" class="text-center"><h6><b>Evaluación por el Asesor Interno</b></h6>En qué medida el residente cumple con lo siguiente:</th>
+                        </tr>
+                        <tr>
+                            <th style="width: 75%;" class="text-center">Criterios a evaluar</th>
+                            <th style="width: 10%;" class="text-center">Valor</th>
+                            <th style="width: 15%;" class="text-center">Evaluación</th>
+                        </tr>
+                        <tr>
+                            <td>Asistió puntualmente a las reuniones de asesoria</td>
+                            <td class="text-center">0-10</td>
+                            <td class="text-center">{{valor1}}</td>
+                        </tr>
+                        <tr>
+                            <td>Demuestra conocimiento en el área de su especialidad</td>
+                            <td class="text-center">0-20</td>
+                            <td class="text-center">{{valor2}}</td>
+                        </tr>
+                        <tr>
+                            <td>Trabaja en equipo y se comunica de forma efectiva (oral y escrita)</td>
+                            <td class="text-center">0-15</td>
+                            <td class="text-center">{{valor3}}</td>
+                        </tr>
+                        <tr>
+                            <td>Es dedicado y proactivo en las actividades encomendadas</td>
+                            <td class="text-center">0-20</td>
+                            <td class="text-center">{{valor4}}</td>
+                        </tr>
+                        <tr>
+                            <td>Es ordenado y cumple satisfactoriamente con las actividades encomendadas en los tiempos establecidos del cronograma</td>
+                            <td class="text-center">0-20</td>
+                            <td class="text-center">{{valor5}}</td>
+                        </tr>
+                        <tr>
+                            <td>Propone mejoras al proyecto</td>
+                            <td class="text-center">0-15</td>
+                            <td class="text-center">{{valor6}}</td>
+                        </tr>
+                        <tr>
+                            <td class="text-right"><b>Calificación total</b></td>
+                            <td class="text-center">0-100</td>
+                            <td class="text-center">{{res}}</td>
+                        </tr>
+                    </table> 
+                    Observaciones:
+                    <hr><hr>
+                    <table class="table table-bordered table-sm small text-center">   
+                        <tr>
+                            <td style="width: 33%;">
+                                <br><br>
+                                {{miResidencia.asesor.nombre}}<br>
+                                Asesor interno
+                            </td>
+                            <td style="width: 33%;">
+                                <br><br><br>
+                                Sello de la institución
+                            </td>
+                            <td style="width: 33%;">
+                                <br>
+                                {{configuracion.fecha1}}<br><br>
+                                Fecha de evaluación
+                            </td>
+                        </tr>
+                    </table> 
+                </div>
+            </div>
+            <br>
+        </div> 
+    </div>
+    <button id="btnImprimir" type="button" class="imprimirFormatoSeguimiento btn btn-success btn-block" style="position: fixed; left:0px; top:0px; animation: blink 1s linear infinite;"><i class="fa fa-file-pdf-o"></i>  Imprimir solicitud de residencia profesional</button>
+</template>
+<!-- ************************************************************************************************************** -->
+<!--                                  PLATILLA PARA SUBIR LA LA PRIMERA EVALUACION                                  -->
+<!-- ************************************************************************************************************** -->
+<template name="uploadPrimeraEvaluacionResidencia">
+    <div class="modal fade" id="uploadPrimeraEvaluacionResidencia">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="text-primary">Sube tu primera evaluación de residencia (Firmada y sellada)</h3>
+                </div>
+                <div class="modal-body">
+                    <div class="fileupload fileupload-new" data-provides="fileupload" style="text-align:center">
+                        <br><span class="fileupload-exists"><h6 class="text-primary">Subela en formato .pdf</h6></span><br>
+                        <span class="btn btn-file" style="width: 100%">
+                            <input id="b" name="fileUploadName" class="file-upload-input" method="fileUploadMethod" type="file" accept=".pdf" style="width: 100%"/>
+                        </span>
+                        <br><br>
+                        <button id="btnCerrar" type="button" class="cerrar btn btn-primary" data-toggle="modal" data-target="#avisos" data-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+<!-- ************************************************************************************************************** -->
+<!--                         PLANTILLA PARA SEGUNDA EVALUACION DE SEGUIMIENTO DEL PROYECTO                          -->
+<!-- ************************************************************************************************************** -->
+<template name="evaluacionSeguimientoDosAlumno">
+    <div class="toolBox well well-sm text-center">
+        <img src="/residencias/residencias.jpg" height="150px">
+    </div>
+    {{> toolBoxResidenciasAlumno}}
+    {{#if evaluado}}
+        <div class="container text-center bg-light">
+            <br><br>
+            <h5 class="text-primary">SEGUNDA EVALUACIÓN DE SEGUIMIENTO DE RESIDENCIA PROFESIONAL</h5>
+            <br><br>
+            <h5 class="text-success">YA TIENES LA SEGUNDA EVALUACION DE TU ASESOR INTERNO</h5>
+            <br><br>
+            <h5 class="text-primary">1. Genera tu formato de evaluación <t class="imprimirEvaluacionSeguimiento text-success">(aquí)</t></h5>
+            <h5 class="text-primary">2. Tu asesor externo deberá evaluarte llenando la primer sección del formato.</h5>
+            <h5 class="text-primary">3. Recaba las firmas y sellos correspondientes.</h5>
+            {{#if subiSegundaEvaluacion}}
+                <h5 class="text-primary">4. Ya subiste tu segunda evaluación firmada y sellada, descárgala 
+                    <a class="text-success" href="{{ip}}{{expedienteEvaluacion.pathSegundaEvaluacion}}" target="_blank">(aquí)</a>
+                </h5>
+            {{else}}
+                <h5 class="text-primary">4. Sube tu formato debidamente llenado <t class="text-success" data-toggle="modal" data-target="#uploadSegundaEvaluacionResidencia">(aquí)</t></h5>
+            {{/if}}
+        </div>
+    {{else}}
+        <div class="container text-center bg-light">
+            <br><br>
+            <h5 class="text-primary">EVALUACIÓN Y SEGUIMIENTO DE RESIDENCIA PROFESIONAL</h5>
+            <br><br><br><br>
+            <h5 class="text-danger">AUN NO HA SIDO EVALUADO POR SU ASESOR INTERNO</h5>
+            <br><br>
+        </div>
+    {{/if}}
+    {{> uploadSegundaEvaluacionResidencia}}
+    {{> avisos}}
+</template>
+<!-- ************************************************************************************************************** -->
+<!--                   VISTA PREVIA DEL FORMATO DE PRIMERA EVALUACION DE SEGUIMIENTO DEL PROYECTO                   -->
+<!-- ************************************************************************************************************** -->
+<template name="vistaPreviaFormatoEvaluacionSeguimientoDosAlumno">
+    <div  style="background-color: white" class="container text-center">
+        <img src="/residencias/encabezadoEvaluacionSeguimiento.png" width="100%">    
+            <br>
+            <h4>EVALUACIÓN Y SEGUIMIENTO DE RESIDENCIA PROFESIONAL</h4>
+    </div>
+    <div id="prueba" style="background-color: white">
+        <div class="container text-left">
+            <b>Nombre del residente: </b>{{miResidencia.residente.nombre}}
+            <b>Número de control: </b>{{miResidencia.residente.nc}}<br>
+            <b>Nombre del proyecto: </b><t class="text-uppercase">{{miResidencia.solicitud.nombreProyecto}}</t><br>
+            <b>Programa educativo: </b> {{miResidencia.solicitud.carrera}}<br>
+            <b>Periodo de realización de la Residencia Profesional: </b>{{miResidencia.periodo}}<br>
+            <b>Calificación Parcial (Promedio de ambas evaluaciones ponderado al 10% de la cal. final) </b>_________
+            <br>
+            <div class="row text-left">
+                <div class="col-md-12">
+                    <table class="table table-bordered table-sm small">   
+                        <tr>
+                            <th colspan="3" class="text-center"><h6><b>Evaluación por el Asesor Externo</b></h6>En qué medida el residente cumple con lo siguiente:</th>
+                        </tr>
+                        <tr>
+                            <th style="width: 75%;" class="text-center">Criterios a evaluar</th>
+                            <th style="width: 10%;" class="text-center">Valor</th>
+                            <th style="width: 15%;" class="text-center">Evaluación</th>
+                        </tr>
+                        <tr>
+                            <td>Asiste puntualmente en el horario establecido</td>
+                            <td class="text-center">0-5</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Trabaja en equipo y se comunica de forma efectiva (oral y escrita)</td>
+                            <td class="text-center">0-10</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Tiene iniciativa para colaborar</td>
+                            <td class="text-center">0-5</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Propone mejoras al proyecto</td>
+                            <td class="text-center">0-10</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Cumple con los objetivos correspondientes al proyecto</td>
+                            <td class="text-center">0-15</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Es ordenado y cumple satisfactoriamente con las actividades encomendadas en los tiempos establecidos del cronograma</td>
+                            <td class="text-center">0-15</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Demuestra liderazgo en su actuar</td>
+                            <td class="text-center">0-10</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Demuestra conocimiento en el área de su especialidad</td>
+                            <td class="text-center">0-20</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Demuestra un comportamiento ético (ed disciplinado, acata órdenes, respeta a sus compañeros de trabajo, entre otros)</td>
+                            <td class="text-center">0-10</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td class="text-right"><b>Calificación total</b></td>
+                            <td class="text-center">0-100</td>
+                            <td></td>
+                        </tr>
+                    </table> 
+                    Observaciones:
+                    <hr><hr>
+                    <table class="table table-bordered table-sm small text-center">   
+                        <tr>
+                            <td style="width: 33%;" class="text-uppercase">
+                                <br><br>
+                                {{miResidencia.empresa.nombreAsesor}}<br>
+                                Asesor externo
+                            </td>
+                            <td style="width: 33%;">
+                                <br><br><br>
+                                Sello de la empresa, organismo o dependencia
+                            </td>
+                            <td style="width: 33%;">
+                                <br>
+                                {{configuracion.fecha2}}<br><br>
+                                Fecha de evaluación
+                            </td>
+                        </tr>
+                    </table> 
+                    <table class="table table-bordered table-sm small">   
+                        <tr>
+                            <th colspan="3" class="text-center"><h6><b>Evaluación por el Asesor Interno</b></h6>En qué medida el residente cumple con lo siguiente:</th>
+                        </tr>
+                        <tr>
+                            <th style="width: 75%;" class="text-center">Criterios a evaluar</th>
+                            <th style="width: 10%;" class="text-center">Valor</th>
+                            <th style="width: 15%;" class="text-center">Evaluación</th>
+                        </tr>
+                        <tr>
+                            <td>Asistió puntualmente a las reuniones de asesoria</td>
+                            <td class="text-center">0-10</td>
+                            <td class="text-center">{{valor1}}</td>
+                        </tr>
+                        <tr>
+                            <td>Demuestra conocimiento en el área de su especialidad</td>
+                            <td class="text-center">0-20</td>
+                            <td class="text-center">{{valor2}}</td>
+                        </tr>
+                        <tr>
+                            <td>Trabaja en equipo y se comunica de forma efectiva (oral y escrita)</td>
+                            <td class="text-center">0-15</td>
+                            <td class="text-center">{{valor3}}</td>
+                        </tr>
+                        <tr>
+                            <td>Es dedicado y proactivo en las actividades encomendadas</td>
+                            <td class="text-center">0-20</td>
+                            <td class="text-center">{{valor4}}</td>
+                        </tr>
+                        <tr>
+                            <td>Es ordenado y cumple satisfactoriamente con las actividades encomendadas en los tiempos establecidos del cronograma</td>
+                            <td class="text-center">0-20</td>
+                            <td class="text-center">{{valor5}}</td>
+                        </tr>
+                        <tr>
+                            <td>Propone mejoras al proyecto</td>
+                            <td class="text-center">0-15</td>
+                            <td class="text-center">{{valor6}}</td>
+                        </tr>
+                        <tr>
+                            <td class="text-right"><b>Calificación total</b></td>
+                            <td class="text-center">0-100</td>
+                            <td class="text-center">{{res}}</td>
+                        </tr>
+                    </table> 
+                    Observaciones:
+                    <hr><hr>
+                    <table class="table table-bordered table-sm small text-center">   
+                        <tr>
+                            <td style="width: 33%;">
+                                <br><br>
+                                {{miResidencia.asesor.nombre}}<br>
+                                Asesor interno
+                            </td>
+                            <td style="width: 33%;">
+                                <br><br><br>
+                                Sello de la institución
+                            </td>
+                            <td style="width: 33%;">
+                                <br>
+                                {{configuracion.fecha2}}<br><br>
+                                Fecha de evaluación
+                            </td>
+                        </tr>
+                    </table> 
+                </div>
+            </div>
+            <br>
+        </div> 
+    </div>
+    <button id="btnImprimir" type="button" class="imprimirFormatoSeguimiento btn btn-success btn-block" style="position: fixed; left:0px; top:0px; animation: blink 1s linear infinite;"><i class="fa fa-file-pdf-o"></i>  Imprimir solicitud de residencia profesional</button>
+</template>
+<!-- ************************************************************************************************************** -->
+<!--                                  PLATILLA PARA SUBIR LA PRIMERA EVALUACION                                    -->
+<!-- ************************************************************************************************************** -->
+<template name="uploadSegundaEvaluacionResidencia">
+    <div class="modal fade" id="uploadSegundaEvaluacionResidencia">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="text-primary">Sube tu segunda evaluación de residencia (Firmada y sellada)</h3>
+                </div>
+                <div class="modal-body">
+                    <div class="fileupload fileupload-new" data-provides="fileupload" style="text-align:center">
+                        <br><span class="fileupload-exists"><h6 class="text-primary">Subela en formato .pdf</h6></span><br>
+                        <span class="btn btn-file" style="width: 100%">
+                            <input id="b" name="fileUploadName" class="file-upload-input" method="fileUploadMethod" type="file" accept=".pdf" style="width: 100%"/>
+                        </span>
+                        <br><br>
+                        <button id="btnCerrar" type="button" class="cerrar btn btn-primary" data-toggle="modal" data-target="#avisos" data-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+<!-- ************************************************************************************************************** -->
+<!--                                      INFORME TECNICO DE LA RESIDENCIA                                          -->
+<!-- ************************************************************************************************************** -->
+<template name="informeTecnicoResidencia">
+    <div class="toolBox well well-sm text-center">
+        <img src="/residencias/residencias.jpg" height="150px">
+    </div>
+    {{> toolBoxResidenciasAlumno}}
+    <div class="container text-center bg-light">
+        <br>
+        <h5 class="text-primary">Informe Técnico de residencia</h5>
+        <div class="row text-left">
+            <div class="col-9">
+                    <img src="/residencias/ContenidoInformeTecnico.png" width="100%">
+            </div>
+            <div class="col-3 text-center">
+                <br><br><br><br><br><br><br>
+                <a href="{{ip}}/actividadesAdicionales/residencias/guiaElaboracionInformeTecnicoResidencia.pdf"  target="_blank">
+                    Guía para la elaboración del informe técnico
+                </a>
+                <br><br>
+                {{#if tieneSegundaEvaluacion}}
+                    {{#unless subioInformeTecnico}}
+                        <h6 class="text-success">Una vez revizado y aprobado el informe técnico por tu asesor interno</h6>
+                        <h6 class="text-success">Súbelo <a href="" class="text-primary" data-toggle="modal" data-target="#uploadInformeTecnicoResidencia">(aquí)</a></h6>
+                    {{else}}
+                        <a href="{{ip}}{{expedienteEvaluacion.pathInformeTecnico}}">Descarga tu informe técnico aquí</a>
+                    {{/unless}}    
+                {{else}}
+                    <h5 class="text-warning">No has subido tu segunda evaluación firmada y sellada</h5>
+                {{/if}}
+            </div>
+        </div>
+    </div>
+    {{> uploadInformeTecnicoResidencia}}
+    {{> avisos}}
+</template>
+<!-- ************************************************************************************************************** -->
+<!--                                      PLATILLA PARA SUBIR EL INFORME TECNICO                                    -->
+<!-- ************************************************************************************************************** -->
+<template name="uploadInformeTecnicoResidencia">
+    <div class="modal fade" id="uploadInformeTecnicoResidencia">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="text-primary">Sube tu informe técnico de residencia</h3>
+                </div>
+                <div class="modal-body">
+                    <div class="fileupload fileupload-new" data-provides="fileupload" style="text-align:center">
+                        <br><span class="fileupload-exists"><h6 class="text-primary">Subelo en formato .pdf</h6></span><br>
+                        <span class="btn btn-file" style="width: 100%">
+                            <input id="b" name="fileUploadName" class="file-upload-input" method="fileUploadMethod" type="file" accept=".pdf" style="width: 100%"/>
+                        </span>
+                        <br><br>
+                        <button id="btnCerrar" type="button" class="cerrar btn btn-primary" data-toggle="modal" data-target="#avisos" data-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+<!-- ************************************************************************************************************** -->
+<!--                          PLANTILLA PARA TERCER EVALUACION DE SEGUIMIENTO DEL PROYECTO                          -->
+<!-- ************************************************************************************************************** -->
+<template name="evaluacionSeguimientoTresAlumno">
+    <div class="toolBox well well-sm text-center">
+        <img src="/residencias/residencias.jpg" height="150px">
+    </div>
+    {{> toolBoxResidenciasAlumno}}
+    {{#if evaluado}}
+        <div class="container text-center bg-light">
+            <br><br>
+            <h5 class="text-primary">EVALUACIÓN FINAL DE SEGUIMIENTO DE RESIDENCIA PROFESIONAL</h5>
+            <br><br>
+            <h5 class="text-success">YA TIENES LA EVALUACION FINAL DE TU ASESOR INTERNO</h5>
+            <br><br>
+            <h5 class="text-primary">1. Genera tu formato de evaluación <t class="imprimirEvaluacionSeguimiento text-success">(aquí)</t></h5>
+            <h5 class="text-primary">2. Tu asesor externo deberá evaluarte llenando la primer sección del formato.</h5>
+            <h5 class="text-primary">3. Recaba las firmas y sellos correspondientes.</h5>
+            {{#if subiTercerEvaluacion}}
+                <h5 class="text-primary">4. Ya subiste tu evaluación final firmada y sellada, descárgala 
+                    <a class="text-success" href="{{ip}}{{expedienteEvaluacion.pathTercerEvaluacion}}" target="_blank">(aquí)</a>
+                </h5>
+            {{else}}
+                <h5 class="text-primary">4. Sube tu formato debidamente llenado <t class="text-success" data-toggle="modal" data-target="#uploadTercerEvaluacionResidencia">(aquí)</t></h5>
+            {{/if}}
+        </div>
+    {{else}}
+        <div class="container text-center bg-light">
+            <br><br>
+            <h5 class="text-primary">EVALUACIÓN FINAL DE RESIDENCIA PROFESIONAL</h5>
+            <br><br><br><br>
+            <h5 class="text-danger">AUN NO HA SIDO EVALUADO POR SU ASESOR INTERNO</h5>
+            <br><br>
+        </div>
+    {{/if}}
+    {{> uploadTercerEvaluacionResidencia}}
+    {{> avisos}}
+</template>
+<!-- ************************************************************************************************************** -->
+<!--                   VISTA PREVIA DEL FORMATO DE TERCER EVALUACION DE SEGUIMIENTO DEL PROYECTO                   -->
+<!-- ************************************************************************************************************** -->
+<template name="vistaPreviaFormatoEvaluacionSeguimientoTresAlumno">
+    <div  style="background-color: white" class="container text-center">
+        <img src="/residencias/encabezadoEvaluacionSeguimiento.png" width="100%">    
+            <br>
+            <h4>EVALUACIÓN DE REPORTE DE RESIDENCIA PROFESIONAL</h4>
+    </div>
+    <div id="prueba" style="background-color: white">
+        <div class="container text-left">
+            <b>Nombre del residente: </b>{{miResidencia.residente.nombre}}
+            <b>Número de control: </b>{{miResidencia.residente.nc}}<br>
+            <b>Nombre del proyecto: </b><t class="text-uppercase">{{miResidencia.solicitud.nombreProyecto}}</t><br>
+            <b>Programa educativo: </b> {{miResidencia.solicitud.carrera}}<br>
+            <b>Periodo de realización de la Residencia Profesional: </b>{{miResidencia.periodo}}<br>
+            <b>Calificación final (Promedio de ambas evaluaciones) </b>_________
+            <br>
+            <div class="row text-left">
+                <div class="col-md-12">
+                    <table class="table table-bordered table-sm small">   
+                        <tr>
+                            <th colspan="3" class="text-center"><h6><b>Evaluación por el Asesor Externo</b></h6>En qué medida el residente cumple con lo siguiente:</th>
+                        </tr>
+                        <tr>
+                            <th style="width: 75%;" class="text-center">Criterios a evaluar</th>
+                            <th style="width: 10%;" class="text-center">Valor</th>
+                            <th style="width: 15%;" class="text-center">Evaluación</th>
+                        </tr>
+                        <tr>
+                            <td>Portada</td>
+                            <td class="text-center">0-2</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Agradecimientos)</td>
+                            <td class="text-center">0-2</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Resumen</td>
+                            <td class="text-center">0-2</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Indice</td>
+                            <td class="text-center">0-2</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Introducción</td>
+                            <td class="text-center">0-2</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Problemas a resolver, priorizándolos</td>
+                            <td class="text-center">0-5</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Objetivos</td>
+                            <td class="text-center">0-5</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Justificación</td>
+                            <td class="text-center">0-5</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Marco teórico</td>
+                            <td class="text-center">0-10</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Procedimiento y descripción de las actividades realizadas</td>
+                            <td class="text-center">0-5</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Resultados, planos, gráficas, prototipos, programas, análisis estadísticos, modelos matemáticos,
+                                simulaciones, normativas, regulaciones y restricciones, entre otros. Solo para proyectos que por su naturaleza
+                                lo requieran: estudio de mercado, estudio técnico y estudio económico.
+                            </td>
+                            <td class="text-center">0-40</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Conclusiones, recomendaciones y experiencia profesional adquirida</td>
+                            <td class="text-center">0-15</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Competencias desarrolladas y-o aplicadas</td>
+                            <td class="text-center">0-3</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Fuentes de inofrmación</td>
+                            <td class="text-center">0-2</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td class="text-right"><b>Calificación total</b></td>
+                            <td class="text-center">0-100</td>
+                            <td></td>
+                        </tr>
+                    </table> 
+                    Observaciones:
+                    <hr>
+                    <table class="table table-bordered table-sm small text-center">   
+                        <tr>
+                            <td style="width: 33%;" class="text-uppercase">
+                                <br><br>
+                                {{miResidencia.empresa.nombreAsesor}}<br>
+                                Asesor externo
+                            </td>
+                            <td style="width: 33%;">
+                                <br><br><br>
+                                Sello de la empresa, organismo o dependencia
+                            </td>
+                            <td style="width: 33%;">
+                                <br>
+                                {{configuracion.fecha3}}<br><br>
+                                Fecha de evaluación
+                            </td>
+                        </tr>
+                    </table> 
+                    <table class="table table-bordered table-sm small">   
+                        <tr>
+                            <th colspan="3" class="text-center"><h6><b>Evaluación por el Asesor Interno</b></h6>En qué medida el residente cumple con lo siguiente:</th>
+                        </tr>
+                        <tr>
+                            <th style="width: 75%;" class="text-center">Criterios a evaluar</th>
+                            <th style="width: 10%;" class="text-center">Valor</th>
+                            <th style="width: 15%;" class="text-center">Evaluación</th>
+                        </tr>
+                        <tr>
+                            <td>Portada</td>
+                            <td class="text-center">0-2</td>
+                            <td class="text-center">{{valor1}}</td>
+                        </tr>
+                        <tr>
+                            <td>Agradecimientos)</td>
+                            <td class="text-center">0-2</td>
+                            <td class="text-center">{{valor2}}</td>
+                        </tr>
+                        <tr>
+                            <td>Resumen</td>
+                            <td class="text-center">0-2</td>
+                            <td class="text-center">{{valor3}}</td>
+                        </tr>
+                        <tr>
+                            <td>Indice</td>
+                            <td class="text-center">0-2</td>
+                            <td class="text-center">{{valor4}}</td>
+                        </tr>
+                        <tr>
+                            <td>Introducción</td>
+                            <td class="text-center">0-2</td>
+                            <td class="text-center">{{valor5}}</td>
+                        </tr>
+                        <tr>
+                            <td>Problemas a resolver, priorizándolos</td>
+                            <td class="text-center">0-5</td>
+                            <td class="text-center">{{valor6}}</td>
+                        </tr>
+                        <tr>
+                            <td>Objetivos</td>
+                            <td class="text-center">0-5</td>
+                            <td class="text-center">{{valor7}}</td>
+                        </tr>
+                        <tr>
+                            <td>Justificación</td>
+                            <td class="text-center">0-5</td>
+                            <td class="text-center">{{valor8}}</td>
+                        </tr>
+                        <tr>
+                            <td>Marco teórico</td>
+                            <td class="text-center">0-10</td>
+                            <td class="text-center">{{valor9}}</td>
+                        </tr>
+                        <tr>
+                            <td>Procedimiento y descripción de las actividades realizadas</td>
+                            <td class="text-center">0-5</td>
+                            <td class="text-center">{{valor10}}</td>
+                        </tr>
+                        <tr>
+                            <td>Resultados, planos, gráficas, prototipos, programas, análisis estadísticos, modelos matemáticos,
+                                simulaciones, normativas, regulaciones y restricciones, entre otros. Solo para proyectos que por su naturaleza
+                                lo requieran: estudio de mercado, estudio técnico y estudio económico.
+                            </td>
+                            <td class="text-center">0-40</td>
+                            <td class="text-center">{{valor11}}</td>
+                        </tr>
+                        <tr>
+                            <td>Conclusiones, recomendaciones y experiencia profesional adquirida</td>
+                            <td class="text-center">0-15</td>
+                            <td class="text-center">{{valor12}}</td>
+                        </tr>
+                        <tr>
+                            <td>Competencias desarrolladas y-o aplicadas</td>
+                            <td class="text-center">0-3</td>
+                            <td class="text-center">{{valor13}}</td>
+                        </tr>
+                        <tr>
+                            <td>Fuentes de inofrmación</td>
+                            <td class="text-center">0-2</td>
+                            <td class="text-center">{{valor14}}</td>
+                        </tr>
+                        <tr>
+                            <td class="text-right"><b>Calificación total</b></td>
+                            <td class="text-center">0-100</td>
+                            <td class="text-center">{{res}}</td>
+                        </tr>
+                    </table> 
+                    Observaciones:
+                    <hr>
+                    <table class="table table-bordered table-sm small text-center">   
+                        <tr>
+                            <td style="width: 33%;">
+                                <br><br>
+                                {{miResidencia.asesor.nombre}}<br>
+                                Asesor interno
+                            </td>
+                            <td style="width: 33%;">
+                                <br><br><br>
+                                Sello de la institución
+                            </td>
+                            <td style="width: 33%;">
+                                <br>
+                                {{configuracion.fecha3}}<br><br>
+                                Fecha de evaluación
+                            </td>
+                        </tr>
+                    </table> 
+                </div>
+            </div>
+            <br>
+        </div> 
+    </div>
+    <button id="btnImprimir" type="button" class="imprimirFormatoSeguimiento btn btn-success btn-block" style="position: fixed; left:0px; top:0px; animation: blink 1s linear infinite;"><i class="fa fa-file-pdf-o"></i>  Imprimir solicitud de residencia profesional</button>
+</template>
+<!-- ************************************************************************************************************** -->
+<!--                                   PLATILLA PARA SUBIR LA TERCER EVALUACION                                     -->
+<!-- ************************************************************************************************************** -->
+<template name="uploadTercerEvaluacionResidencia">
+    <div class="modal fade" id="uploadTercerEvaluacionResidencia">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="text-primary">Sube tu formato de evaluación final de residencia (Firmado y sellado)</h3>
+                </div>
+                <div class="modal-body">
+                    <div class="fileupload fileupload-new" data-provides="fileupload" style="text-align:center">
+                        <br><span class="fileupload-exists"><h6 class="text-primary">Subelo en formato .pdf</h6></span><br>
+                        <span class="btn btn-file" style="width: 100%">
+                            <input id="b" name="fileUploadName" class="file-upload-input" method="fileUploadMethod" type="file" accept=".pdf" style="width: 100%"/>
+                        </span>
+                        <br><br>
+                        <button id="btnCerrar" type="button" class="cerrar btn btn-primary" data-toggle="modal" data-target="#avisos" data-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+<!-- ************************************************************************************************************** -->
+<!--                                    PLANTILLA PARA LA CARTA DETERMINACION                                       -->
+<!-- ************************************************************************************************************** -->
+<template name="cartaTerminacionResidencia">
+    <div class="toolBox well well-sm text-center">
+        <img src="/residencias/residencias.jpg" height="150px">
+    </div>
+    {{> toolBoxResidenciasAlumno}}
+    {{#if evaluado}}
+        <div class="container text-center bg-light">
+            <br><br>
+            <h5 class="text-primary">CARTA DE TERMINACION DE RESIDENCIA PROFESIONAL</h5>
+            <br><br>
+            <h5 class="text-success">YA TIENES LA TERCER EVALUACION DE TU ASESOR INTERNO</h5>
+            <br><br>
+            <h5 class="text-primary">Ahora solo genera tu carta de terminacion <t class="imprimirCartaTerminacion text-success">(aquí)</t></h5>
+            <br><br>
+            {{#if subiCartaTerminacion}}
+                <h5 class="text-primary">Ya subiste tu carta de terminacion firmada y sellada, descárgala 
+                    <a class="text-success" href="{{ip}}{{pathCartaTerminacion}}" target="_blank">(aquí)</a>
+                </h5>
+            {{else}}
+                <h5 class="text-primary">Sube tu carta de terminacion firmada <t class="text-success"  data-toggle="modal" data-target="#uploadCartaTerminacionResidencia">(aquí)</t></h5>
+            {{/if}}
+        </div>
+    {{else}}
+        <div class="container text-center bg-light">
+            <br><br>
+            <h5 class="text-primary">CARTA DE TERMINACION DE RESIDENCIA PROFESIONAL</h5>
+            <br><br><br><br>
+            <h5 class="text-danger">AUN NO TIENES LA TERCER EVALUACION DE TU ASESOR INTERNO</h5>
+            <br><br>
+        </div>
+    {{/if}}
+    {{> uploadCartaTerminacionResidencia}}
+    {{> avisos}}
+</template>
+<!-- ************************************************************************************************************** -->
+<!--                   VISTA PREVIA DEL FORMATO DE TERCER EVALUACION DE SEGUIMIENTO DEL PROYECTO                   -->
+<!-- ************************************************************************************************************** -->
+<template name="vistaPreviaCartaTerminacionResidenciaAlumno">
+    <div  style="background-color: white" class="container">
+        <div class="row">
+            <div class="col-md-12 text-right">
+                <br><br><br><br><br><br>
+                <h5><b>Tlajomulco de Zuñiga, Jalisco</b></h5>
+                <h5><b>{{fecha}}</b></h5>
+                <br>
+                <h5>Asunto: <b>Carta de Terminacion</b> </h5>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12  text-left">
+                <br><br><br><br>
+                <h5><b>M.C. MARÍA ISABEL BECERRA RODRÍGUEZ</b></h5>
+                <h5><b>Directora del Instituto Tecnológico de Tlajomulco</b></h5>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-md-3 text-right">
+                <br><br>
+                <h5>Atención:</h5>
+            </div>
+            <div class="col-md-9 text-left">
+                <br><br>
+                <h5><b>{{jefeVinculacion}}</b></h5>
+                <h5><b>Jefe del Departamento de Gestión Tecnológica y Vinculación</b></h5>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12  text-left">
+                <br><br><br>
+                <p class="text-justify">
+                    Por este conducto hago de su conocimiento que la (el) C. <b>{{miResidencia.residente.nombre}}</b>, 
+                    con número de control <b>{{miResidencia.residente.nc}}</b>, alumna(o) de la carrera de <b>{{miResidencia.residente.carrera}}</b>, 
+                    ha finalizado satisfactoriamente sus  <b>Residencias Profesionales</b> dentro de nuestras instalaciones 
+                    <b>“{{miResidencia.empresa.nombre}}”</b>, con el proyecto <b>“{{miResidencia.solicitud.nombreProyecto}}”</b>, cubriendo un total de 500 horas.
+                </p>
+                <br><br><br>
+                <p>
+                    Sin otro particular me despido.
+                </p>
+                <br><br>
+                <h5><b>Atentamente</b></h5>
+                <br><br><br><br>
+                <h5><b>{{miResidencia.empresa.nombreTitular}}</b></h5>
+                <h5><b>{{miResidencia.empresa.puestoTitular}}</b></h5>
+            </div>
+        </div>
+    </div>
+    <button id="btnImprimir" type="button" class="imprimirCartaTerminacion btn btn-success btn-block" style="position: fixed; left:0px; top:0px; animation: blink 1s linear infinite;">
+        <i class="fa fa-file-pdf-o"></i>
+            Imprimir solicitud de residencia profesional<br>
+            <br>
+            DEBE IMPRIMIRSE EN HOJA MEMBRETADA DE LA EMPRESA
+        </button>
+</template>
+<!-- ************************************************************************************************************** -->
+<!--                                   PLATILLA PARA SUBIR LA CARTA DE TERMINACION                                  -->
+<!-- ************************************************************************************************************** -->
+<template name="uploadCartaTerminacionResidencia">
+    <div class="modal fade" id="uploadCartaTerminacionResidencia">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="text-primary">Sube tu carta de terminación de residencia firmada</h3>
+                </div>
+                <div class="modal-body">
+                    <div class="fileupload fileupload-new" data-provides="fileupload" style="text-align:center">
+                        <br><span class="fileupload-exists"><h6 class="text-primary">Subela en formato .pdf</h6></span><br>
+                        <span class="btn btn-file" style="width: 100%">
+                            <input id="b" name="fileUploadName" class="file-upload-input" method="fileUploadMethod" type="file" accept=".pdf" style="width: 100%"/>
+                        </span>
+                        <br><br>
+                        <button id="btnCerrar" type="button" class="cerrar btn btn-primary" data-toggle="modal" data-target="#avisos" data-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>

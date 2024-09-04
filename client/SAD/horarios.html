@@ -1,0 +1,119 @@
+<!-- ************************************************************************************************************** -->
+<!--                                    BARRA DE HERRAMIENTAS PARA HORARIOS                                         -->
+<!-- ************************************************************************************************************** -->
+<template name="toolBoxHorarios">
+	<div class="toolBox well well-sm text-center">
+        {{> catPeriodos}}
+        <button type="button" class="btn btn-default">
+            <a href="{{ip}}/horarios/Formato Oficial.xlsm" target="_blank">  Formato Oficial  </a>
+        </button>
+        <button type="button" class="agregarDocente btn btn-default" data-toggle="modal" data-target="#addDocenteHorarios" title="Agregar docente a la lista">
+            <i class="fa fa-user-plus" aria-hidden="true"></i>
+        </button>
+        <button type="button" class="grafica btn btn-default" data-toggle="modal" data-target="#graficaHorariosJefes" title="Grafica">
+            <i class="fa fa-pie-chart"></i>
+        </button>
+        <txt class="text-primary">Docentes con materias: </txt><txt class="text-success">{{numAsignaciones}}</txt>
+        <txt class="text-primary">Docentes con horario: </txt><txt class="text-success">{{numHorarios}}</txt>
+    </div>	
+    {{> addDocenteHorarios}}
+</template>
+<!-- ************************************************************************************************************** -->
+<!--                                                  HORARIOS                                                      -->
+<!-- ************************************************************************************************************** -->
+<template name="horarios">
+    {{#if esJefe}}
+        {{> toolBoxHorarios}} 
+        <div class="container">
+            <input class="form-control myTxtBoxFiltroHorarios" id="myFiltroHorarios" type="text" placeholder="Filtrar por cualquier campo...">
+        </div>
+        <table class="table table-striped">
+            <thead>
+                <tr class="success">
+                    <th>Docente</th>
+                    <th>Horario en Excel</th> 
+                    <th>Horario firmado</th>
+                    <th title="Tiene proyecto individual registrado en su horario">Tiene Proy. Ind.</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody  id="myTableHorarios" class="small">    
+                {{#each horarios}}
+                    <tr>  
+                        <td>{{nombre}}</td>
+                        <td class="text-center"><a href="{{ip}}{{path}}" target="_blank">{{fechaP}}</a></td>
+                        <td class="text-center"><a href="{{ip}}{{pathFirmado}}" target="_blank">{{fechaFirmadoP}}</a></td>     
+                        <td class="text-center">
+                            {{#if tieneProyectoIndividual}}  
+                                <input id="checkBox" class="checkPI" type="checkbox" checked>
+                            {{else}}
+                                <input id="checkBox" class="checkPI" type="checkbox">
+                            {{/if}}
+                        </td>
+                        <td class="text-right">
+                            <a href="#" class="subirHorario text-success" data-toggle="modal" 
+                            data-target="#uploadFileHorarioReporte" title="Subir Horario en Excel">
+                                <i class="fa fa-file-excel-o"></i>
+                            </a>|
+                            <a href="#" class="subirHorarioFirmado text-success" data-toggle="modal" 
+                            data-target="#uploadFileHorarioReporte" title="Subir Horario firmado en formato pdf">
+                                <i class="fa fa-file-pdf-o"></i>
+                            </a>|
+                            <a href="#" class="email text-primary" data-toggle="modal" 
+                            data-target="#sendeMail" title="Enviale un eMail">
+                                <i class="fa fa-envelope-o"></i>
+                            </a>|
+                            <a href="#" class="borrar text-danger" data-toggle="modal" data-target="#avisos">
+                                <i class="fa fa-trash fa-lg"></i>
+                            </a>
+                        </td>
+                    </tr>
+                {{/each}}	
+            </tbody>  
+        </table>
+        {{> avisos}}
+        {{> uploadFileHorarioReporte}}
+        {{> sendeMail}}
+        {{#if Template.subscriptionsReady}}
+            {{> graficaHorariosJefes}}
+        {{/if}}
+    {{/if}}
+</template>
+<!-- ************************************************************************************************************** -->
+<!--                                          AGREGA DOCENTE A HORARIOS                                             -->
+<!-- ************************************************************************************************************** -->
+<template name="addDocenteHorarios">
+    <div id="addDocenteHorarios" class="modal face">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="text-primary">Selecciona un docente para agregarlo a horarios<br><h6>{{periodo}}</h6></h3>
+                </div>
+                <div class="modal-body text-center">
+                    {{> buscarDocente}}
+                </div>
+                <div class="modal-footer text-right">
+                    <button type="button" class="agregar btn btn-success" data-toggle="modal" data-target="#avisos" data-dismiss="modal">Agregar</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+<!-- ************************************************************************************************************** -->
+<!--                                       GRAFICA DE ENTREGA DE HORARIOS                                           -->
+<!-- ************************************************************************************************************** -->
+<template name="graficaHorariosJefes">
+	<div class="modal fade" id="graficaHorariosJefes">
+		<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h3 class="text-primary">Horarios de los docentes con materias asignadas<h5>{{periodo}}</h5></h3>
+				</div>
+				<div id="myGraficaHorarios" class="modal-body" style="width:800px; height:500px;">
+					
+				</div>
+			</div>
+		</div>
+	</div>
+</template>

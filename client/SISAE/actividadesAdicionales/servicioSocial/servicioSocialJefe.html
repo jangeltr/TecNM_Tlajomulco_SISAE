@@ -1,0 +1,184 @@
+<!-- ************************************************************************************************************** -->
+<!--                                BARRA DE HERRAMIENTAS PARA SERVICIO SOCIAL JEFE                                 -->
+<!-- ************************************************************************************************************** -->
+<template name="toolBoxServicioSocialJefe">
+	<div class="toolBox well well-sm text-center">
+        {{> catPeriodos}}
+        <button type="button" class="configurarServicioSocial btn btn-default" data-toggle="modal" data-target="#configurarServicioSocial" title="Establecer las fechas de seguimiento para este periodo">
+            <i class="fa fa-cog" aria-hidden="true"></i>
+        </button>
+    </div>
+</template>
+<!-- ************************************************************************************************************** -->
+<!--                                             SERVICIO SOCIAL JEFE                                               -->
+<!-- ************************************************************************************************************** -->
+<template name="servicioSocialJefe">
+    {{> toolBoxServicioSocialJefe}} 
+    <div class="container">
+        <input class="form-control myTxtBoxFiltroServicioSocial" id="myFiltroServicioSocial" type="text" placeholder="Filtrar por cualquier campo...">
+    </div>
+    <div class="container">
+        <div class="row bg-info text-white">
+            <div class="col-1">
+                
+            </div>
+            <div class="col-1 text-center">
+                NC
+            </div>
+            <div class="col-4 text-center">
+                Alumno
+            </div>
+            <div class="col-4 text-center">
+                Carrera
+            </div>
+            <div class="col-1 text-center">
+                Dictamen
+            </div>
+            <div class="col-1">
+                
+            </div>
+        </div>
+    </div>
+
+    {{#each servicioSocial}}
+        <div class="container small" id="myServicioSocial">
+            <division class="row" style="height:50px" id="div{{_id}}">
+                <div class="col-2">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-6">
+                                <a href="#">
+                                    <i class="eliminarServicioSocial fa fa-trash text-danger" aria-hidden="true"></i>
+                                </a>
+                            </div>
+                            <div class="col-6 text-right">
+                                <a href="#" class="datosAlumno" data-toggle="modal" data-target="#showDatosAlumnoEnServicioSocial">{{alumno.nc}}</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-4">
+                    {{alumno.nombre}}
+                </div>
+                <div class="col-4">
+                    {{alumno.carrera}}
+                </div>
+                <div class="col-2">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-6 text-center">
+                                {{#if dictamen}}
+                                    <span class="text-success">{{solicitud.dictamen}}</span>
+                                {{else}}
+                                    <span class="text-danger">{{solicitud.dictamen}}</span>
+                                {{/if}}
+                            </div>
+                            <div class="col-6 text-right">
+                                <a class="expandirActividad collapsed card-link" data-toggle="collapse" href="#{{_id}}">
+                                    <i class="fa fa-caret-down" aria-hidden="true"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </division>
+        </div>
+        
+        <div  class="collapse" id="{{_id}}">
+            <table class="table table-striped">
+                <thead>
+                    <tr class="bg-secondary text-white text-center">
+                        <th width="25%" title="Nombre del proyecto">Programa</th>
+                        <th width="20%" title="Nombre de la dependencia">Dependencia</th>
+                        <th width="30%">Documentos</th>
+                        <th width="25%">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="small">{{programa.nombrePrograma}}</td>
+                        <td class="small">{{programa.dependenciaOficial}}</td>
+                        <td class="text-left small">
+                            {{#if tieneSolicitudFirmada}}
+                                <a href="{{ip}}{{expedienteInicio.pathSolicitud}}" target="_blank">
+                                    <i class="fa fa-file-pdf-o" aria-hidden="true"></i>
+                                </a>
+                            {{else}}
+                                <i class="fa fa-file-pdf-o text-danger" aria-hidden="true"></i>
+                            {{/if}}
+                            Solicitud Firmada
+                            <br>
+                            {{#if tieneCartaCompromiso}}
+                                <a href="{{ip}}{{expedienteInicio.pathCartaCompromiso}}" target="_blank">
+                                    <i class="fa fa-file-pdf-o" aria-hidden="true"></i>
+                                </a>
+                            {{else}}
+                                <i class="fa fa-file-pdf-o text-danger" aria-hidden="true"></i>
+                            {{/if}}
+                            Carta Compromiso
+                            <br>
+                            {{#if tieneCartaAsignacion}}
+                                <a href="{{ip}}{{expedienteInicio.pathCartaAsignacion}}" target="_blank">
+                                    <i class="fa fa-file-pdf-o" aria-hidden="true"></i>
+                                </a>
+                            {{else}}
+                                <i class="fa fa-file-pdf-o text-danger" aria-hidden="true"></i>
+                            {{/if}}
+                                Carta de Asignación
+                            <br>
+                        </td>
+                        <td class="text-left small">
+
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    {{/each}}
+
+    {{> configurarServicioSocial}}
+    {{> avisos}}
+</template>
+<!-- ************************************************************************************************************** -->
+<!--                                 CONFIGURAR EL SERVICIO SOCIAL DE ESTE PERIODO                                  -->
+<!-- ************************************************************************************************************** -->
+<template name="configurarServicioSocial">
+    <div class="modal fade" id="configurarServicioSocial">
+        <div class="modal-dialog  modal-mg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="text-primary">Establece las fechas de seguimiento para el periodo:<h5 class="text-primary">{{periodo}}</h5></h4>
+                </div>
+                <div class="modal-body">
+                    {{#unless configurada}}
+                        <br>
+                        <label class="text-danger">Perido de Servicio Social sin fechas de seguimiento dafinidas</label>
+                        <br><br>
+                    {{/unless}}
+                    <label for="fechaISS">Fecha de inicio del Servicio Social:</label>
+                    <input type="date" class="form-control" id="fechaISS" value={{fechaISS}}>
+                    <label for="fechaTSS">Fecha de término del Servicio Social:</label>
+                    <input type="date" class="form-control" id="fechaTSS" value={{fechaTSS}}>
+                    <label for="fecha1">Fecha del primer seguimiento:</label>
+                    <input type="date" class="form-control" id="fecha1" value={{fecha1}}>
+                    <label for="fecha2">Fecha del segundo seguimiento:</label>
+                    <input type="date" class="form-control" id="fecha2" value={{fecha2}}>
+                    <label for="fecha3">Fecha del tercer seguimiento:</label>
+                    <input type="date" class="form-control" id="fecha3"  value={{fecha3}}>
+                    <label for="fechaCP">Fecha de las cartas de presentación:</label>
+                    <input type="date" class="form-control" id="fechaCP"  value={{fechaCP}}>
+                    <label for="fechaCA">Fecha de las cartas de aceptación:</label>
+                    <input type="date" class="form-control" id="fechaCA"  value={{fechaCA}}>
+                    <label for="fechaCT">Fecha de las cartas de terminación:</label>
+                    <input type="date" class="form-control" id="fechaCT"  value={{fechaCT}}>
+                    <label for="fechaRF">Fecha de entrega del reporte final:</label>
+                    <input type="date" class="form-control" id="fechaRF"  value={{fechaRF}}>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="registrar btn btn-success" data-toggle="modal" data-target="#avisos"  data-dismiss="modal">Aceptar</button>
+                    <button id="btnCerrar" type="button" class="cerrar btn btn-danger" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>

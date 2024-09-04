@@ -1,0 +1,299 @@
+<!-- ************************************************************************************************************** -->
+<!--                                            SECCION HEAD                                                        -->
+<!-- ************************************************************************************************************** -->
+<head>
+	<title>Sistema SISAE</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="cache-control" content="max-age=0" />
+	<meta http-equiv="cache-control" content="no-cache" />
+	<meta http-equiv="expires" content="0" />
+	<meta http-equiv="pragma" content="no-cache" />
+	<meta http-equiv="Last-Modified" content="0">
+	<script src="https://cdn.jsdelivr.net/gh/jamesssooi/Croppr.js@2.3.0/dist/croppr.min.js"></script>
+	<!-- linea anterior software para recortar la imagen de perfil
+	https://jamesooi.design/Croppr.js/#install
+	https://github.com/jamesssooi/Croppr.js.git -->
+	<link rel="stylesheet" href="./croppr.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel="icon" href="/logoSISAE.png">
+</head>
+<!-- ************************************************************************************************************** -->
+<!--                                        PLANTILLA PRINCIPAL                                                     -->
+<!-- ************************************************************************************************************** -->
+<template name="main">
+	{{> headerLayout}}
+	{{> login}}
+	{{> article}}
+	{{> footerLayout}}
+</template>
+<!-- ************************************************************************************************************** -->
+<!--                                      PLATILLA DE ENCABEZADO                                                    -->
+<!-- ************************************************************************************************************** -->
+<template name="headerLayout">
+	<div class="container">
+		<div class="row align-items-center">
+			<div class="col-md-3">
+				<img src="/logo_tecnm.svg" class="img-fluid" alt="Chania" height="150px" width="200px">
+			</div>
+			<div class="col-md-7" style="text-align: center">
+				<img src="/logoSISAE.png" class="img-fluid" alt="Chania" height="130px" width="220px"> 
+			</div>
+			<div class="col-md-2" style="text-align: right">
+				<img src="/logo_ittj.png" class="img-fluid" alt="Chania" height="100px" width="100px">
+			</div>
+		</div>
+	</div>
+</template>
+<!-- ************************************************************************************************************** -->
+<!--                                          PLATILLA DE LOGIN                                                     -->
+<!-- ************************************************************************************************************** -->
+<template name="login">
+	<div class="container">
+		<br>
+		<div class="row align-items-center" style="min-height: 60px;">
+			{{#if currentUser}}
+				<div class="col-md-5 text-justify">
+					<h6 class="text-success font-weight-bold font-italic">{{frase.frase}}</h6>
+					<div class="text-right">
+						<h6 class="text-success font-italic">{{frase.autor}}</h6>
+					</div>
+				</div>
+				<div class="col-md-1">
+				</div>
+				<div class="col-md-4 text-right">
+					{{> loginButtons align="right"}}
+					{{> dateTime}}
+					<a class="p-0" href="/sisae/miPerfil">Mi Perfil</a>
+				</div>
+				<div class="col-md-2 text-center">
+					<img id="imgFotoPerfil" class="rounded-circle" src="{{foto}}" height="120px" width="120px"
+					title="Sube tu foto en (Mi Perfil)">
+					{{#unless tieneFoto}}
+					<br>
+					<a class="p-0" href="/sisae/miPerfil">Sube tu foto</a>
+					{{/unless}}
+				</div>
+			{{else}}
+				<div class="col-md-12 text-right">
+					{{> loginButtons align="right"}}
+				</div>
+			{{/if}}
+		</div>
+		<br>
+	</div>
+</template>
+<template name="dateTime">
+	<br>
+	{{fecha}}
+	<br>
+	<span id="hora"></span>
+	<br>
+</template>
+<!-- ************************************************************************************************************** -->
+<!--                                      PLANTILLA CENTRAL (ARTICLE)                                               -->
+<!-- ************************************************************************************************************** -->
+<template name="article">
+	<div class="container" >	
+		{{#if currentUser}}
+			<div class="row">
+				<div class="col-md-12">
+					{{> UI.dynamic template=rellenaMenu}}
+				</div>
+			</div>	
+			<div class="row">
+				<div class="col-md-12">
+					{{> UI.dynamic template=rellenaCuerpoSISAE}}
+				</div>
+			</div>	
+		{{else}}
+			{{> sinAcceso}}
+		{{/if}}
+	</div>
+</template>
+<!-- ************************************************************************************************************** -->
+<!--                                        PLATILLA DE OPCIONES GENRALES                                           -->
+<!-- ************************************************************************************************************** -->
+<template name="opciones">
+	<br>	
+	<div class="row">
+		<div class="col-md-3">
+			<div class="card" style="width: 15rem;">
+				<div class="card-header" style="text-align: center">
+					<img src="/logoSISAE2.png" class="card-img-top"> 
+				</div>
+				<div class="card-body" style="text-align: justify">
+					<h5 class="card-title">Alumnos y Docentes</h5>
+					<ul>
+						<li>
+							<a class="p-0" href="/sisae/docentes">Docentes</a>
+						</li>
+						<li>
+							<a class="p-0" href="/sisae/materias">Materias</a>
+						</li>
+						<li>
+							<a class="p-0" href="/sisae/tutorias">Tutorias</a>
+						</li>
+						<li>
+							<a class="p-0" href="/sisae/extraescolares">Act. extraescolares</a>
+						</li>
+						<li>
+							<a class="p-0" href="/sisae/academicas">Act. académicas</a>
+						</li>
+						<li>
+							<a class="p-0" href="/sisae/servicioSocial">Servicio Social</a>
+						</li>
+						<li>
+							<a class="p-0" href="/sisae/residencias">Residencias</a>
+						</li>
+						<li>
+							Titulación
+						</li>
+					</ul>
+					<hr>
+					<ul>
+						<li>
+							Egresados
+						</li>
+					</ul>
+				</div>
+				<div class="card-footer">
+					<a href="/sisae" class="btn btn-info">Acceder</a>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-3">
+			<div class="card" style="width: 15rem;">
+				<div class="card-header"  style="text-align: center">
+					<img src="/logoSAD.png" class="card-img-top"> 
+				</div>
+				<div class="card-body" style="text-align: justify">
+					<h5 class="card-title">Docentes</h5>
+					<ul>
+						<li>
+							<a class="p-0" href="/sad/asignacionMaterias">Materias asignadas</a>
+						</li>
+						<li>
+							<a class="p-0" href="/sad/instrumentaciones">Instrumentaciones</a>
+						</li>
+						<li>
+							{{#if esJefe}}
+								<a href="/sad">Horario y Reportes</a>
+							{{else}}
+								<a href="/sad/horarioYReportes">Horario y Reportes</a>
+							{{/if}}
+						</li>
+						<li>
+							<a href="/sad/constanciaTerminacion">Const. de terminación</a>
+						</li>
+					</ul>
+					<hr>
+					<ul>
+						<li>
+							Academias
+						</li>
+					</ul>
+				</div>
+				<div class="card-footer">
+					<a href="/sad" class="btn btn-info">Acceder</a>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-3">
+			<div class="card" style="width: 15rem;">
+				<div class="card-header"  style="text-align: center">
+					<img src="/Alfaomega.png" class="card-img-top"> 
+				</div>
+				<div class="card-body text-left">
+					<h5 class="card-title">Comunidad escolar</h5>
+					<ul>
+						<li>
+							<a href="https://ittj.bibliotecasdigitales.com/home?institution_id=111&category=2" target="_blank">Biblioteca Digital</a>
+						</li>
+					</ul>
+					<h5>Repositorios</h5>
+					<ul>
+						<li>
+							<a href="/repositorios/informesResidencias" title="Informes Técnicos de Residencias">Inf. de Residencias</a>
+						</li>
+						<li>
+							Tesis
+						</li>
+						<li>
+							Productos de Docentes
+						</li>
+					</ul> 
+				</div>
+				<div class="card-footer">
+					<a href="/repositorios" class="btn btn-info">Acceder</a>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-3">
+			<div class="card" style="width: 15rem;">
+				<div class="card-header" style="text-align: center">
+					<img src="/Admon.png" class="card-img-top">
+				</div>
+				<div class="card-body" style="text-align: justify">
+					<h5 class="card-title">Jefes de Depto.</h5>
+					<ul>
+						<li>
+							<a class="p-0" href="/admon/materias">Materias</a>
+						</li>
+						<li>
+							<a class="p-0" href="/admon/docentes">Docentes</a>
+						</li>
+						<li>
+							<a class="p-0" href="/admon/alumnos">Alumnos activos</a>
+						</li>
+						<li>
+							<a class="p-0" href="/admon/alumnosBajas">Alumnos de baja</a>
+						</li>
+						<li>
+							<a class="p-0" href="/admon/egresados">Egresados</a>
+						</li>
+						<li>
+							<a class="p-0" href="/admon/movimientos">Movimientos</a>
+						</li>
+						<li>
+							<a class="p-0" href="/admon/emails">eMails</a>
+						</li>
+						<li>
+							<a class="p-0" href="/admon/usuarios">Usuarios</a>
+						</li>
+						<li>
+							<a class="p-0" href="/admon/configuracion">Configuración</a>
+						</li>
+					</ul>
+				</div>
+				<div class="card-footer">
+					<a href="/admon" class="btn btn-info">Acceder</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<br>
+</template>
+<!-- ************************************************************************************************************** -->
+<!--                                        PLATILLA DEL PIE DE PAGINA                                              -->
+<!-- ************************************************************************************************************** -->
+<template name="footerLayout">
+	<div class="container">	
+		<hr>
+		<div class="row align-items-center">
+			<div class="col-md-12" style="text-align: center">
+				<p style="font-size:small">Km. 10 CARRETERA TLAJOMULCO-SAN MIGUEL CUYUTLAN. TLAJOMULCO DE ZUÑIGA JALISCO. APARTADO POSTAL NO 12, CODIGO POSTAL 45640<BR>
+				TELEFONOS 01(33) 3772-4426 Y 3772-4427 DERECHOS RESERVADOS 2016 - INSTITUTO TECNOLOGICO DE TLAJOMULCO<BR>
+				OFICINA DE COMPUTO: M.A.E. JOSE LUIS TORRES RODRIGUEZ<BR>
+				DESARROLLADOR: M.C. JOSE ANGEL TORRES RANGEL
+				</p>
+			</div>	
+		</div>
+	</div>
+</template>
+<!-- ************************************************************************************************************** -->
+<!--                                        PLATILLA PARA LA IMPRESION                                              -->
+<!-- ************************************************************************************************************** -->
+<Template name="impresion">
+    {{> Template.dynamic template=rellena2}}
+</Template>

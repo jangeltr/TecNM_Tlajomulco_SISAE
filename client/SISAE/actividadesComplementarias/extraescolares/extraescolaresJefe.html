@@ -1,0 +1,552 @@
+<!-- ************************************************************************************************************** -->
+<!--                             BARRA DE HERRAMIENTAS DE EXTRAESCOLARES PARA JEFES                                 -->
+<!-- ************************************************************************************************************** -->
+<template name="toolBoxExtraescolaresJefe">
+	<div class="toolBox well well-sm text-center">
+        <img src="/extraescolares/extraescolares.jpg" height="70px">
+		{{> catPeriodos}}
+        <button type="button" class="agregar btn btn-default text-success" data-toggle="modal" data-target="#addActividadExtraescolar" title="Agregar actividad extraescolar en este periodo">
+            <i class="fa fa-plus fa-lg" aria-hidden="true"></i>
+        </button>
+    </div>	
+    {{> addActividadExtraescolar}}
+</template>
+<!-- ************************************************************************************************************** -->
+<!--                                      PLANTILLA DE EXTRAESCOLARES JEFE                                          -->
+<!-- ************************************************************************************************************** -->
+<template name="extraescolaresJefe">
+    {{> toolBoxExtraescolaresJefe}}
+    <div class="container">
+        <input class="form-control myTxtBoxFiltroExtraescolares" id="myFiltroExtraescolares" type="text" placeholder="Filtrar por cualquier campo...">
+    </div>	
+    <div id="accordion">
+        {{#each actividadExtraescolar}}
+            <div class="card border-0">
+                <div class="card-header border-0 m-0 p-0">
+                    <table class="table table-hover m-0 p-0">
+                        <tbody id="myTableExtraescolares">
+                            <tr class="table-success">
+                                <td style="width:20%" class="small">{{actividad}}</td>
+                                <td style="width:20%" class="small">{{docente}}</td>
+                                <td style="width:10%" class="small">{{modalidad}}</td>
+                                <td style="width:10%" class="small">{{horario}}</td>
+                                <td style="width:10%" class="small">{{sede}}</td>
+                                <td style="width:10%" class="small">Solicitudes: {{numSolicitudes}}</td>
+                                <td style="width:10%" class="small">Aceptados: {{numAceptados}}</td>
+                                <td style="width:10%" class="small text-right">
+                                    <i class="borrar fa fa-trash fa-lg" aria-hidden="true" title="Borrar la actividad" data-toggle="modal" data-target="#avisos"></i>
+                                    |
+                                    <i class="generarListaAsistencia fa fa-print" title="Generar lista de asistencia"></i>
+                                    |
+                                    {{#if subioListaAsistencia}}
+                                        <a href="{{ip}}{{listaAsistencia}}" title="descargar el registro de asistencia" target="_blank">
+                                            <i class="fa fa-file-pdf-o"></i>
+                                        </a>
+                                    {{else}}
+                                        <i class="subirListaAsistencia fa fa-upload" title="subir el registro de asistencia" data-toggle="modal" data-target="#uploadListaAsistenciaJefe"></i>
+                                    {{/if}}
+                                    |
+                                    <a class="expandirActividad collapsed card-link" data-toggle="collapse" href="#{{_id}}">
+                                        <i class="fa fa-caret-down" aria-hidden="true"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>  
+                    </table>  
+                </div>
+                <div class="card-body m-0 p-0">
+                    {{#if tieneAlumnos}}
+                        <div id="{{_id}}" class="collapse" data-parent="#accordion">
+                            <div class="container">
+                                <input class="form-control myTxtBoxFiltroExtraescolaresAlumno" id="myFiltroExtraescolaresAlumno{{_id}}" type="text" placeholder="Filtrar por cualquier campo...">
+                            </div>
+                            <table class="table table-hover" style="table-layout: fixed">
+                                <thead>
+                                    <tr>
+                                        <th style="width:8%" class="text-success">NC</th>
+                                        <th style="width:25%" class="text-success">Nombre</th>
+                                        <th style="width:25%" class="text-success">Carrera</th>
+                                        <th style="width:10%" class="text-success text-center">Semestre</th>
+                                        <th style="width:10%" class="text-success text-center">Sexo</th>
+                                        <th style="width:10%" class="text-success text-center">Aceptar/<br>Rechazar</th>  
+                                        <th style="width:12%" title="Evaluar al alumno en esta actividad" class="text-success text-center">Evaluacion</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="myTableExtraescolaresAlumno{{_id}}">
+                                    {{#each alumnos}} 
+                                        <tr>
+                                            <td title="Número de Control" class="small">{{nc}}</td>
+                                            <td title="Nombre"  class="small">
+                                                <button type="button" class="datos text-success" data-toggle="modal" data-target="#showDatosAlumnoPorActividadExtraescolarEnJefe">
+                                                    <i class="fa fa-address-card" aria-hidden="true"></i>
+                                                </button>
+                                                {{nombre}}
+                                            </td>
+                                            <td title="Carrera" class="small">{{carrera}}</td>
+                                            <td title="Semestre" class="small text-center">{{semestre}}</td>
+                                            <td title="Sexo" class="small text-center">{{sexo}}</td>
+                                            {{#if aceptado}}
+                                                <td class="small text-center">
+                                                    {{#unless evaluado}}
+                                                        <button type="button" class="quitarAlumno btn btn-default" title="Quitar al alumno de esta actividad">
+                                                            <i class="fa fa-times text-danger" aria-hidden="true"></i>
+                                                        </button>
+                                                    {{/unless}}
+                                                </td>
+                                                <td class="small text-center">
+                                                    {{#if evaluado}}
+                                                        <button type="button" class="verEvaluacion btn btn-default small text-success m-0 p-0" data-toggle="modal" data-target="#verEvaluacionAlumnoEnActividadExtraescolarJefe" title="Ver la evaluacion del alumno en esta actividad">
+                                                            <txt class="small">{{nivelDeDesempeño}}</txt>
+                                                        </button>
+                                                        <i class="generarConstancia fa fa-print small text-primary" aria-hidden="true" data-toggle="modal" data-target="#solicitudDatosParaConstanciaTerminacionActividadExtraescolar" title="Generar la Constancia de Terminación"></i>
+                                                        <i class="subirConstancia fa fa-upload small text-success" aria-hidden="true" data-toggle="modal" data-target="#uploadConstanciaTermicacionActividadExtraescolar" title="Subir la Constancia de Terminación"></i>
+                                                        {{#if pathConstanciaTerminacionDelDepto}}
+                                                            <a href="{{ip}}{{pathConstanciaTerminacionDelDepto}}" title="Descargar la constancia" target="_blank">
+                                                                <i class="fa fa-file-pdf-o"></i>
+                                                            </a>
+                                                        {{/if}}
+                                                    {{else}}
+                                                        <button type="button" class="evaluar btn btn-default" data-toggle="modal" data-target="#evaluarActividadExtraescolarJefe" title="Evaluar al alumno en la actividad extraescolar">
+                                                            <i class="fa fa-check-square-o" aria-hidden="true"></i>
+                                                        </button>
+                                                    {{/if}}
+                                                </td>
+                                            {{else}}
+                                                <td class="small text-center"> 
+                                                    <button type="button" class="aceptarAlumno btn btn-default" title="Aceptar al alumno en esta actividad">
+                                                        <i class="fa fa-check" aria-hidden="true"></i>
+                                                    </button>
+                                                </td>
+                                            {{/if}}
+                                        </tr>  
+                                    {{/each}}
+                                </tbody>  
+                            </table>
+                        </div>
+                    {{/if}}
+                </div>
+            </div>
+        {{/each}}
+    </div>
+    {{> avisos}}
+    {{> uploadListaAsistenciaJefe}}
+    {{> evaluarActividadExtraescolarJefe}}
+    {{> verEvaluacionAlumnoEnActividadExtraescolarJefe}}
+    {{> showDatosAlumnoPorActividadExtraescolarEnJefe}}
+    {{> solicitudDatosParaConstanciaTerminacionActividadExtraescolar}}
+    {{> uploadConstanciaTermicacionActividadExtraescolar}}
+</template>
+<!-- ************************************************************************************************************** -->
+<!--                                      AGREGAR ACTIVIDAD EXTRAESCOLAR                                            -->
+<!-- ************************************************************************************************************** -->
+<template name="addActividadExtraescolar">
+        <div class="modal face" id="addActividadExtraescolar">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 class="text-primary">Agrega la actividad extraescolar<h6>{{periodo}}</h6></h3>
+                    </div>
+                    <div class="modal-body">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    Responsable
+                                </div>
+                                <div class="col-md-7">
+                                    {{> buscarDocente}}
+                                </div>
+                            </div>
+                            <hr>
+                            {{#autoForm schema="actividadExtraescolarSchema" id="schemaAddActividadExtraescolar"}}
+                                <fieldset>
+                                    {{> afQuickField name='modalidad'}}
+                                    {{> afQuickField name='actividad'}}
+                                    {{> afQuickField name='horario'}}
+                                    {{> afQuickField name='sede'}}
+                                    {{> afQuickField name='esSeleccion'}}
+                                </fieldset>
+                            {{/autoForm}}
+                        </div>
+                    </div>
+                    <div class="modal-footer text-right">
+                        <button type="submit" class="agregar btn btn-success" data-toggle="modal" data-target="#avisos" data-dismiss="modal">Registar la actividad</button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>        
+                    </div>
+                </div>
+            </div>
+        </div>
+</template>
+<!-- ************************************************************************************************************** -->
+<!--                                      EVALUAR ACTIVIDAD EXTRAESCOLAR                                            -->
+<!-- ************************************************************************************************************** -->
+<template name="evaluarActividadExtraescolarJefe">
+    <div class="modal face" id="evaluarActividadExtraescolarJefe">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="text-primary">Alumno a evaluar<h6>{{alumno}}</h6>Actividad<h6>{{actividad}}</h6>Periodo<h6>{{periodo}}</h6></h4>
+                </div>
+                <div class="modal-body">
+                    {{#autoForm schema="evaluacionActividadComplementaria" id="evaluacionActividadComplementaria"}}
+                        <fieldset>
+                            {{> afQuickField name='uno'}}
+                            {{> afQuickField name='dos'}}
+                            {{> afQuickField name='tres'}}
+                            {{> afQuickField name='cuatro'}}
+                            {{> afQuickField name='cinco'}}
+                            {{> afQuickField name='seis'}}
+                            {{> afQuickField name='siete'}}
+                        </fieldset>
+                        <button type="button" class="addEvaluacion btn btn-success" data-dismiss="modal">Registar la evaluacion</button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                    {{/autoForm}}
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+<!-- ************************************************************************************************************** -->
+<!--                          VER LA EVALUACION DEL ALUMNO EN LA ACTIVIDAD EXTRAESCOLAR                             -->
+<!-- ************************************************************************************************************** -->
+<template name="verEvaluacionAlumnoEnActividadExtraescolarJefe">
+        <div class="modal face" id="verEvaluacionAlumnoEnActividadExtraescolarJefe">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="text-primary">Alumno <h6>{{alumno}}</h6>Actividad<h6>{{actividad}}</h6>Periodo<h6>{{periodo}}</h6></h4>
+                    </div>
+                    <div class="modal-body">
+                        <table class="table table-hover" style="table-layout: fixed">
+                            <tbody>
+                                {{#each evaluacion}}
+                                <tr>
+                                    <td style="width: 80%">{{P}}</td>
+                                    <td style="width: 20%">{{R}}</td>
+                                </tr>
+                                {{/each}}
+                            </tbody>  
+                        </table>
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+</template>
+<!-- ************************************************************************************************************** -->
+<!--                                   PLANTILLA PARA LA LISTA DE ASISTENCIA                                        -->
+<!-- ************************************************************************************************************** -->
+<template name="listaDeAsistenciaActividadExtraescolarJefe">
+        <div id="prueba" style="background-color: white">
+        <br><br>
+        <div  class="container" style="height: 170px; text-align: center">
+            <img src="/extraescolares/encabezado.jpg" height="120px">         
+        </div>
+        <div class="container" style="text-align: center">
+            <h4>INSTITUTO TECNOLOGICO DE TLAJOMULCO JALISCO</h4>
+            <h5>Departamento de Actividades Extraescolares</h5>
+            <h5>Lista de asistencia</h5>
+            <br>
+            <div style="text-align: left">
+                Promotor:   {{docente}}<br>
+                Actividad:   {{actividad}}<br>
+                Periodo:    {{periodo}}<br>
+            </div>
+            <br>
+            <table style="border:1px solid black; text-align: center; font-size: small">
+                <tr style="border:1px solid black">
+                    <th style="width: 5%; border:1px solid black" rowspan="2">No.</th>
+                    <th style="width: 20%; border:1px solid black" rowspan="2">Nombre del estudiante</th>
+                    <th style="width: 10%; border:1px solid black" rowspan="2">Num. Control</th>
+                    <th colspan="17" style="width:50%; border:1px solid black">Horas trabajadas por semana en 16 semanas</th>
+                    <th style="width: 15%; border:1px solid black" rowspan="2">Observaciones</th>
+                </tr>
+                <tr style="border:1px solid black">
+                        <td style="width: 3%; border:1px solid black">1</td>
+                        <td style="width: 3%; border:1px solid black">2</td>
+                        <td style="width: 3%; border:1px solid black">3</td>
+                        <td style="width: 3%; border:1px solid black">4</td>
+                        <td style="width: 3%; border:1px solid black">5</td>
+                        <td style="width: 3%; border:1px solid black">6</td>
+                        <td style="width: 3%; border:1px solid black">7</td>
+                        <td style="width: 3%; border:1px solid black">8</td>
+                        <td style="width: 3%; border:1px solid black">9</td>
+                        <td style="width: 3%; border:1px solid black">10</td>
+                        <td style="width: 3%; border:1px solid black">11</td>
+                        <td style="width: 3%; border:1px solid black">12</td>
+                        <td style="width: 3%; border:1px solid black">13</td>
+                        <td style="width: 3%; border:1px solid black">14</td>
+                        <td style="width: 3%; border:1px solid black">15</td>
+                        <td style="width: 3%; border:1px solid black">16</td>
+                        <td style="width: 3%; border:1px solid black; font-size: x-small">Total</td>
+                </tr>
+                {{#each alumnos}}
+                <tr style="border:1px solid black">
+                    <td style="border:1px solid black">{{number}}</td>
+                    <td style="border:1px solid black">{{nombre}}</td>
+                    <td style="border:1px solid black">{{nc}}</td>
+                    <td style="border:1px solid black"></td>
+                    <td style="border:1px solid black"></td>
+                    <td style="border:1px solid black"></td>
+                    <td style="border:1px solid black"></td>
+                    <td style="border:1px solid black"></td>
+                    <td style="border:1px solid black"></td>
+                    <td style="border:1px solid black"></td>
+                    <td style="border:1px solid black"></td>
+                    <td style="border:1px solid black"></td>
+                    <td style="border:1px solid black"></td>
+                    <td style="border:1px solid black"></td>
+                    <td style="border:1px solid black"></td>
+                    <td style="border:1px solid black"></td>
+                    <td style="border:1px solid black"></td>
+                    <td style="border:1px solid black"></td>
+                    <td style="border:1px solid black"></td>
+                    <td style="border:1px solid black"></td>
+                    <td style="border:1px solid black"></td>
+                </tr>
+                {{/each}}
+            </table> 
+            <br>
+            <br>
+            <div style="text-align: left">
+                Lugar: _______________________________________________<br>
+                Fecha: _______________________________________________<br>
+            </div>
+            <br>
+            <br>
+            <br>
+            <table style="text-align: center">
+                <tr>
+                    <td style="width: 33%">___________________________________</td>
+                    <td style="width: 33%">___________________________________</td>
+                    <td style="width: 33%">___________________________________</td>
+                </tr> 
+                <tr>
+                    <td>Firma del promotor</td>
+                    <td>Nombre y firma del jefe de oficina de promoción</td>
+                    <td>Nombre y firma del jefe de departamento de Actividades Extraescolares</td>
+                </tr>   
+            </table>  
+        </div> 
+        </div>
+        <button id="btnImprimir" type="button" class="imprimirListaAsistencia btn btn-success btn-block" style="position: fixed; left:0px; top:0px; animation: blink 1s linear infinite;"><i class="fa fa-file-pdf-o"></i>  Imprimir lista</button>
+</template>
+<!-- ************************************************************************************************************** -->
+<!--                                PLANTILLA PARA SUBIR LA LISTA DE ASISTENCIA                                     -->
+<!-- ************************************************************************************************************** -->
+<template name="uploadListaAsistenciaJefe">
+        <div id="uploadListaAsistenciaJefe" class="modal fade">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 class="text-primary">Sube el registro de asistencia</h3>
+                    </div>
+                    <div class="modal-body">
+                        <div class="fileupload fileupload-new" data-provides="fileupload" style="text-align:center">
+                            <span class="btn btn-file" style="width: 100%">
+                                <span class="fileupload-exists">Sube tu registro de asistencia en .pdf</span><br><br>
+                                <input name="fileUploadName" class="file-upload-input" method="fileUploadMethod" type="file" accept=".pdf" style="width: 100%"/>
+                            </span>
+                            <button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+</template>
+<!-- ************************************************************************************************************** -->
+<!--                                MUESTRA LOS DATOS DE UN ALUMNO EN UNA MODAL                                     -->
+<!-- ************************************************************************************************************** -->
+<template name="showDatosAlumnoPorActividadExtraescolarEnJefe">
+    {{#if Template.subscriptionsReady}}
+    <div id="showDatosAlumnoPorActividadExtraescolarEnJefe" class="modal fade">
+        <div class="modal-dialog modal-md" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="text-primary">{{alumnoDatos.username}}<h4>{{alumnoDatos.profile.name}}</h4></h3>
+                    <img class="rounded" src="{{foto}}" height="120px" width="120px"> 
+                </div>
+                <div class="modal-body">
+                        <table class="table table-bordered">
+                                <tbody>
+                                    <tr>
+                                        <td>Carrera</td>
+                                        <td>{{alumnoDatos.profile.carrera}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Semestre</td>
+                                        <td>{{alumnoDatos.profile.semestre}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Modalidad</td>
+                                        <td>{{alumnoDatos.profile.modalidad}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Módulo</td>
+                                        <td>{{alumnoDatos.profile.modulo}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Nivel</td>
+                                        <td>{{alumnoDatos.profile.nivelEscolar}}</td>
+                                    </tr>
+                                        <tr>
+                                        <td>Periodo de Ingreso</td>
+                                        <td>{{alumnoDatos.profile.periodoIngreso}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Fecha de Nacimiento</td>
+                                        <td>{{alumnoDatos.profile.fechaNacimiento}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Sexo</td>
+                                        <td>{{alumnoDatos.profile.sexo}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Telefono</td>
+                                        <td>{{alumnoDatos.profile.telefono}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Email</td>
+                                        <td>{{eMailAlumno}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{else}}
+        {{> spinner}}
+	{{/if}}
+</template>
+
+<!-- ************************************************************************************************************** -->
+<!--                        SOLICITA LOS DATOS PARA GENERAR LA CONSTANCIA DE TERMINACION                            -->
+<!-- ************************************************************************************************************** -->
+<template name="solicitudDatosParaConstanciaTerminacionActividadExtraescolar">
+    <div id="solicitudDatosParaConstanciaTerminacionActividadExtraescolar" class="modal fade">
+        <div class="modal-dialog modal-mg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="text-primary">Proporciona los datos necesarios para la constancia de terminación de actividad Extraescolar</h3>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="nombreJefeDeptoServiciosEscolares">Nombre del Jefe de Departamento de Servicios Escolares:</label>
+                        <input  class="form-control typeahead text-center" 
+                                name="nombreJefeDeptoServiciosEscolares" id="nombreJefeDeptoServiciosEscolares" 
+                                type="text" style="width: 465px"
+                                placeholder="Docente" autocomplete="off" 
+                                spellcheck="off" data-source="docente" 
+                                value = {{jefeDeptoServiciosEscolares}}
+                        />
+                        <label for="nombreJefeDeptoAcademico">Nombre del Jefe de Departamento Académico:</label>
+                        <input  class="form-control typeahead text-center" 
+                                name="nombreJefeDeptoAcademico" id="nombreJefeDeptoAcademico" 
+                                type="text" style="width: 465px"
+                                placeholder="Docente" autocomplete="off" 
+                                spellcheck="off" data-source="docente"  
+                                value = {{jefe}}
+                        />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="generarConstanciaTerminacionActividadExtraescolar btn btn-success" data-dismiss="modal">Aceptar</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+<!-- ************************************************************************************************************** -->
+<!--                           VISTA PREVIA DE LA CONSTANCIA DE TERMINACION DE ACTIVIDAD                            -->
+<!-- ************************************************************************************************************** -->
+<template name="vistaConstanciaTerminacionActividadExtraescolar">
+    <div id="prueba" style="background-color: white">
+        <br><br>
+        <div class="container" style="text-align: center">
+            <img src="/encabezadoConstanciaTerminacionActividadAcademica.png" width="100%">
+            <br>
+            <br>
+            <div class="row text-left">
+                <div class="col-md-12">
+                    <br><br><br><br>
+                    C. {{datos.nombreJefeDeptoServiciosEscolares}}<br>
+                    JEFE(A) DEL DEPARTAMENTO DE SERVICIOS ESCOLARES<br>
+                    PRESENTE<br><br><br>
+                </div>
+            </div> 
+            <div class="row text-justify">
+                <div class="col-md-12">
+                    <br><br>
+                    <p>El que sucribe <u><b>{{datos.responsableActividad}}</b></u>, por este medio se permite hacer de su conocimiento que el estudiante 
+                        <u><b>{{datos.alumnoNombre}}</b></u> con número de control <u><b>{{datos.alumnoNC}}</b></u> de la carrera de <u><b>{{datos.alumnoCarrera}}</b></u> 
+                        ha CUMPLIDO su actividad complementaria <u><b>{{datos.actividadNombre}}</b></u> con el nivel de desempeño <u><b>{{datos.alumnoNivelDesempeño}}</b></u> 
+                        y un valor numérico de <u><b>{{datos.valorNumerico}}</b></u> durente el período escolar <u><b>{{datos.periodoEscolar}}</b></u> 
+                        con un valor curriculcar de 1 crédito.
+                    </p><br><br>
+                    <p>
+                        Se extiende la presente en Tlajomulco de Zuñiga, Jalisco., a los {{dia}} días de {{mes}} del {{año}}.
+                    </p>
+                </div>
+            </div>
+            <br><br><br><br><br>
+            <div class="row text-center">
+                <div class="col-md-12">
+                    A t e n t a m e n t e<br><br><br>
+                </div>
+            </div> 
+            <br><br>
+            <div class="row text-center">
+                <div class="col-md-5">
+                    __________________________________________<br>
+                    {{datos.responsableActividad}}<br>
+                    RESPONSABLE DE LA ACTIVIDAD COMPLEMENTARIA
+                </div>
+                <div class="col-md-2">
+                
+                </div>
+                <div class="col-md-5">
+                    ______________________________________<br>
+                    {{datos.nombreJefeDeptoAcademico}}<br>
+                    Vo. Bo. JEFE DE DEPARTAMENTO ACADEMICO
+                </div>
+            </div> 
+            <br><br><br><br><br><br><br>
+            <div class="row text-left">
+                <txt>C.p. Estudiante</txt><br>
+                <txt>C.p. Archivo</txt>
+            </div>
+        </div> 
+    </div>
+    <button id="btnImprimir" type="button" class="imprimirConstancia btn btn-success btn-block" style="position: fixed; left:0px; top:0px; animation: blink 1s linear infinite;">
+        <i class="fa fa-file-pdf-o"></i>  Imprimir constancia de terminacion
+    </button>
+    <button id="btnRegresarActExtraescolares" type="button" class="regresarActExtraescolares btn btn-success btn-block" 
+            style="position: fixed; left:0px; top:30px; animation: blink 1s linear infinite;">
+        Regresar a Actividades Extraescolares
+    </button>
+</template>
+<!-- ************************************************************************************************************** -->
+<!--                                PLANTILLA PARA SUBIR LA CONSTANCIA DE TERMINACION                               -->
+<!-- ************************************************************************************************************** -->
+<template name="uploadConstanciaTermicacionActividadExtraescolar">
+    <div id="uploadConstanciaTermicacionActividadExtraescolar" class="modal fade">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="text-primary">Sube la constancia de terminación de Actividad Extraescolar</h3>
+                </div>
+                <div class="modal-body">
+                    <div class="fileupload fileupload-new" data-provides="fileupload" style="text-align:center">
+                        <span class="btn btn-file" style="width: 100%">
+                            <span class="fileupload-exists">Sube la constancia en .pdf</span><br><br>
+                            <input name="fileUploadName" class="file-upload-input" method="fileUploadMethod" type="file" accept=".pdf" style="width: 100%"/>
+                        </span>
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>

@@ -1,0 +1,125 @@
+<!-- ************************************************************************************************************** -->
+<!--                       BARRA DE HERRAMIENTAS PARA REPORTE PROYECTO INDIVIDUAL                                   -->
+<!-- ************************************************************************************************************** -->
+<template name="toolBoxReportePI">
+	<div class="toolBox well well-sm text-center">
+        {{> catPeriodos}}
+        <button type="button" class="btn btn-default">
+            <a href="{{ip}}/proyectoIndividual/Formato Oficial.docx" target="_blank">  Formato Oficial  </a>
+        </button>
+        <button type="button" class="agregarDocente btn btn-default" data-toggle="modal" data-target="#addDocenteReportePI" title="Agregar docente a la lista">
+            <i class="fa fa-user-plus" aria-hidden="true"></i>
+        </button>
+        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#graficaReportePIJefes" title="Grafica">
+            <i class="fa fa-pie-chart"></i>
+        </button>
+        <txt class="text-primary">Docentes con materias: </txt><txt class="text-success">{{numAsignaciones}}</txt>
+        <txt class="text-primary">Docentes con reporte PI: </txt><txt class="text-success">{{numReportes}}</txt>
+    </div>	
+    {{> addDocenteReportePI}}
+</template>
+<!-- ************************************************************************************************************** -->
+<!--                                    REPORTE PROYECTO INDIVIDUAL                                                 -->
+<!-- ************************************************************************************************************** -->
+<template name="reportePI">
+    {{#if esJefe}}
+        {{> toolBoxReportePI}} 
+        <div class="container">
+            <input class="form-control myTxtBoxFiltroReporte" id="myFiltroReporte" type="text" 
+            placeholder="Filtrar por cualquier campo...">
+        </div>
+        <table class="table table-striped">
+            <thead>
+                <tr class="success">
+                    <th>Docente</th>
+                    <th>Reporte Proy. Ind. en Word</th> 
+                    <th>Reporte firmado</th>
+                    <th title="Ha sido revisado y aprobado">Revizado y Aprobado</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody  id="myTableReporte" class="small">    
+                {{#each reporte}}
+                    <tr>  
+                        <td>{{nombre}}</td>
+                        <td class="text-center">
+                            <a href="{{ip}}{{path}}" target="_blank">{{fechaP}}</a>
+                        </td>
+                        <td class="text-center">
+                            <a href="{{ip}}{{pathEvidencia}}" target="_blank">{{fechaEvidenciaP}}</a>
+                        </td>     
+                        <td class="text-center">
+                            {{#if revisado}}  
+                                <input id="checkBox" class="revisado" type="checkbox" checked>
+                            {{else}}
+                                <input id="checkBox" class="revisado" type="checkbox">
+                            {{/if}}
+                        </td>
+                        <td class="text-right">
+                            <a href="#" class="subirReporte text-success" data-toggle="modal"
+                            data-target="#uploadFileHorarioReporte" title="Subir reporte en Word">
+                                <i class="fa fa-file-word-o"></i>
+                            </a>|
+                            <a href="#" class="subirReporteFirmado text-success" data-toggle="modal" 
+                            data-target="#uploadFileHorarioReporte" title="Subir evidencia en formato pdf">
+                                <i class="fa fa-file-pdf-o"></i>
+                            </a>|
+                            <a href="#" class="email text-primary" data-toggle="modal" 
+                            data-target="#sendeMail" title="Enviale un eMail">
+                                <i class="fa fa-envelope-o"></i>
+                            </a>|
+                            <a href="#" class="borrar text-danger" data-toggle="modal" 
+                            data-target="#avisos">
+                                <i class="fa fa-trash fa-lg"></i>
+                            </a>
+                        </td>
+                    </tr>
+                {{/each}}	
+            </tbody>  
+        </table>
+        {{> avisos}}
+        {{> uploadFileHorarioReporte}}
+        {{> sendeMail}}
+        {{#if Template.subscriptionsReady}}
+            {{> graficaReportePIJefes}}
+        {{/if}}
+    {{/if}}
+</template>
+<!-- ************************************************************************************************************** -->
+<!--                             AGREGA DOCENTE A REPORTE PROYECTO INDIVIDUAL                                       -->
+<!-- ************************************************************************************************************** -->
+<template name="addDocenteReportePI">
+    <div id="addDocenteReportePI" class="modal face">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="text-primary">Selecciona un docente para agregarlo a reporte<br><h6>{{periodo}}</h6></h3>
+                </div>
+                <div class="modal-body text-center">
+                    {{> buscarDocente}}
+                </div>
+                <div class="modal-footer text-right">
+                    <button type="button" class="agregar btn btn-success" data-toggle="modal" data-target="#avisos" data-dismiss="modal">Agregar</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+<!-- ************************************************************************************************************** -->
+<!--                           GRAFICA DE ENTREGA DE REPORTE PROYECTO INDIVIDUAL                                    -->
+<!-- ************************************************************************************************************** -->
+<template name="graficaReportePIJefes">
+	<div class="modal fade" id="graficaReportePIJefes">
+		<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h3 class="text-primary">Reporte de Proyecto Individual<h5>{{periodo}}</h5></h3>
+				</div>
+				<div id="myGraficaReporte" class="modal-body" style="width:800px; height:500px;">
+					
+				</div>
+			</div>
+		</div>
+	</div>
+</template>

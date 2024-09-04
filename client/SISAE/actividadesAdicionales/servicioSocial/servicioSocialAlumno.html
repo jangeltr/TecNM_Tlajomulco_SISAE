@@ -1,0 +1,588 @@
+<!-- ************************************************************************************************************** -->
+<!--                             BARRA DE HERRAMIENTAS DE SERVICIO SOCIAL PARA ALUMNOS                              -->
+<!-- ************************************************************************************************************** -->
+<template name="toolBoxServicioSocialAlumno">
+    <nav class="navbar navbar-expand-xl bg-white navbar-primary">
+		<button class="navbar-toggler bg-success navbar-light" type="button" data-toggle="collapse" data-target="#collapsibleNavbarServicioSocial">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse bg-light" id="collapsibleNavbarServicioSocial">
+            <div class="container">
+                <div class="row justify-content-between">
+                    <div class="col-md-10">
+                        <ul class="navbar-nav align-items-center">
+                            <li class="text-success p-2">
+                                Servicio Social:
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">1.Expediente de Inicio</a>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" href="/sisae/servicioSocial/inicio/solicitud">1.1.Solicitud</a>
+                                    <a class="dropdown-item" href="/sisae/servicioSocial/inicio/cartaCompromiso">1.2.Carta compromiso</a>
+                                    <a class="dropdown-item" href="/sisae/servicioSocial/inicio/cartaAsignacion">1.3.Carta de asignación</a>
+                                </div>
+                            </li>
+                            <li  class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">2.Seguimiento</a>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" href="/sisae/servicioSocial/seguimiento/cartaAceptacion">2.1.Carta de aceptación</a>
+                                    <a class="dropdown-item" href="/sisae/servicioSocial/seguimiento/planTrabajo">2.2. Plan de Trabajo</a>
+                                </div>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">3.Evaluación</a>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" href="/sisae/servicioSocial/evaluacion/evaluacion1">3.1.Primera evaluación de seguimiento</a>
+                                    <a class="dropdown-item" href="/sisae/servicioSocial/evaluacion/evaluacion2">3.2.Segunda evaluación de seguimiento</a>
+                                    <a class="dropdown-item" href="/sisae/servicioSocial/informeTecnico">3.3.Evaluación Final</a>
+                                    <a class="dropdown-item" href="/sisae/servicioSocial/evaluacion/evaluacionF">3.4.Informe Final</a>
+                                </div>
+                            </li>
+                            <li  class="nav-item">
+                                <a class="nav-link" href="/sisae/servicioSocial/cartaTerminacionServicioSocial">4.Carta de Terminación</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-md-2 text-right">
+                        {{> catPeriodos}}
+                    </div>
+                </div>
+            </div>
+		</div>  
+	</nav>
+</template>
+<!-- ************************************************************************************************************** -->
+<!--                                         SERVICIO SOCIAL PARA ALUMNOS                                           -->
+<!-- ************************************************************************************************************** -->
+<template name="servicioSocialAlumno">
+    <div class="toolBox well well-sm text-center">
+        <img src="/servicioSocial/servicioSocial.webp" height="150px">
+    </div>
+    {{> toolBoxServicioSocialAlumno}}
+    {{> detalleServivioSocialAlumno}}
+</template>
+<!-- ************************************************************************************************************** -->
+<!--                                 DETALLE DE SERVICIO SOCIAL PARA ALUMNOS                                        -->
+<!-- ************************************************************************************************************** -->
+<template name="detalleServivioSocialAlumno">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 text-center">
+                {{#if tieneConfiguracion}}
+                    <br><br><br>
+                    <h4 class="text-success">Programación para este ciclo escolar</h4>
+                    <br><br>
+                    <h5 class="text-primary">Inicio del período Servicio Social: <span class="text-success">{{fechaISS}}</span></h5>
+                    <h5 class="text-primary">Primer seguimiento: <span class="text-success">{{fecha1}}</span></h5>
+                    <h5 class="text-primary">Segundo seguimiento: <span class="text-success">{{fecha2}}</span></h5>
+                    <h5 class="text-primary">Tercer seguimiento: <span class="text-success">{{fecha3}}</span></h5>
+                    <h5 class="text-primary">Entrega del reporte final: <span class="text-success">{{fechaRF}}</span></h5>
+                    <h5 class="text-primary">Término del período del Servicio Social: <span class="text-success">{{fechaTSS}}</span></h5>
+                    <br><br>
+                    <p class="text-danger">
+                        Todos los documentos administrados en esta plataforma deberán entregarse firmados y sellados sgún corresponda en físico y originales a la 
+                        oficina de Servicio Social para concluir satisfactoriamente éste proceso.
+                    </p>
+                {{else}}
+                    <br><br><br>
+                    <h4 class="text-success">No se ha realizado calendarización de entrega de documentos para este ciclo escolar</h4>
+                    <br><br><br>
+                {{/if}}
+            </div>
+        </div>
+    </div>
+</template>
+<!-- ************************************************************************************************************** -->
+<!--                                SOLICITUD DE SERVICIO SOCIAL PARA ALUMNOS                                       -->
+<!-- ************************************************************************************************************** -->
+<template name="solicitudServicioSocialAlumno">
+    <div class="toolBox well well-sm text-center">
+        <img src="/servicioSocial/servicioSocial.webp" height="150px">
+    </div>
+    {{> toolBoxServicioSocialAlumno}}
+    {{#if tieneConfiguracion}}
+        <div class="container text-center bg-light">
+            <br>
+            <h5 class="text-primary">Solicitud de Servicio Social para el periodo {{periodo}}</h5>
+            <br>
+            <h5 class="text-success">NOTA: Una vez aceptada tu solicitud, no podrás realizar cambios</h5>
+            <br>
+            <div class="row text-left">
+                <ol>
+                    {{#if seAceptoSolictud}}
+                        <dt class="text-success">Ya subiste solicitud firmada y ha sido aceptada, descargala 
+                            <a href="{{ip}}{{miServicioSocial.expedienteInicio.pathSolicitud}}" target="_blank">(aquí)</a>
+                        </dt>
+                    {{else}}
+                        <li>Llena tu solicitud y registrala</li>
+                        {{#if tieneRegistradaSolicitud}}
+                            <li>Imprimela aquí [<i class="imprimirSolicitud text-primary fa fa-print"></i>], y firmala</li>
+                            <li>Subela firmada aquí [
+                                <i class="subirSolicitud fa fa-upload text-primary" aria-hidden="true" data-toggle="modal" data-target="#uploadSolicitudServicioSocial"></i>
+                            ]</li>
+                        {{else}}
+                            <li>Despues de registrarla, imprimela aquí [<i class="text-primary fa fa-print"></i>], y firmala</li>
+                            <li>Después de firmarla podrás subirla aquí [<i class="text-primary subirSolicitud fa fa-upload" aria-hidden="true"></i>]</li>
+                        {{/if}}
+                        {{#if yaSubioSolicitud}}
+                            <li class="text-success">Ya subiste solicitud firmada aunque aun no ha sido aceptada, puedes descargarla 
+                                <a href="{{ip}}{{miServicioSocial.expedienteInicio.pathSolicitud}}" target="_blank">(aquí)</a>
+                            </li>
+                        {{/if}}
+                    {{/if}}
+                </ol>
+            </div>
+            <br>
+        </div>
+        {{#autoForm schema="solicitudServicioSocialSchema" id="solicitudServicioSocialForm" autocomplete="off"}}
+            <fieldset>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <br>
+                            <h5 class="text-primary">Datos Personales</h5>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2">
+                            <h6 class="card-text">Nombre completo:</h6>
+                            <h6 class="card-text">Sexo:</h6>
+                            <h6 class="card-text">Telefono:</h6>
+                        </div>
+                        <div class="col-md-10">
+                            <h6 class="text-success">{{nombre}}</h6>
+                            <h6 class="text-success">{{sexo}}</h6>
+                            <h6 class="text-success">{{telefono}}</h6>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <br>
+                            <h5 class="">Domicilio</h5>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            {{> afQuickField name='domicilioAlumno' class="text-uppercase" value=miServicioSocial.alumno.domicilio}}
+                            {{> afQuickField name='coloniaAlumno' class="text-uppercase" value=miServicioSocial.alumno.colonia}}
+                            {{> afQuickField name='ciudadAlumno' class="text-uppercase" value=miServicioSocial.alumno.ciudad}}
+                            {{> afQuickField name='CPAlumno' value=miServicioSocial.alumno.cp}}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <br>
+                            <h5 class="text-primary">Escolaridad</h5>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h6>Num. Control: <span class="text-success">{{username}}</span></h6>
+                            <h6>Periodo: <span class="text-success">{{periodo}}</span></h6>
+                        </div>
+                        <div class="col-md-6">
+                            <h6>Carrera: <span class="text-success">{{carrera}}</span></h6>
+                            <h6>Semestre: <span class="text-success">{{semestre}}</span></h6>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <br>
+                            <h5 class="text-primary">Datos del programa</h5>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <span class="">Fecha de Icicio: <span class="text-success">{{fechaInicio}}</span></span>
+                        </div>
+                        <div class="col-md-6">
+                            <span class="">Fecha de Término: <span class="text-success">{{fechaTermino}}</span></span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            {{> afQuickField name='dependenciaOficial' class="text-uppercase" value=miServicioSocial.programa.dependenciaOficial}}
+                            {{> afQuickField name='titularDependencia' class="text-uppercase" value=miServicioSocial.programa.titularDependencia}}
+                            {{> afQuickField name='puestoTitularDependencia' class="text-uppercase" value=miServicioSocial.programa.puestoTitularDependencia}}
+                            {{> afQuickField name='domicilioDependencia' class="text-uppercase" value=miServicioSocial.programa.domicilioDependencia}}
+                            {{> afQuickField name='nombrePrograma' class="text-uppercase" value=miServicioSocial.programa.nombrePrograma}}
+                            {{> afQuickField name='modalidad' value=miServicioSocial.programa.modalidad}}
+                            {{> afQuickField name='tipoPrograma' value=miServicioSocial.programa.tipoPrograma}}
+                            {{> afQuickField name='actividades' class="text-uppercase" value=miServicioSocial.programa.actividades rows=5}}
+                        </div>
+                    </div>
+                    <br>
+                </div>
+            </fieldset>
+            {{#unless seAceptoSolictud}}
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <button type = "button" class="agregar btn btn-success" data-toggle="modal" data-target="#avisos">Registar la solicitud</button>
+                        </div>
+                    </div>
+                </div>
+            {{/unless}}
+        {{/autoForm}}
+    {{else}}
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <br><br><br>
+                    <h4 class="text-success">No se ha realizado calendarización de entrega de documentos para este ciclo escolar.</h4>
+                    <h4 class="text-danger">No puede registrar solicitud</h4>
+                    <br><br><br>
+                </div>
+            </div>
+        </div>
+    {{/if}}
+    {{> uploadSolicitudServicioSocial}}
+    {{> avisos}}
+</template>
+<!-- ************************************************************************************************************** -->
+<!--                      PLANTILLA PARA VISTA PREVIA DE LA SOLICITUD DE SERVICIO SOCIAL                            -->
+<!-- ************************************************************************************************************** -->
+<template name="vistaPreviaSolicitudServicioSocialAlumno">
+    <div id="prueba" style="background-color: white">
+        <br>
+        <div class="container text-center">
+            <div class="row">
+                <div class="col-md-12">
+                    <img src="/servicioSocial/encabezadoServicioSocial.png" width="100%">  
+                </div>
+            </div>
+        </div>
+        <div class="container text-center">
+            <div class="row">
+                <div class="col-md-2"></div>
+                <div class="col-md-8">
+                    <br><br>
+                    <h5>DEPARTAMENTO DE GESTION TECNOLOGICA Y VINCULACION</h5>
+                    <h5>SOLICITUD DE SERVICIO SOCIAL</h5>
+                    <br><br>
+                </div>
+                <div class="col-md-2">
+                    <img id="imgFotoPerfil" class="rounded" src="{{foto}}" height="130px">
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="container"> 
+            <div class="row text-left">
+                <div class="col-md-12">
+                    <h5>DATOS PERSONALES</h5>
+                    <table class="table table-bordered table-sm">   
+                        <tr>
+                            <td >Nombre completo</td>
+                            <td colspan="3" class="text-uppercase">{{miServicioSocial.alumno.nombre}}</td>
+                        </tr>
+                        <tr>
+                            <td style="width:15%">Sexo</td>
+                            <td style="width:35%">{{miServicioSocial.alumno.sexo}}</td>
+                            <td style="width:15%">Telefono</td>
+                            <td style="width:35%">{{miServicioSocial.alumno.telefono}}</td>
+                        </tr>
+                        <tr>
+                            <td>Domicilio</td>
+                            <td colspan="3" class="text-uppercase">{{domicilio}}</td>
+                        </tr>
+                    </table> 
+                    <br>
+                    <h5>ESCOLARIDAD</h5>
+                    <table  class="table table-bordered table-sm">
+                        <tr>
+                            <td style="width:15%">No. de Control</td>
+                            <td style="width:35%">{{miServicioSocial.alumno.nc}}</td>
+                            <td style="width:15%">Carrera</td>
+                            <td style="width:35%">{{miServicioSocial.alumno.carrera}}</td>
+                        </tr>
+                        <tr>
+                            <td>Periodo</td>
+                            <td>{{miServicioSocial.periodo}}</td>
+                            <td>Semestre</td>
+                            <td>{{miServicioSocial.alumno.semestre}}</td>
+                        </tr>
+                    </table>
+                    <br>
+                    <h5>DATOS DEL PROGRAMA</h5>
+                    <table  class="table table-bordered table-sm">
+                        <tr>
+                            <td>Dependencia Oficial</td>
+                            <td colspan="5" class="text-uppercase">{{miServicioSocial.programa.dependenciaOficial}}</td>
+                        </tr>
+                        <tr>
+                            <td>Titular de la Dependencia</td>
+                            <td colspan="5" class="text-uppercase">{{miServicioSocial.programa.titularDependencia}}</td>
+                        </tr>
+                        <tr>
+                            <td>Puesto</td>
+                            <td colspan="5" class="text-uppercase">{{miServicioSocial.programa.puestoTitularDependencia}}</td>
+                        </tr>
+                        <tr>
+                            <td>Nombre del Programa</td>
+                            <td colspan="5" class="text-uppercase">{{miServicioSocial.programa.nombrePrograma}}</td>
+                        </tr>
+                        <tr>
+                            <td>Modalidad</td>
+                            <td class="text-uppercase">{{miServicioSocial.programa.modalidad}}</td>
+                            <td>Fecha de Inicio</td>
+                            <td class="text-uppercase">{{miServicioSocial.programa.fechaInicio}}</td>
+                            <td>Fecha de Terminacion</td>
+                            <td class="text-uppercase">{{miServicioSocial.programa.fechaTermino}}</td>
+                        </tr>
+                        <tr>
+                            <td>Actividades</td>
+                            <td colspan="4" class="text-uppercase">{{miServicioSocial.programa.actividades}}</td>
+                        </tr>
+                    </table>
+                    <h5>Tipo de Programa</h5>
+                    <table  class="table table-bordered table-sm">
+                        <tr>
+                            <td>({{EA}})</td>
+                            <td>Educacion para adultos</td>
+                            <td>({{DC}})</td>
+                            <td>Desarrollo de Comunidad</td>
+                            <td>({{AD}})</td>
+                            <td>Actividades Deportivas</td>
+                        </tr>
+                        <tr>
+                            <td>({{AC}})</td>
+                            <td>Actividades civicas</td>
+                            <td>({{ACu}})</td>
+                            <td>Actividades culturales</td>
+                            <td>({{MA}})</td>
+                            <td>Medio ambiente</td>
+                        </tr>
+                        <tr>
+                            <td>({{DS}})</td>
+                            <td>Desarrollo sutentable</td>
+                            <td>({{AS}})</td>
+                            <td>Apoyo a la salud</td>
+                            <td>({{O}})</td>
+                            <td>Otro</td>
+                        </tr>
+                    </table>
+                    <br>
+                    <h5>PARA USO EXCLUSIVO DE LA OFICINA DE SERVICIO SOCIAL</h5>
+                    <table  class="table table-bordered table-sm">
+                        <tr>
+                            <td style="width:10%">ACEPTADO</td>
+                            <td style="width:15%">SI (___)   NO (___)</td>
+                            <td style="width:10%">MOTIVO</td>
+                            <td style="width:75%"></td>
+                        </tr>
+                        <tr>
+                            <td>OBSERVACIONES</td>
+                            <td colspan="3"></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <br>
+            <br>
+            <div class="row text-center">
+                <div class="col-md-12">
+                    ___________________________________<br>
+                    NOMBRE Y FIRMA DEL ESTUIDIANTE
+                </div>
+            </div> 
+        </div> 
+    </div>
+    <button id="btnImprimir" type="button" class="imprimirSolicitud btn btn-success btn-block" style="position: fixed; left:0px; top:0px; animation: blink 1s linear infinite;">
+        <i class="fa fa-file-pdf-o"></i>  Imprimir solicitud de Servicio Social 
+    </button>
+</template>
+<!-- ************************************************************************************************************** -->
+<!--                                   PLANTILLA PARA SUBIR LA SOLICITUD                                            -->
+<!-- ************************************************************************************************************** -->
+<template name="uploadSolicitudServicioSocial">
+    <div class="modal fade" id="uploadSolicitudServicioSocial">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="text-primary">Sube tu solicitud de Servicio Social (previamente firmada)</h3>
+                </div>
+                <div class="modal-body">
+                    <div class="fileupload fileupload-new" data-provides="fileupload" style="text-align:center">
+                        <br><span class="fileupload-exists"><h6 class="text-primary">Subela en formato .pdf</h6></span><br>
+                        <span class="btn btn-file" style="width: 100%">
+                            <input id="b" name="fileUploadName" class="file-upload-input" method="fileUploadMethod" type="file" accept=".pdf" style="width: 100%"/>
+                        </span>
+                        <br><br>
+                        <button id="btnCerrar" type="button" class="cerrar btn btn-primary" data-toggle="modal" data-target="#avisos" data-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+<!-- ************************************************************************************************************** -->
+<!--                                   PLANTILLA PARA LA CARTA COMPROMISO                                           -->
+<!-- ************************************************************************************************************** -->
+<template name="cartaCompromisoServicioSocial">
+    <div class="toolBox well well-sm text-center">
+        <img src="/servicioSocial/servicioSocial.webp" height="150px">
+    </div>
+    {{> toolBoxServicioSocialAlumno}}
+    {{#if tieneSolicitudServicioSocial}}
+        <div class="container bg-light">
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <br>
+                    <h5 class="text-primary">Carta compromiso del Servicio Social</h5>
+                    <br>
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="container text-left">
+            <li>Imprime tu Carta Compromiso aquí 
+                <a href="#">
+                    [<i class="imprimirCartaCompromiso text-primary fa fa-print"></i>]
+                </a>, y firmala
+            </li>
+            <br>
+            <li>Una vez firmada, subela aquí 
+                <a href="#">
+                    [<i class="subirCartaCompromiso text-primary fa fa-upload" data-toggle="modal" data-target="#uploadCartaCompromisoServicioSocial"></i>]
+                </a>
+            </li>
+            <br>
+            {{#if tieneCartaCompromiso}}
+                <li>Ya subiste tu carta compromiso, descargala aquí 
+                    <a href="{{ip}}{{miServicioSocial.expedienteInicio.pathCartaCompromiso}}" target="_blank">
+                        [<i class="descargarCartaCompromiso text-primary fa fa-download"></i>]
+                    </a>
+                </li>
+            {{/if}}
+        </div>
+    {{else}}
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <br><br><br>
+                    <h4 class="text-success">No ha registrado solicitud de servicio social</h4>
+                    <h4 class="text-danger">No puede generar la carta compromiso</h4>
+                    <br><br><br>
+                </div>
+            </div>
+        </div>
+    {{/if}}
+    {{> avisos}}
+    {{> uploadCartaCompromisoServicioSocial}}
+</template>
+<!-- ************************************************************************************************************** -->
+<!--                   PLANTILLA PARA VISTA PREVIA DE LA CARTA COMPROMISO DE SERVICIO SOCIAL                        -->
+<!-- ************************************************************************************************************** -->
+<template name="vistaPreviaCartaCompromisoServicioSocialAlumno">
+    <div id="prueba" style="background-color: white">
+        <br>
+        <div class="container text-center">
+            <div class="row">
+                <div class="col-md-12">
+                    <img src="/servicioSocial/encabezadoCartaCompromiso.png" width="100%">  
+                </div>
+            </div>
+        </div>
+        <div class="container text-center">
+            <div class="row">
+                <div class="col-md-12">
+                    <br><br>
+                    <h5>DEPARTAMENTO DE GESTION TECNOLOGICA Y VINCULACION</h5>
+                    <h5>OFICINA DE SERVICIO SOCIAL</h5>
+                    <br>
+                    <h5>CARTA COMPROMISO DE SERVICIO SOCIAL</h5>
+                    <br><br>
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="container"> 
+            <div class="row">
+                <div class="col-md-12 text-justify">
+                    <p>
+                        Con el fin de dar cumplimiento a lo establecido en la Ley Reglamentaria del Artículo 5° Constitucional relativo al ejercicio de profesiones, el suscrito:
+                    </p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-7">
+                    <span>NOMBRE:{{miServicioSocial.alumno.nombre}}</span><br><br>
+                    <span>DOMICILIO: {{domicilio}}</span><br><br>
+                </div>
+                <div class="col-md-5">
+                    <span>No. DE CONTROL:{{miServicioSocial.alumno.nc}}</span><br><br>
+                    <span>TELEFONO: {{miServicioSocial.alumno.telefono}}</span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-7">
+                    <span>CARRERA: {{miServicioSocial.alumno.carrera}}</span><br><br>
+                    <span>DEPENDENCIA: {{miServicioSocial.programa.dependenciaOficial}}</span><br><br>
+                    <span>DOMICILIO DE LA DEPENDENCIA: {{miServicioSocial.programa.domicilioDependencia}}</span><br><br>
+                    <span>RESPONSABLE DEL PROGRAMA: {{miServicioSocial.programa.titularDependencia}}</span><br><br>
+                </div>
+                <div class="col-md-5">
+                    <span>SEMESTRE: {{miServicioSocial.alumno.semestre}}</span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-7">
+                    <span>FECHA DE INICIO: {{fechaInicio}}</span>
+                </div>
+                <div class="col-md-5">
+                    <span>FECHA DE TERMINACION: {{fechaTermino}}</span>
+                </div>
+            </div>
+            <br><br>
+            <div class="row">
+                <div class="col-md-12 text-justify">
+                    <p>
+                        Me comprometo a realizar el Servicio Social acatando el reglamento del Sistema Nacional de Educación Superior Tecnológica 
+                        y llevarlo a cabo en el lugar y periodos manifestados, así como, a participar con mis conocimientos e iniciativa en las actividades que desempeñe, 
+                        procurando dar una imagen positiva del Instituto Tecnológico en el organismo o dependencia oficial, de no hacerlo así, 
+                        quedo enterado (a) de la cancelación respectiva, la cual procederá automáticamente.
+                    </p>
+                    <p>En la ciudad de: Tlajomulco de Zuñiga, Jalisco. {{fecha}}</p>
+                </div>
+            </div>
+            <br>
+            <br>
+            <div class="row">
+                <div class="col-md-12  text-center">
+                    <span>Conformidad</span>
+                    <br><br><br><br><br>
+                    ___________________________________<br>
+                    NOMBRE Y FIRMA DEL ESTUIDIANTE
+                </div>
+            </div> 
+        </div> 
+    </div>
+    <button id="btnImprimir" type="button" class="imprimirCartaCompromiso btn btn-success btn-block" style="position: fixed; left:0px; top:0px; animation: blink 1s linear infinite;">
+        <i class="fa fa-file-pdf-o"></i>  Imprimir la Carta Compromiso 
+    </button>
+</template>
+<!-- ************************************************************************************************************** -->
+<!--                                PLANTILLA PARA SUBIR LA CARTA COMPROMISO                                        -->
+<!-- ************************************************************************************************************** -->
+<template name="uploadCartaCompromisoServicioSocial">
+    <div class="modal fade" id="uploadCartaCompromisoServicioSocial">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="text-primary">Sube tu Carta Compromiso de Servicio Social (previamente firmada)</h3>
+                </div>
+                <div class="modal-body">
+                    <div class="fileupload fileupload-new" data-provides="fileupload" style="text-align:center">
+                        <br><span class="fileupload-exists"><h6 class="text-primary">Subela en formato .pdf</h6></span><br>
+                        <span class="btn btn-file" style="width: 100%">
+                            <input id="b" name="fileUploadName" class="file-upload-input" method="fileUploadMethod" type="file" accept=".pdf" style="width: 100%"/>
+                        </span>
+                        <br><br>
+                        <button id="btnCerrar" type="button" class="cerrar btn btn-primary" data-toggle="modal" data-target="#avisos" data-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>

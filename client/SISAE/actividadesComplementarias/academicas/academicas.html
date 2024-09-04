@@ -1,0 +1,12 @@
+<Template name="sisaeAcademicas">
+    {{#if esJefe}}
+        {{> academicasJefe}}
+    {{else}}
+        {{#if esDocente}}
+            {{> academicasDocente}}
+        {{/if}}
+        {{#if esAlumno}}
+            {{> academicasAlumno}}
+        {{/if}}
+    {{/if}}
+</Template>

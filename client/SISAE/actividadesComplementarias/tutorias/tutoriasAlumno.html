@@ -1,0 +1,160 @@
+<!-- ************************************************************************************************************** -->
+<!--                              BARRA DE HERRAMIENTAS DE TUTORIAS PARA JEFES                                      -->
+<!-- ************************************************************************************************************** -->
+<template name="toolBoxTutoriasAlumno">
+    <div class="toolBox well well-sm text-center">
+        <img src="/tutorias/tutorias.jpg" height="70px">
+        <!-- {{> catPeriodos}} -->
+        <button type="button" class="btn btn-default">
+            <a href="{{ip}}/tutorias/Ficha de identificacion del tutorado.docx" target="_blank">Formato ficha de identificación</a>
+        </button>
+        {{#if yo.profile.constanciaActividadTutorias}}
+            <button type="button" class="btn btn-default">
+                <a href="{{ip}}{{yo.profile.constanciaActividadTutorias}}" target="_blank">Constancia de Terminación</a>
+            </button>
+        {{/if}}
+    </div>	
+</template>
+<!-- ************************************************************************************************************** -->
+<!--                                      TUTORIAS PARA LOS ALUMNOS                                                 -->
+<!-- ************************************************************************************************************** -->
+<template name="tutoriasAlumno">
+    {{> toolBoxTutoriasAlumno}}
+    <div class="container">	
+        <div class="row align-items-center">
+            <div class="col-md-12" style="text-align: center">
+                <h4>Objetivo:</h4>
+                <p style="font-size:small">
+                    Brindar un acompañamiento de manera personal al estudiante, durante su proceso formativo propiciando el mejoramiento de la calidad
+                    y contribuyendo a su formación integral, mejorando los índices de permanencia, egreso y titulación oportuna.
+                    contempla tres ejes fundamentales: Desarrollo Académico, Desarrollo Personal y Desarrollo Profesional.
+                </p>
+            </div>	
+        </div>
+    </div>
+    {{#if tieneTutorias}}
+        <div class="table-responsive">
+            <table class="table-borderless">
+                <tr>
+                    <th style="width:10%">Periodo</th>
+                    <th style="width:30%">Tutor</th>
+                    <th style="width:10%" class="text-center">Ficha Id</th>
+                    <th style="width:5%">Termino</th>
+                    <th style="width:15%" class="text-center">No Termino</th>
+                    <th style="width:15%" class="text-center">Deserto</th>
+                    <th style="width:15%" class="text-center">Evaluación</th>
+                </tr>
+                <tbody>
+                    {{#each tutorias}}
+                        <tr>
+                            <td class="small">{{periodo}}</td>
+                            <td class="small">
+                                <button type="button" class="datos text-success" data-toggle="modal" data-target="#sisaeDetallesTutor">
+                                    <i class="fa fa-address-card" aria-hidden="true"></i>
+                                </button>
+                                {{docenteTutor}}
+                            </td>
+                            <td class="small text-center">
+                                {{#if alumnos.pathFichaIdentificacion}}
+                                    <a href="{{ip}}{{alumnos.pathFichaIdentificacion}}" target="_blank">
+                                        <i class="fa fa-file-pdf-o"></i>
+                                    </a>
+                                {{else}}
+                                    <button type="button" class="subeFicha btn btn-default text-success small" data-toggle="modal" data-target="#uploadFichaIdentificacion" title="Sube la ficha de identificacion llena en formato pdf">
+                                        <i class="fa fa-upload" aria-hidden="true"></i>
+                                    </button>
+                                {{/if}}
+                            </td>
+                            <td class="small text-center">
+                                {{#if alumnos.terminoTutoriaSemestral}}
+                                    <t class="text-success">SI</t>
+                                {{else}}
+                                    <t class="text-warning">NO</t>
+                                {{/if}}
+                            </td>
+                            <td class="small text-warning">
+                                {{alumnos.motivoNoTermino}}
+                            </td>
+                            <td class="small text-warning">
+                                {{alumnos.motivoDeserto}}
+                            </td>
+                            <td class="small text-center">
+                                {{#if alumnos.nivelDeDesempeño}}
+                                    <t class="text-success">{{alumnos.nivelDeDesempeño}}</t>
+                                {{else}}
+                                    <t class="text-warning">Tu Tutor no te ha evaluado</t>
+                                {{/if}}
+                            </td>
+                        </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+        </div>
+    {{else}}
+        <div class="container text-center">
+            <h3 class="text-warning">Aún no tiene registrada ninguna tutoria</h3>
+        </div>
+    {{/if}}
+    {{> uploadFichaIdentificacion}}
+    {{> sisaeDetallesTutor}}
+</template>
+<!-- ************************************************************************************************************** -->
+<!--                                      SUBIR LA FICHA DE IDENTIFICACION                                          -->
+<!-- ************************************************************************************************************** -->
+<template name="uploadFichaIdentificacion">
+	<div id="uploadFichaIdentificacion" class="modal fade">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h3 class="text-primary">Sube tu ficha de identificación devidamente llena</h3>
+				</div>
+				<div class="modal-body">
+					<div class="fileupload fileupload-new" data-provides="fileupload" style="text-align:center">
+						<span class="btn btn-file" style="width: 100%">
+							<span class="fileupload-exists">Sube tu ficha de identificación en pdf</span><br><br>
+							<input name="fileUploadName" class="file-upload-input" method="fileUploadMethod" type="file" accept=".pdf" style="width: 100%"/>
+						</span>
+						<button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</template>
+<!-- ************************************************************************************************************** -->
+<!--                                 PLANTILLA MODAL PAR VER LOS DETALLES DEL TUTOR                                 -->
+<!-- ************************************************************************************************************** -->
+<template name="sisaeDetallesTutor">
+    <div class="modal fade" id="sisaeDetallesTutor" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="text-primary">Detalles del Docente</h3>
+                </div>
+                <div class="modal-body">
+                    <div class="card">
+                        <div class="card-header" style="text-align: center">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <img id="imgFotoPerfil" class="rounded" src="{{foto}}" height="120px" width="120px"> 
+                                </div>
+                                <div class="col-md-8">
+                                    <br>
+                                    <h5 class="card-title">{{nombre}}</h5>
+                                    <h6 class="card-text">{{email}}</h6>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body" style="text-align: justify">
+                            
+                            <textarea class="form-control" rows="10" value="{{descripcion}}" disabled></textarea>
+                        </div>
+                        <div class="card-footer" style="text-align: right">
+                            <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>

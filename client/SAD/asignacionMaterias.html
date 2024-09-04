@@ -1,0 +1,158 @@
+<!-- ************************************************************************************************************** -->
+<!--                      BARRA DE HERRAMIENTAS PARA LA ASIGNACION DE MATERIAS                                      -->
+<!-- ************************************************************************************************************** -->
+<template name="toolBoxAsignacionMaterias">
+	<div class="toolBox well well-sm text-center">
+		{{> catPeriodos}}
+        {{#if puedeAgregar}}
+            {{#unless hayAsignaciones}}
+                <button type="button" class="agregarTodos btn btn-default" title="Agregar todos los docentes activos para realizarles su asignación">
+                    <i class="fa fa-users" aria-hidden="true"></i>
+                </button>
+            {{/unless}}
+            <button type="button" class="agregarDocente btn btn-default" data-toggle="modal" data-target="#addDocenteAsignacionMaterias" title="Agregar otro Docente">
+                <i class="fa fa-user-plus" aria-hidden="true"></i>
+            </button>
+            <txt class="text-primary">Docentes con materias: </txt><txt class="text-success">{{numAsignaciones}}</txt>
+        {{else}}
+            <txt class="text-primary">Materias diferentes asignadas: </txt><txt class="text-success">{{numMaterias}}</txt>
+		{{/if}}	
+    </div>
+    {{> addDocenteAsignacionMaterias}}	
+</template>
+<!-- ************************************************************************************************************** -->
+<!--                                     ASIGNACION DE MATERIAS                                                     -->
+<!-- ************************************************************************************************************** -->
+<template name="asignacionMaterias">
+    {{#if esDocente}}
+        <br>
+        {{> toolBoxAsignacionMaterias}} 
+        <br>
+        {{#if puedeModificar}}
+            <div class="container">
+                <input class="form-control myTxtBoxFiltroAsignacionMaterias" id="myFiltroAsignacionMaterias" type="text" placeholder="Filtrar por cualquier campo...">
+            </div>	
+            {{#each asignaciones}}
+                <table class="table table-hover  m-0 p-0" style="table-layout: fixed">
+                    <tbody id="myTableAsignacionMaterias">
+                        <tr>
+                            <td class= "text-success" style="width: 60%;">  
+                                <div data-toggle="collapse" data-target="#{{_id}}" aria-expanded="false" aria-controls="collapseExample" class="editar">{{docente}}</div>
+                            </td>
+                            <td class= "text-success" style="width: 30%;">
+                                <b>{{cantidadDeMaterias}}</b> Materias
+                            </td>
+                            <td style="width: 10%;">
+                                    <div style="position: static; right: 20px;">
+                                        <i class="agregarMateria fa fa-plus text-success" data-toggle="modal" data-target="#addMateriaAsignacionMaterias" aria-hidden="true" title="Agregar materia para este docente"></i>
+                                        |
+                                        <i class="borrar fa fa-trash text-danger" data-toggle="modal" data-target="#avisos" aria-hidden="true" title="Quitar el docente y sus materias"></i>
+                                    </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div  class="collapse" id="{{_id}}">
+                    <table class="table table-hover  m-0 p-0" style="table-layout: fixed">
+                        <tbody>
+                            {{#each materia}}  
+                                <tr>
+                                    <td class="small" style="width: 30%;">
+                                        <i class="quitarMateria fa fa-trash text-danger" aria-hidden="true" title="Quitarle la materia al docente"></i>
+                                        {{nombre}}
+                                    </td>
+                                    <td class="small" style="width: 30%;">{{carrera}}</td>
+                                    <td class="small" style="width: 10%;">{{grupo}}</td>
+                                    <td class="small" style="width: 30%;">{{departamento}}</td>
+                                </tr>  
+                            {{/each}}
+                        </tbody>
+                    </table>  
+                </div>
+            {{/each}}	
+        {{else}}
+            <table>
+                <thead>
+                    <tr class="">
+                        <th style="width: 6%">Clave</th>
+                        <th style="width: 25%">Nombre</th>
+                        <th style="width: 25%">Carrera</th>
+                        <th style="width: 7%">Semestre</th>
+                        <th style="width: 7%">Creditos</th>
+                        <th style="width: 8%">Hr. Teoria</th>
+                        <th style="width: 9%">Hr. Práctica</th>
+                        <th style="width: 13%">Departamento</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each materias}} 
+                        <tr>
+                            <td class="small">{{clave}}</td>
+                            <td class="small"><a href="{{ip}}{{path}}" target="_blank">{{nombre}}</a></td>
+                            <td class="small">{{carrera}}</td>  
+                            <td class="small text-center">{{semestre}}</td>
+                            <td class="small text-center">{{creditos}}</td>
+                            <td class="small text-center">{{hrsTeoria}}</td>
+                            <td class="small text-center">{{hrsPractica}}</td>
+                            <td class="small">{{departamento}}</td>
+                        </tr>  
+                    {{/each}}			 
+                </tbody>  
+            </table>
+        {{/if}}
+        {{> avisos}}
+        {{> addMateriaAsignacionMaterias}}
+    {{else}}
+        {{>sinAcceso}}
+    {{/if}}
+</template>
+<!-- ************************************************************************************************************** -->
+<!--                             AGREGA DOCENTE A ASIGNACIONES DE MATERIAS                                          -->
+<!-- ************************************************************************************************************** -->
+<template name="addDocenteAsignacionMaterias">
+        <div id="addDocenteAsignacionMaterias" class="modal face">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 class="text-primary">Selecciona un docente para asignarle materias<br><h6>{{periodo}}</h6></h3>
+                    </div>
+                    <div class="modal-body text-center">
+                        {{> buscarDocente}}
+                    </div>
+                    <div class="modal-footer text-right">
+                        <button type="button" class="agregar btn btn-success" data-toggle="modal" data-target="#avisos" data-dismiss="modal">Agregar</button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+</template>
+<!-- ************************************************************************************************************** -->
+<!--                                   AGREGA MATERIAS A DOCENTES                                                   -->
+<!-- ************************************************************************************************************** -->
+<template name="addMateriaAsignacionMaterias">
+    <div id="addMateriaAsignacionMaterias" class="modal face">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="text-primary">{{periodo}}<br><h5>{{docente}}</h5></h4>
+                </div>
+                <div class="modal-body text-center">
+                    <h5>Selecciona una materia para el docente</h5>
+                    {{> catCarreras}}
+                    <br><br>
+                    {{> buscarMateria}}
+                    <br><br>
+                    <form>
+                        <label for="grupo">Grupo:</label>
+                        <input type="text" id="inputGrupo"><br>
+                    </form>
+                </div>
+                <div class="modal-footer text-right">
+                    <button type="button" class="agregar btn btn-success" data-toggle="modal" data-target="#avisos" data-dismiss="modal">Agregar</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>

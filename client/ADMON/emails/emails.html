@@ -1,0 +1,56 @@
+<!-- ************************************************************************************************************** -->
+<!--                                                 BITACORA DE eMAILS                                             -->
+<!-- ************************************************************************************************************** -->
+<template name="emails">
+    {{#if esJefe}}  
+        <br>
+        <div>
+            <h4 class="text-center text-primary">Bitacora de emails</h4>
+        </div>
+        <br>
+        <ul class="nav nav-pills justify-content-center">
+            <li class="nav-item">
+                <label for="from">De:</label>
+                <input type="text" name="from" id="fromEMail" value="{{from}}">
+            </li>
+            <li>
+                <label for="start">del</label>
+                <input type="date" id="start" name="trip-start" class="start" value="{{start}}">
+            </li>
+            <li>
+                <label for="end">al</label>
+                <input type="date" id="end" name="trip-start" class="end" value="{{end}}">
+            </li>
+        </ul>
+        <div class="text-center">
+            <button id="buscar" class="buscar form-control btn btn-outline-success">Buscar</button>
+            <input class="form-control myTxtBoxFiltro" id="myEMailsFiltro" type="text" placeholder="Filtrar por cualquier campo...">
+        </div>
+        {{#if Template.subscriptionsReady}}
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr class="success">
+                            <th class="text-primary">Para</th>
+                            <th class="text-primary">Fecha</th>
+                            <th class="text-primary">Asunto</th>
+                            <th class="text-primary">Mensaje</th>
+                        </tr>
+                    </thead>
+                    <tbody id="myTableEMails">
+                        {{#each emails}}
+                        <tr class="sobre">
+                            <td class="small">{{to}}</td>
+                            <td class="small">{{date}}</td>
+                            <td class="small">{{subject}}</td>
+                            <td class="small">{{text}}</td>
+                        </tr>
+                        {{/each}}
+                    </tbody>  
+                </table>
+            </div>
+        {{else}}
+            {{> spinner}}
+        {{/if}}
+    {{/if}}
+</template>

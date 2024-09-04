@@ -1,0 +1,53 @@
+<!-- ************************************************************************************************************** -->
+<!--                                        PLANTILLA PARA EL MENU DEL SISAE                                        -->
+<!-- ************************************************************************************************************** -->
+<template name="menuSAD">
+	<nav class="navbar navbar-expand-xl bg-white navbar-primary border border-warning">
+		<button class="navbar-toggler bg-success navbar-light" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse bg-light" id="collapsibleNavbar">
+			<ul class="navbar-nav">
+				<li class="text-success p-2">
+					SAD:
+				</li>
+				<li  class="nav-item">
+					<a class="nav-link" href="/"><i class="fa fa-home" aria-hidden="true"></i></a>
+				</li>
+				{{#if esDocente}}
+					<li  class="nav-item">
+						<a class="nav-link" href="/sad/asignacionMaterias">Materias asignadas</a>
+					</li>
+					<li  class="nav-item">
+						<a class="nav-link" href="/sad/instrumentaciones">Instrumentaciones</a>
+					</li>
+					{{#if esJefe}}
+						<li class="nav-item dropdown">
+							<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" title="Actividades Complementarias">Horario y reportes</a>
+							<div class="dropdown-menu">
+								<a class="dropdown-item" href="/sad/horarios">Horarios</a>
+								<a class="dropdown-item" href="/sad/reporte1">Reporte 1</a>
+								<a class="dropdown-item" href="/sad/reporte2">Reporte 2</a>
+								<a class="dropdown-item" href="/sad/reporte3">Reporte 3</a>
+								<a class="dropdown-item" href="/sad/reporteF">Reporte Final</a>
+								<a class="dropdown-item" href="/sad/reportePI">Reporte de Proy. Indiv.</a>
+							</div>
+						</li>
+					{{else}}
+						<li  class="nav-item">
+							<a class="nav-link" href="/sad/horarioYReportes">Horario y reportes</a>
+						</li>
+					{{/if}}
+					<li  class="nav-item">
+						<a class="nav-link" href="/sad/constanciaTerminacion">Constancias de Term.</a>
+					</li>
+					{{#if esJefe}}
+						<li  class="nav-item">
+							<a class="nav-link" href="/sad/resumen">Resumen</a>
+						</li>
+					{{/if}}
+				{{/if}}
+			</ul>
+		</div>  
+	</nav>
+</template>

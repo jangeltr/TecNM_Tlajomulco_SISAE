@@ -1,0 +1,218 @@
+<!-- ************************************************************************************************************** -->
+<!--                            CATALOGO DE CARRERAS UTILIZADO POR VARIAS TEMPLATES                                 -->
+<!-- ************************************************************************************************************** -->
+<template name="catCarreras">
+    <select class="select btn btn-default">
+        <option value="Ingenieria en Sistemas Computacionales">Ingenieria en Sistemas Computacionales</option>
+        <option value="Ingenieria en Agronomia">Ingenieria en Agronomia</option>
+        <option value="Ingenieria en Industrias Alimentarias">Ingenieria en Industrias Alimentarias</option>
+        <option value="Ingenieria en Innovacion Agricola">Ingenieria en Innovacion Agricola</option>
+        <option value="Ingenieria Ambiental">Ingenieria Ambiental</option>
+        <option value="Mestria en Ciencias en Agrobiotecnologia">Mestria en Ciencias en Agrobiotecnologia</option>
+        <option value="Doctorado en Ciencias de los Alimentos y Biotecnologia">Doctorado en Ciencias de los Alimentos y Biotecnologia</option>
+        <option value="Doctorado en Ciencias en Biotecnologia en Procesos Agropecuarios">Doctorado en Ciencias en Biotecnologia en Procesos Agropecuarios</option>
+        <option selected hidden value={{carrera}}>{{carrera}}</option>
+    </select>
+</template>
+<!-- ************************************************************************************************************** -->
+<!--                                        CATALOGO DE PERIODOS                                                    -->
+<!-- ************************************************************************************************************** -->
+<Template name="catPeriodos">
+    {{#if Template.subscriptionsReady}}
+        <select class="select btn btn-default">
+            {{#each periodos}}
+                <option value={{periodo}}>{{periodo}}</option>
+            {{/each}}
+            <option selected hidden value={{periodoTutorias}}>{{periodoTutorias}}</option>
+        </select>
+    {{/if}}
+</Template>
+<!-- ************************************************************************************************************** -->
+<!--                                    CATALOGO DE STATUS DE ALUMNOS                                               -->
+<!-- ************************************************************************************************************** -->
+<Template name="catStatusAlumnos">
+    {{#if Template.subscriptionsReady}}
+        <select class="select btn btn-default">
+            {{#each catStatus}}
+                <option id="statusAlumno" value={{label}}>{{value}}</option>
+            {{/each}}
+            <option selected hidden value="Activo">Activo</option>
+        </select>
+    {{/if}}
+</Template>
+<!-- ************************************************************************************************************** -->
+<!--                                          PLANTILLA MODAL PARA AVISOS                                           -->
+<!-- ************************************************************************************************************** -->
+<template name="avisos">
+    <div class="modal" id="avisos" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="text-primary">{{encabezado}}</h3>
+                </div>
+                <div class="modal-body" style="text-align: center;">
+                    {{#if positivo}}
+                        <img src="/Si.png" height="100px">
+                    {{else}}
+                        <img src="/No.png" height="120px">
+                    {{/if}}
+                    <br><br>
+                    <h5>{{aviso}}</h5>  
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary"  data-dismiss="modal">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+<!-- ************************************************************************************************************** -->
+<!--                                        PLANTILLA CON ACCESO                                                    -->
+<!-- ************************************************************************************************************** -->
+<template name="conAcceso">
+	<div class="row">
+        <div class="col-md-12" style="text-align: center">
+            <br><br>
+            <img src="/conAcceso.png" height="200px">
+            <br><br>
+        </div>
+	</div>
+</template>
+<!-- ************************************************************************************************************** -->
+<!--                                        PLANTILLA SIN ACCESO                                                    -->
+<!-- ************************************************************************************************************** -->
+<template name="sinAcceso">
+    <div class="row">
+        <div class="col-md-12" style="text-align: center">
+            <br><br>
+            <img src="/sinAcceso.png" height="200px">
+            <br><br>
+        </div>
+    </div>
+</template>
+<!-- ************************************************************************************************************** -->
+<!--                     PLANTILLA PARA AUTOCOMPLETAR EL NOMBRE DEL DOCENTE EN LA BUSQUEDA                          -->
+<!-- ************************************************************************************************************** -->
+<template name="buscarDocente">
+    <input  class="form-control typeahead text-center" 
+            name="docente" id="findDocenteName" type="text" 
+            placeholder="Docente" autocomplete="off" 
+            spellcheck="off" data-source="docente"  
+            style="width: 500px" 
+            onfocus="this.value='';this.classList.remove('bg-danger');"/>
+</template>
+<!-- ************************************************************************************************************** -->
+<!--                     PLANTILLA PARA AUTOCOMPLETAR EL NOMBRE DE LA MATERIA EN LA BUSQUEDA                        -->
+<!-- ************************************************************************************************************** -->
+<template name="buscarMateria">
+    <input  class="form-control typeahead text-center" 
+            name="materia" id="findMateriaName" type="text" 
+            placeholder="Materia" autocomplete="off" 
+            spellcheck="off" data-source="materia"  
+            style="width: 500px"/>
+</template>
+<!-- ************************************************************************************************************** -->
+<!--                                        PLANTILLA EN CONSTRUCCION                                               -->
+<!-- ************************************************************************************************************** -->
+<template name="enConstruccion">
+	<div class="row">
+        <div class="col-md-12" style="text-align: center">
+            <br><br>
+            <img src="/enConstruccion.jpg" height="200px">
+            <br><br>
+        </div>
+	</div>
+</template>
+<!-- ************************************************************************************************************** -->
+<!--                                            ENVIO DE EMAILS                                                     -->
+<!-- ************************************************************************************************************** --> 
+<template name="sendeMail">
+    <div id="sendeMail" class="modal fade">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="text-primary">Envio de eMail</h3>
+                </div>
+                <div class="modal-body">
+                    {{#autoForm schema="emailSchema" id="eMail"}}
+                        <fieldset>
+                            {{> afQuickField name='from' value=from readonly=true}}
+                            {{> afQuickField name='to' value=to readonly=true}}
+                            {{> afQuickField name='subject' value=subject}}
+                            {{> afQuickField name='text' rows=8}}
+                        </fieldset>
+                    {{/autoForm}}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="enviar btn btn-outline-success" data-toggle="modal" 
+                    data-target="#avisos" data-dismiss="modal">Enviar</button>
+                    <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Cancelar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+<!-- ************************************************************************************************************** -->
+<!--                                     SAD:     SUBIR HORARIO O REPORTE                                           -->
+<!-- ************************************************************************************************************** -->
+<template name="uploadFileHorarioReporte">
+	<div id="uploadFileHorarioReporte" class="modal fade">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h3 class="text-primary">{{titulo}}</h3>
+				</div>
+				<div class="modal-body">
+					<div class="fileupload fileupload-new" data-provides="fileupload" style="text-align:center">
+                        <span class="text-success">{{textoBody}}</span><br><br>
+                        <input id="btnFile" class="file-upload-input" method="fileUploadMethod" 
+                        type="file" accept=".{{tipoArchivo}}" hidden/>
+                        <button class="btnSubirArchivo btn btn-outline-primary">Seleccionar y subir archivo</button><br><br>
+                        <span class="text-success">Archivo subido: </span>
+                        <span><b id="txtFileName" class="text-danger">Sin archivo</b></span>
+					</div>
+                </div>
+                <div class="modal-footer">
+                    <div>
+                        <img src="/Si.png" height="40px" id="imgCargo" style="display: none;">
+                    </div>
+                    <div>
+                        <button type="button" class="btnCerrar btn btn-outline-primary" data-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+			</div>
+		</div>
+	</div>
+</template>
+<!-- ************************************************************************************************************** -->
+<!--                                   ADMON:     SUBIR FORMATO PARA EL SAD                                         -->
+<!-- ************************************************************************************************************** -->
+<template name="uploadFileFormatoSADenADMON">
+	<div id="uploadFileFormatoSADenADMON" class="modal fade">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h3 class="text-primary">{{titulo}}</h3>
+				</div>
+				<div class="modal-body">
+					<div class="fileupload fileupload-new" data-provides="fileupload" style="text-align:center">
+                        <span class="text-success">{{textoBody}}</span><br><br>
+                        <input id="btnFileFormatoSADenADMON" class="file-upload-input" method="fileUploadMethod" 
+                        type="file" accept=".{{tipoArchivo}}" hidden/>
+                        <button class="btnSubirArchivo btn btn-outline-primary">Seleccionar y subir archivo</button><br><br>
+                        <span class="text-success">Archivo subido: </span>
+                        <span><b id="txtFileNameFormatoSADenADMON" class="text-danger">Sin archivo</b></span>
+					</div>
+                </div>
+                <div class="modal-footer">
+                    <div>
+                        <img src="/Si.png" height="40px" id="imgCargoFormatoSADenADMON" style="display: none;">
+                    </div>
+                    <div>
+                        <button type="button" class="btnCerrar btn btn-outline-primary" data-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+			</div>
+		</div>
+	</div>
+</template>

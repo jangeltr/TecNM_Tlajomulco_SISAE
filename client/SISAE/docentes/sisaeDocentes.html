@@ -1,0 +1,134 @@
+<!-- ************************************************************************************************************** -->
+<!--                                        BARRA DE HERRAMIENTAS DE DOCENTES                                       -->
+<!-- ************************************************************************************************************** -->
+<template name="sisaeToolBoxDocentes">
+    <div class="toolBox container p-3 my-3" style="text-align: center">
+        <p class="seccion text-primary">({{totalDocentes}})Docentes</p>
+        <button class="roles btn btn-default" title="Puestos administrativos" data-toggle="modal" data-target="#roles"><i class="fa fa-users" aria-hidden="true"></i></button>
+        <br>
+    </div>	
+    <div class="container">
+        <input class="form-control myTxtBoxFiltro" id="myFiltro" type="text" placeholder="Filtrar por cualquier campo...">
+    </div>
+</template>
+<!-- ************************************************************************************************************** -->
+<!--                                        PLANTILLA DE DOCENTES                                                   -->
+<!-- ************************************************************************************************************** -->
+<template name="sisaeDocentes">
+    {{#if Template.subscriptionsReady}}
+        {{> sisaeToolBoxDocentes}}
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr class="table-success">
+                        <th><a class="ordDocentes" href="">Nombre</a></th>
+                        <th>email</th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody id="myTableDocentes">
+                    {{#each listaDocentes}}
+                        {{> sisaeShowDocente}}
+                    {{/each}}
+                </tbody>  
+            </table>
+        </div>
+        {{> sisaeRoles}}
+        {{> sisaeDetallesDocente}}
+        {{> sendeMail}}
+        {{> avisos}}
+    {{else}}
+        {{> spinner}}
+    {{/if}}
+</template>
+<!-- ************************************************************************************************************** -->
+<!--                                     PLANTILLA PARA MOSTRAR CADA DOCENTE                                        -->
+<!-- ************************************************************************************************************** -->
+<template name="sisaeShowDocente">
+    <tr>
+        <td>{{profile.prefijo}} {{profile.name}}</td>
+        <td>
+            {{#each emails}}
+                {{address}}
+            {{/each}}
+        </td>
+        <td class="text-center">
+            <button class="btn text-success small m-0 p-0" id="btnDetallesDocente" title="Detalles del docente"
+            data-toggle="modal" data-target="#detallesDocente">
+                <i class="fa fa-address-card-o" aria-hidden="true"></i>
+            </button>  
+        </td>
+        <td>
+            <button class="sendEMail btn text-success small m-0 p-0" id="btnEnviarEMails" title="Enviale un eMail"
+            data-toggle="modal" data-target="#sendeMail">
+                <i class="fa fa-envelope-o" aria-hidden="true"></i>
+            </button>
+        </td>
+    </tr>
+</template>
+<!-- ************************************************************************************************************** -->
+<!--                                        PLANTILLA MODAL PAR VER LOS ROLES                                       -->
+<!-- ************************************************************************************************************** -->
+<template name="sisaeRoles">
+    <div class="modal fade" id="roles" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="text-primary">Puestos administrativos</h3>
+                </div>
+                <div class="modal-body">
+                    <table class="table table-striped">
+                    <tbody>
+                        {{#each roles}}
+                            <tr>
+                                <td>{{rol}}</td>
+                            </tr>
+                        {{/each}}
+                    </tbody>  
+                    </table>    
+                </div>
+                <div class="modal-footer"  style="text-align: right">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+<!-- ************************************************************************************************************** -->
+<!--                                 PLANTILLA MODAL PAR VER LOS DETALLES DEL DOCENTE                               -->
+<!-- ************************************************************************************************************** -->
+<template name="sisaeDetallesDocente">
+    <div class="modal fade" id="detallesDocente" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="text-primary">Detalles del Docente</h3>
+                </div>
+                <div class="modal-body">
+                    <div class="card">
+                        <div class="card-header" style="text-align: center">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <img id="imgFotoPerfil" class="rounded" src="{{foto}}" height="120px" width="120px"> 
+                                </div>
+                                <div class="col-md-8">
+                                    <br>
+                                    <h5 class="card-title">{{nombre}}</h5>
+                                    <h6 class="card-text">{{email}}</h6>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body" style="text-align: justify">
+                            
+                            <textarea class="form-control" rows="10" value="{{descripcion}}" disabled></textarea>
+                        </div>
+                        <div class="card-footer" style="text-align: right">
+                            <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>

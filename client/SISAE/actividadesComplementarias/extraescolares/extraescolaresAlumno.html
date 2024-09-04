@@ -1,0 +1,151 @@
+<!-- ************************************************************************************************************** -->
+<!--                          BARRA DE HERRAMIENTAS DE EXTRAESCOLARES PARA ALUMNOS                                  -->
+<!-- ************************************************************************************************************** -->
+<template name="toolBoxExtraescolaresAlumno">
+    <div class="toolBox well well-sm text-center">
+        <img src="/extraescolares/extraescolares.jpg" height="70px">
+        {{#if yo.profile.constanciaActividadExtraescolar}}
+        <button type="button" class="btn btn-default">
+            <a href="{{ip}}{{yo.profile.constanciaActividadExtraescolar}}" target="_blank">Constancia de Terminación</a>
+        </button>
+        {{/if}}
+    </div>	
+</template>
+<!-- ************************************************************************************************************** -->
+<!--                                      EXTRAESCOLARES PARA LOS ALUMNOS                                           -->
+<!-- ************************************************************************************************************** -->
+<template name="extraescolaresAlumno">
+    {{> toolBoxExtraescolaresAlumno}}
+    <br><hr><br>
+    {{#if tieneActividadesExtraescolares}}
+        <h4>Actividades en las que has sido aceptado(a)</h4>
+        <div class="table-responsive">
+            <table class="table">
+                <tr class="table-secondary">
+                    <th style="width:10%">Periodo</th>
+                    <th style="width:30%">Instructor</th>
+                    <th style="width:30%">Actividad</th>
+                    <th style="width:30%" class="text-center">Evaluación</th>
+                </tr>
+                <tbody>
+                    {{#each actividadesExtraescolares}}
+                        <tr>
+                            <td class="small">
+                                {{periodo}}
+                            </td>
+                            <td class="small">
+                                <button type="button" class="datos text-success" data-toggle="modal" data-target="#sisaeDetallesInstructor">
+                                    <i class="fa fa-address-card" aria-hidden="true"></i>
+                                </button>
+                                {{docente}}
+                            </td>
+                            <td class="small">
+                                {{actividad}}
+                            </td>
+                            <td class="small text-center">
+                                {{#if alumnos.nivelDeDesempeño}}
+                                    <t class="text-success">{{alumnos.nivelDeDesempeño}}</t>
+                                    {{#if alumnos.pathConstanciaTerminacionDelDepto}}
+                                        <a href="{{ip}}{{alumnos.pathConstanciaTerminacionDelDepto}}" title="Descargar la constancia" target="_blank">
+                                            <i class="fa fa-file-pdf-o"></i>
+                                        </a>
+                                    {{else}}
+                                        <t class="text-warning">No te han subido Constancia</t>
+                                    {{/if}}
+                                {{else}}
+                                    <t class="text-warning">Tu Instructor no te ha evaluado</t>
+                                {{/if}}
+                            </td>
+                        </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+        </div>
+    {{else}}
+        <div class="container text-center">
+            <h3 class="text-warning">Aún no tiene registrada ninguna Actividad Extrescolar</h3>
+        </div>
+    {{/if}}
+    <br><hr><br>
+    <h4>Actividades en el periodo: {{periodoActual}}</h4>
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <tr class="table-secondary">
+                    <th style="width:30%">Actividad</th>
+                    <th style="width:30%">Instructor</th>
+                    <th style="width:10%">Modalidad</th>
+                    <th style="width:10%">Horario</th>
+                    <th style="width:10%">Sede</th>
+                    <th style="width:10%">Solicitar Ingreso</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each actividadesExtraescolaresTotales}}
+                    <tr>
+                        <td class="small">{{actividad}}</td>
+                        <td class="small">
+                            <button type="button" class="datos text-success" data-toggle="modal" data-target="#sisaeDetallesInstructor">
+                                <i class="fa fa-address-card" aria-hidden="true"></i>
+                            </button>
+                            {{docente}}
+                        </td>
+                        <td class="small">{{modalidad}}</td>
+                        <td class="small">{{horario}}</td>
+                        <td class="small">{{sede}}</td>
+                        <td class="text-center">
+                            {{#if heSidoAceptadoEnEstaActividad}}
+                                <i class="fa fa-check" aria-hidden="true"></i>
+                            {{else}}
+                                {{#if heSolicitadoEstaActividad}}
+                                    <input class="actividad" data-toggle="modal" data-target="#avisos" type="checkbox" checked>
+                                {{else}}
+                                    <input class="actividad" data-toggle="modal" data-target="#avisos"  type="checkbox">
+                                {{/if}}
+                            {{/if}}
+                        </td>
+                    </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </div>
+    {{> avisos}}
+    {{> sisaeDetallesInstructor}}
+</template>
+<!-- ************************************************************************************************************** -->
+<!--                                 PLANTILLA MODAL PAR VER LOS DETALLES DEL INSTRUCTOR                            -->
+<!-- ************************************************************************************************************** -->
+<template name="sisaeDetallesInstructor">
+    <div class="modal fade" id="sisaeDetallesInstructor" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="text-primary">Detalles del Docente</h3>
+                </div>
+                <div class="modal-body">
+                    <div class="card">
+                        <div class="card-header" style="text-align: center">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <img id="imgFotoPerfil" class="rounded" src="{{foto}}" height="120px" width="120px"> 
+                                </div>
+                                <div class="col-md-8">
+                                    <br>
+                                    <h5 class="card-title">{{nombre}}</h5>
+                                    <h6 class="card-text">{{email}}</h6>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body" style="text-align: justify">
+                            
+                            <textarea class="form-control" rows="10" value="{{descripcion}}" disabled></textarea>
+                        </div>
+                        <div class="card-footer" style="text-align: right">
+                            <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>

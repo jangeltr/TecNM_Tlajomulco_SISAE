@@ -1,0 +1,210 @@
+<!-- ************************************************************************************************************** -->
+<!--                                        BARRA DE HERRAMIENTAS DE MATERIAS                                       -->
+<!-- ************************************************************************************************************** -->
+<template name="toolBoxMaterias">
+    <div class="toolBox well well-sm text-center">
+        <button type="button" class="reticula btn btn-primary" title="Reticula/Materias">
+            <i class="fa fa-wpforms fa-lg" aria-hidden="true"></i>
+        </button>
+        {{> catCarreras}}
+        <button type="button" class="imagenReticula btn btn-primary" data-toggle="modal" data-target="#changeReticulaImage" title="Cambiar imagen de la reticula">
+            <i class="fa fa-picture-o fa-lg" aria-hidden="true"></i>
+        </button>
+        {{> changeReticulaImage}}
+    </div>	
+</template>
+<!-- ************************************************************************************************************** -->
+<!--                                                       MATERIAS                                                 -->
+<!-- ************************************************************************************************************** -->
+<template name="materias">
+    {{#if esJefe}}
+        {{> toolBoxMaterias}}
+        {{#if Template.subscriptionsReady}}
+            {{#if reticula}}
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                        <img src="{{ip}}materias/reticulas/{{carrera}}.jpg" class="img-fluid" alt="Chania" height="850px" width="1100px" id="imgReticula">
+                    </div>
+                </div>
+            {{else}}
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-1 text-center">
+                            <button type="button" class="agregar btn btn-success" data-toggle="modal" data-target="#addMateria" title="Agregar materia">
+                                <i class="fa fa-plus fa-lg" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                        <div class="col-md-10 text-center">
+                            <input class="form-control myTxtBoxFiltro" id="myMateriasFiltro" type="text" placeholder="Filtrar por cualquier campo...">
+                        </div>
+                        <div class="col-md-1">
+                            
+                        </div>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <tbody id="myTableMaterias">
+                            <tr class="success">
+                                <th>Clave</th>
+                                <th><a class="ordAsignatura" href="">Asignatura</a></th>
+                                <th><a class="ordSemestre" href="">Semestre</a></th>
+                                <th>Creditos</th>
+                                <th>Hr. Teoria</th>
+                                <th>Hr. Práctica</th>
+                                <th>Departamento</th> 
+                                <th>Cambios</th>
+                            </tr>  
+                            {{#each materia}} 
+                                <tr>
+                                    <td>{{clave}}</td>
+                                    <td><a href="{{ip}}{{path}}" target="_blank">{{nombre}}</a></td>
+                                    <td>{{semestre}}</td>
+                                    <td>{{creditos}}</td>
+                                    <td>{{hrsTeoria}}</td>
+                                    <td>{{hrsPractica}}</td>
+                                    <td>{{departamento}}</td>
+                                    <td class="small">
+                                        <button type="button" class="subir btn btn-default text-success"  data-toggle="modal" data-target="#uploadMateria">
+                                            <i class="fa fa-arrow-up" aria-hidden="true"></i>
+                                        </button>
+                                        <button type="button" class="editar btn btn-default text-success"  data-toggle="modal" data-target="#updateMateria">
+                                            <i class="fa fa-pencil" aria-hidden="true"></i>
+                                        </button>
+                                        {{#if esAdministrador}}
+                                            <button type="button" class="borrar btn btn-default text-danger" data-toggle="modal" data-target="#avisos">
+                                                <i class="fa fa-trash" aria-hidden="true"></i>
+                                            </button>
+                                        {{/if}}
+                                    </td>  
+                                </tr>  
+                            {{/each}}
+                        </tbody>  
+                    </table>
+                </div>
+            {{/if}}
+            {{> addMateria}}
+            {{> uploadMateria}}
+            {{> updateMateria}}
+            {{> avisos}}
+        {{else}}
+            {{> spinner}}
+        {{/if}}
+    {{else}}
+        {{> sinAcceso}}
+    {{/if}}
+</template>
+<!-- ************************************************************************************************************** -->
+<!--                                        PLANTILLA PARA AGREGAR MATERIAS                                         -->
+<!-- ************************************************************************************************************** -->
+<template name="addMateria">
+	<div class="modal fade" id="addMateria" tabindex="-1" role="dialog">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+                    <h3 class="text-primary">Agrega Materias<h5>{{carrera}}</h5></h3>
+				</div>
+				<div class="modal-body">
+					{{#autoForm schema="materiasSchema" id="frmAddMateria"}}
+						<fieldset>
+							{{> afQuickField name='clave'}}
+							{{> afQuickField name='nombre'}}
+							{{> afQuickField name='semestre'}}
+							{{> afQuickField name='creditos'}}
+							{{> afQuickField name='hrsTeoria'}}
+							{{> afQuickField name='hrsPractica'}}
+                            {{> afQuickField name='departamento'}}
+                            <div style="visibility: hidden">
+                                {{> afQuickField name='carrera' value=carrera type='hidden'}}
+                            </div>
+                        </fieldset>
+                        <button type="button" class="btn btn-success" id="btnAgregarMateria" data-toggle="modal" data-target="#avisos" data-dismiss="modal">
+                            Registar la materia
+                        </button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+					{{/autoForm}}
+				</div>
+			</div>
+		</div>
+	</div>
+</template>
+<!-- ************************************************************************************************************** -->
+<!--                          PARA SUBIR LOS ARCHIVOS DEL PROGRAMA DE LAS MATERIAS                                  -->
+<!-- ************************************************************************************************************** -->
+<template name="uploadMateria">
+        <div class="modal fade" id="uploadMateria" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header text-center">
+                        <h3 class="text-primary">Sube el programa de la Materia</h3>
+                    </div>
+                    <div class="modal-body">
+                        <div class="fileupload fileupload-new" data-provides="fileupload" style="text-align:center">
+                            <span class="btn btn-file" style="width: 100%">
+                                <span class="fileupload-exists">Sube el programa oficial en PDF</span><br><br>
+                                <input id="b" name="fileUploadName" class="file-upload-input" method="fileUploadMethod" type="file" accept=".pdf" style="width: 100%"/>
+                            </span>
+                            <button type="button" class="btn btn-primary" id="btnCerrarUploadMateria" data-toggle="modal" data-target="#avisos" data-dismiss="modal">Cerrar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+</template>
+<!-- ************************************************************************************************************** -->
+<!--                                        ACTUALIZAR LOS DATOS DE LAS MATERIAS                                    -->
+<!-- ************************************************************************************************************** -->
+<template name="updateMateria">
+        <div class="modal fade" id="updateMateria" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 class="text-primary">Actualiza los datos de la Materia: <small class="text-primary">{{materia.clave}}</small></h3>        
+                    </div>
+                    <div class="modal-body">
+                        {{#autoForm schema="materiasSchema" id="frmUpdateMateria" type="method" meteormethod="updateMateria"}}
+                            <fieldset>
+                                <div style="visibility: hidden">
+                                    {{> afQuickField name='clave' value=materia.clave type="hidden"}}
+                                </div>
+                                {{> afQuickField name='nombre' value=materia.nombre}}
+                                {{> afQuickField name='semestre' value=materia.semestre}}
+                                {{> afQuickField name='creditos' value=materia.creditos}}
+                                {{> afQuickField name='hrsTeoria' value=materia.hrsTeoria}}
+                                {{> afQuickField name='hrsPractica' value=materia.hrsPractica}}
+                                {{> afQuickField name='departamento' value=materia.departamento}}
+                                <div style="visibility: hidden">
+                                    {{> afQuickField name="carrera" value=materia.carrera type="hidden"}}
+                                </div>
+                            </fieldset>
+                            <button type="submit" id="btnUpdateMateria" class="btn btn-primary" data-toggle="modal" data-target="#avisos" data-dismiss="modal">Registar cambios</button>
+                            <button type="button" class="btn btn-primary" data-dismiss="modal">Cancelar</button>
+                        {{/autoForm}}
+                    </div>
+                </div>
+            </div>
+        </div>
+</template>
+<!-- ************************************************************************************************************** -->
+<!--                                    MODAL PARA CAMBIAR LA IMAGEN DE LA RETICULA                                 -->
+<!-- ************************************************************************************************************** -->
+<template name="changeReticulaImage">
+    <div class="modal fade" id="changeReticulaImage">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="text-primary">Sube la imagen de la reticula en formato .jpg</h3>
+                </div>
+                <div class="modal-body">
+                    <div class="fileupload fileupload-new" data-provides="fileupload" style="text-align:center">
+                        <span class="btn btn-file" style="width: 100%">
+                            <span class="fileupload-exists"><h6></h6></span>
+                            <input id="b" name="fileUploadName" class="file-upload-input" method="fileUploadMethod" type="file" accept=".jpg" style="width: 100%"/>
+                        </span>
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>

@@ -1,0 +1,437 @@
+<!-- ************************************************************************************************************** -->
+<!--                              BARRA DE HERRAMIENTAS DE TUTORIAS PARA JEFES                                      -->
+<!-- ************************************************************************************************************** -->
+<template name="toolBoxTutoriasJefe">
+    <div class="toolBox well well-sm text-center">
+        <img src="/tutorias/tutorias.jpg" height="70px">
+        {{> catPeriodos}}
+        {{#if tengoTutorias}}
+            <button type="button" class="verComoDocente btn btn-default" title="Vista de Tutor">
+                <i class="fa fa-user"></i>
+            </button>
+        {{/if}}
+        {{#if puedoEscribir}}
+            <a href="/sisae/tutorias/asigAlumnosTutor">
+                <button type="button" class="agregar btn btn-default" title="Agregar un tutor al programa de Tutorias de este periodo">
+                    <i class="fa fa-plus fa-lg" aria-hidden="true"></i>
+                </button>
+            </a>
+        {{/if}}
+        |	
+        <button type="button" class="graficaAlumnos btn btn-default" title="Grafica de alumnos" data-toggle="modal" data-target="#graficaAlumnosTutorados">
+            <i class="fa fa-bar-chart"></i> Alumnos
+        </button>
+        |
+        <button type="button" class="graficaDocentes btn btn-default" title="Grafica de tutores" data-toggle="modal" data-target="#graficaDocentesTutores">
+            <i class="fa fa-bar-chart"></i> Tutores
+        </button>
+        {{#if puedoEscribir}}
+            |
+            <button type="button" class="copiarTutorias btn btn-default" title="Importar las tutorias de otro ciclo escolar" data-toggle="modal" data-target="#copiarTutorias">
+                <i class="fa fa-files-o"></i>
+            </button>
+        {{/if}}
+    </div>	
+</template>
+<!-- ************************************************************************************************************** -->
+<!--                                            TUTORIAS PARA LOS JEFES                                             -->
+<!-- ************************************************************************************************************** -->
+<template name="tutoriasJefe">
+    {{> toolBoxTutoriasJefe}}
+    <div class="container">	
+        <div class="row align-items-center">
+            <div class="col-md-12" style="text-align: center">
+                <h4>Objetivo:</h4>
+                <p style="font-size:small">
+                    Brindar un acompañamiento de manera personal al estudiante, durante su proceso formativo propiciando el mejoramiento de la calidad
+                    y contribuyendo a su formación integral, mejorando los índices de permanencia, egreso y titulación oportuna.
+                    contempla tres ejes fundamentales: Desarrollo Académico, Desarrollo Personal y Desarrollo Profesional.
+                </p>
+            </div>	
+        </div>
+    </div>
+    <div class="container">
+        <input class="form-control myTxtBoxFiltroTutorias" id="myFiltroTutorias" type="text" placeholder="Filtrar por cualquier campo...">
+    </div>	
+    <div class="table-responsive">
+        <table class="table" style="table-layout: fixed">
+            <thead>
+                <tr class = " alert alert-info">
+                    <th style="width:35%" class="text-primary">Docente tutor</th>
+                    <th style="width:14%" class="text-primary">PAT</th>
+                    <th style="width:14%" class="text-primary text-center">Diagnostico</th>
+                    <th style="width:14%" class="text-primary text-center">Reporte</th>
+                    <th style="width:14%" class="text-primary text-center">Evidencia</th>
+                    <th style="width: 9%"></th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+    {{#each tutorias}}
+        <div class="table-responsive">
+            <table class="table table-hover m-0">
+                <tbody  id="myTableTutorias">
+                    <tr class="m-0">
+                        <td style="width:35%" class="text-success">
+                            {{docenteTutor}}
+                        </td>
+                        <td style="width:14%">
+                            {{#if tienePlanAccionTutorial}}
+                                <button type="button" class="revisadoPAT btn btn-default" title="Plan de Acción Tutorial revisado"><input type="checkbox" {{ischeckedPAT}}></button>
+                                <a href="{{ip}}{{pathPlanAccionTutorial}}" target="_blank" title="Plan de Acción Tutorial">{{fechaPAT}}</a>
+                            {{/if}}
+                        </td>
+                        <td style="width:14%">
+                            {{#if tieneDiagnosticoInicial}}
+                                <button type="button" class="revisadoDI btn btn-default" title="Diagnostico inicial revisado"><input type="checkbox" {{ischeckedDI}}></button>
+                                <a href="{{ip}}{{pathDiagnosticoInicial}}" target="_blank" title="Diagnostico inicial">{{fechaDI}}</a>
+                            {{/if}}
+                        </td>
+                        <td style="width:14%">
+                            {{#if tieneReporteSemestral}}
+                                <button type="button" class="revisadoRS btn btn-default" title="Reporte semestral revisado"><input type="checkbox" {{ischeckedRS}}></button>
+                                <a href="{{ip}}{{pathReporteSemestral}}" target="_blank" title="Reporte semestral">{{fechaRS}}</a>
+                            {{/if}}
+                        </td>
+                        <td style="width:14%">
+                            {{#if tieneEvidenciaTutoria}}
+                                <button type="button" class="revisadoET btn btn-default" title="Evidencia de tutoria revisado"><input type="checkbox" {{ischeckedET}}></button>
+                                <a href="{{ip}}{{pathEvidenciaTutoria}}" target="_blank" title="Evidencia de tutoria">{{fechaET}}</a>
+                            {{/if}}
+                        </td>
+                        <td class="text-right" style="width:9%">
+                            {{#if puedoEscribir}}
+                                <button type="button" class="borraTutoria btn btn-default text-danger" data-toggle="modal" data-target="#eliminarTutoria">
+                                    <i class="fa fa-trash-o" title="Borrar la tutoria"></i>
+                                </button>
+                            |
+                            {{/if}}
+                            <a class="expandirActividad collapsed card-link" data-toggle="collapse" href="#{{_id}}">
+                                <i class="fa fa-caret-down" aria-hidden="true"></i>
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>  
+            </table>
+        </div>
+        <div  class="collapse" id="{{_id}}">
+            <div class="container">
+                <input class="form-control myTxtBoxFiltroTutorados" id="myFiltroTutorados{{_id}}" type="text" placeholder="Filtrar por cualquier campo...">
+            </div>
+            <div class="table-responsive">
+                <table class="table table-hover m-0">
+                    <thead>
+                        <tr>
+                            <th style="width:7%" class="text-info small text-center">NC</th>
+                            <th style="width:30%" class="text-info small text-center">Nombre</th>
+                            <th style="width:4%" class="text-info small">Datos</th>
+                            <th style="width:10%" class="text-info small">Ficha de Id</th>
+                            <th style="width:5%" class="text-info small p-0 text-center">Terminó (Si/No)</th>
+                            <th style="width:15%" class="text-info small  text-center">No terminó (Motivo)</th>
+                            <th style="width:15%" class="text-info small text-center">Desertó (Motivo)</th>
+                            <th style="width:15%" class="text-info small text-center">Evaluación</th>
+                        </tr>
+                    </thead>
+                    <tbody id="myTableTutorados{{_id}}">
+                        {{#each alumnos}}  
+                        <tr>
+                            <td title="Número de Control" class="small">
+                                {{nc}}
+                            </td>
+                            <td title="Nombre" class="small">
+                                {{nombre}}
+                            </td>
+                            <td title="Datos del Alumno" class="small"> 
+                                <button type="button" class="datos" data-toggle="modal" data-target="#showDatosAlumno">
+                                    <i class="fa fa-address-card" aria-hidden="true"></i>
+                                </button>
+                            </td>
+                            <td title="Ficha de Identificación" class="small">
+                                <a href="{{ip}}{{pathFichaIdentificacion}}" target="_blank">{{fechaFI}}</a>
+                            </td>
+                            <td class="small text-center">
+                                {{#if terminoTutoriaSemestral}}
+                                    <i class="fa fa-check" aria-hidden="true" title="Termino su tutoria semestral"></i>
+                                {{/if}}
+                            </td>
+                            <td title="No termino tutoria" data-toggle="popover" data-trigger="hover" data-content="Motivo por el que no termino su tutoria semestral" class="small">
+                                {{motivoNoTermino}}
+                            </td>
+                            <td title="Deserto" data-toggle="popover" data-trigger="hover" data-content="Motivo por el que deserto de su tutoria semestral" class="small">
+                                {{motivoDeserto}}
+                            </td>
+                            {{#if fueEvaluado}}
+                                <td title="Nivel de Desempeño" class="small">
+                                    <button type="button" class="verEvaluacion btn btn-default small" title="Ver la evaluacion del alumno en esta actividad" data-toggle="modal" data-target="#verEvaluacionAlumnoEnTutoria">{{nivelDeDesempeño}}</button>
+                                </td>
+                            {{else}}
+                                <td></td>
+                            {{/if}}
+                        </tr>  
+                        {{/each}}
+                    </tbody>
+                </table>
+            </div>    
+        </div>
+    {{/each}}
+    {{#if Template.subscriptionsReady}}
+        {{> graficaDocentesTutores}}
+        {{> graficaAlumnosTutorados}}
+    {{else}}
+        {{> spinner}}
+    {{/if}}
+    {{> verEvaluacionAlumnoEnTutoria}}
+    {{> showDatosAlumno}}
+    {{> copiarTutorias}}
+    {{> eliminarTutoria}}
+    {{> avisos}}
+</template>
+<!-- ************************************************************************************************************** -->
+<!--                                             ELIMINAR TUTORIA                                                   -->
+<!-- ************************************************************************************************************** -->
+<template name="eliminarTutoria">
+    <div class="modal fade" id="eliminarTutoria">
+        <div class="modal-dialog modal-md" role="document">
+            <div class="modal-content">
+                <div class="modal-header text-center">
+                    <img src="/tutorias/tutorias.jpg" height="100px">
+                </div>
+                <div class="modal-body text-center">
+                    <h4 class="text-primary">Estas seguro de borrar la tutoria de:</h4>
+                    <h5>{{docente}}</h5>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="borrar btn btn-danger" data-toggle="modal" data-target="#avisos" data-dismiss="modal">Borrar</button>
+                    <button type="button" class="cerrar btn btn-success" data-dismiss="modal">Cancelar</button> 
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+<!-- ************************************************************************************************************** -->
+<!--                                MUESTRA LOS DATOS DE UN ALUMNO EN UNA MODAL                                     -->
+<!-- ************************************************************************************************************** -->
+<template name="showDatosAlumno">
+    {{#if Template.subscriptionsReady}}
+    <div id="showDatosAlumno" class="modal fade">
+        <div class="modal-dialog modal-md" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="text-primary">{{alumnoDatos.username}}<h4>{{alumnoDatos.profile.name}}</h4></h3>
+                    <img class="rounded" src="{{foto}}" height="120px" width="120px"> 
+                </div>
+                <div class="modal-body">
+                        <table class="table table-bordered">
+                                <tbody>
+                                    <tr>
+                                        <td>Carrera</td>
+                                        <td>{{alumnoDatos.profile.carrera}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Semestre</td>
+                                        <td>{{alumnoDatos.profile.semestre}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Modalidad</td>
+                                        <td>{{alumnoDatos.profile.modalidad}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Módulo</td>
+                                        <td>{{alumnoDatos.profile.modulo}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Nivel</td>
+                                        <td>{{alumnoDatos.profile.nivelEscolar}}</td>
+                                    </tr>
+                                        <tr>
+                                        <td>Periodo de Ingreso</td>
+                                        <td>{{alumnoDatos.profile.periodoIngreso}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Fecha de Nacimiento</td>
+                                        <td>{{alumnoDatos.profile.fechaNacimiento}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Sexo</td>
+                                        <td>{{alumnoDatos.profile.sexo}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Telefono</td>
+                                        <td>{{alumnoDatos.profile.telefono}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Email</td>
+                                        <td>{{eMailAlumno}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Semestres con Tutoria Terminada</td>
+                                        <td>{{alumnoDatos.profile.semestresConTutoria}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{else}}
+        {{> spinner}}
+	{{/if}}
+</template>
+<!-- ************************************************************************************************************** -->
+<!--                                VER LA EVALUACION DEL ALUMNO EN LA TUTORIA                                      -->
+<!-- ************************************************************************************************************** -->
+<template name="verEvaluacionAlumnoEnTutoria">
+    <div class="modal fade" id="verEvaluacionAlumnoEnTutoria">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="text-primary">Alumno <h6>{{alumno}}</h6>Periodo<h6>{{periodo}}</h6></h4>
+                </div>
+                <div class="modal-body">
+                    <table class="table table-hover" style="table-layout: fixed">
+                        <tbody>
+                            {{#each evaluacion}}
+                            <tr>
+                                <td style="width: 80%">{{P}}</td>
+                                <td style="width: 20%">{{R}}</td>
+                            </tr>
+                            {{/each}}
+                        </tbody>  
+                    </table>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+<!-- ************************************************************************************************************** -->
+<!--                                            GRAFICA DE DOCENTES                                                 -->
+<!-- ************************************************************************************************************** -->
+<template name="graficaDocentesTutores">
+    <div class="modal fade" id="graficaDocentesTutores">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div id="myChartDocentes" class="modal-body" style="width:800px; height:500px;">
+                        
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+<!-- ************************************************************************************************************** -->
+<!--                                            GRAFICA DE ALUMNOS                                                  -->
+<!-- ************************************************************************************************************** -->
+<template name="graficaAlumnosTutorados">
+    <div class="modal fade" id="graficaAlumnosTutorados">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div id="myChartAlumnos" class="modal-body" style="width:800px; height:500px;">
+                            
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+<!-- ************************************************************************************************************** -->
+<!--                                   COPIADO DE TUTORIAS DE OTRO CICLO ESCOLAR                                    -->
+<!-- ************************************************************************************************************** -->
+<template name="copiarTutorias">
+    <div class="modal fade" id="copiarTutorias">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="text-primary">Copiar las tutorias de otro ciclo escolar<h5>Ciclo actual: {{periodoActual}}</h5></h4>
+                </div>
+                <div class="modal-body">
+                    <h5 class="text-success">de que ciclo escolar?</h5>
+                    <select id="periodoElegido" class="select btn btn-default">
+                        {{#each periodos}}
+                            <option value={{periodo}}>{{periodo}}</option>
+                        {{/each}}
+                    </select>
+                </div>
+                <button type="button" class="copiar btn btn-success" title="" data-dismiss="modal">Copiar</button> 
+            </div>
+        </div>
+    </div>
+</template>
+<!-- ************************************************************************************************************** -->
+<!--                                      ASIGNAR ALUMNOS A UN TUTOR                                                -->
+<!-- ************************************************************************************************************** -->
+<template name="asigAlumnosTutor">  
+    <div class="container text-center">
+        <h5 class="text-primary">Asigna alumnos para tutoria<h6>({{periodo}})</h6></h5>
+        {{> buscarDocente}}
+    </div>
+    <ul class="nav nav-pills nav-justified">
+        <li class="nav-item">
+            {{> catCarreras}}
+        </li>
+        <li class="nav-item">
+            <select class="selectModalidad btn btn-default">
+                <option value="Escolarizado">Escolarizado</option>
+                <option value="Mixto">Mixto</option>
+                <option selected hidden value={{modalidad}}>{{modalidad}}</option>
+            </select>
+        </li>
+        <li class="nav-item">
+            <select class="selectModulo btn btn-default">
+                <option value="Tlajomulco">Tlajomulco</option>
+                <option value="Sayula">Sayula</option>
+                <option selected hidden value={{modulo}}>{{modulo}}</option>
+            </select>
+        </li>
+        <li class="nav-item">
+            <txt class="text-primary">Semestre</txt>
+            <input type="number" id="semestre" name="quantity" min="1" max="15" value="{{semestre}}" class="selectSemestre btn btn-default">
+        </li>
+        <li>
+            <txt class="text-primary btn btn-default">Cantidad: <txt class="text-success">{{cantidad}}</txt></txt>
+        </li>
+    </ul>
+    {{#if Template.subscriptionsReady}}
+        <table class="table table-hover">
+            <thead>
+                <tr class="text-success alert alert-info">
+                    <th class="text-primary">NC</th>
+                    <th class="text-primary">Nombre</th>
+                    <th class="text-primary text-center">Agregar/Quitar Tutor</th>
+                    <th class="text-primary">Tutor de ESTE PERIODO</th>
+                    <th class="text-primary text-center">Tutor</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each listaAlumnos}}
+                <tr class="sobre">
+                    <td class="small text-primary">{{username}}</td>
+                    <td class="small text-primary">{{profile.name}}</td>
+                    <td class="small text-center"> 
+                        <div id="{{_id}}" class="m-0 p-0" style="display : none">
+                            <a href="#">
+                                {{#if tieneTutor}}
+                                    <i class="removeAlumno fa fa-times text-danger" title="Quitar Tutor"></i>
+                                {{else}}
+                                    <i class="addAlumno fa fa-check text-success" title="Agregar Tutor"></i>
+                                {{/if}}
+                            </a>
+                        </div>
+                    </td>
+                    <td class="small text-success">
+                        {{#if tieneTutor}}
+                            {{profile.tutor}}
+                        {{/if}}
+                    </td> 
+                    <td class="small text-warning">
+                        {{#unless tieneTutor}}
+                            {{profile.tutor}}
+                        {{/unless}}
+                    </td>
+                </tr>
+                {{/each}}
+            </tbody>  
+        </table>
+    {{else}}
+        {{> spinner}}
+    {{/if}}
+</template>

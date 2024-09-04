@@ -1,0 +1,72 @@
+<!-- ************************************************************************************************************** -->
+<!--                                                 USUARIOS ONLINE                                                -->
+<!-- ************************************************************************************************************** -->
+<template name="usuarios">
+    {{#if esJefe}}  
+        {{#if Template.subscriptionsReady}}
+            <br>
+            <div class="text-center">
+                <h4 class="text-primary">Usuarios onLine</h4>
+            </div>
+            <br>
+            <div class="text-center">
+                <input class="form-control myTxtBoxFiltroDocentes" id="myDocentesFiltro" type="text" placeholder="Filtrar por cualquier campo...">
+            </div>
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr class="success">
+                            <th class="text-primary">Usuario</th>
+                            <th class="text-primary">Nombre</th>
+                            <th class="text-primary">Telefono</th>
+                            <th class="text-primary">eMail</th>
+                        </tr>
+                    </thead>
+                    <tbody id="myTableDocentes">
+                        {{#each listaDocentes}}
+                        <tr class="sobre">
+                            <td class="small">{{username}}</td>
+                            <td class="small">{{profile.prefijo}} {{profile.name}}</td>
+                            <td class="small">{{profile.telefono}}</td>
+                            <td class="small">{{email}}</td>
+                        </tr>
+                        {{/each}}
+                    </tbody>  
+                </table>
+            </div>
+            <div class="text-center">
+                <input class="form-control myTxtBoxFiltroAlumnos" id="myAlumnosFiltro" type="text" placeholder="Filtrar por cualquier campo...">
+            </div>
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr class="success">
+                            <th class="text-primary">NC</th>
+                            <th class="text-primary">Nombre</th>
+                            <th class="text-primary">Carrera</th>
+                            <th class="text-primary">Modalidad</th>
+                            <th class="text-primary">Modulo</th>
+                            <th class="text-primary">Semestre</th>
+                            <th class="text-primary">eMail</th>
+                        </tr>
+                    </thead>
+                    <tbody id="myTableAlumnos">
+                        {{#each listaAlumnos}}
+                        <tr class="sobre">
+                            <td class="small">{{username}}</td>
+                            <td class="small">{{profile.name}}</td>
+                            <td class="small">{{profile.carrera}}</td>
+                            <td class="small">{{profile.modalidad}}</td>
+                            <td class="small">{{profile.modulo}}</td>
+                            <td class="small">{{profile.semestre}}</td>
+                            <td class="small">{{email}}</td>
+                        </tr>
+                        {{/each}}
+                    </tbody>  
+                </table>
+            </div>
+        {{else}}
+            {{> spinner}}
+        {{/if}}
+    {{/if}}
+</template>

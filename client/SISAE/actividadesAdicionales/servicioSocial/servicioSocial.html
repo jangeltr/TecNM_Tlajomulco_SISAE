@@ -1,0 +1,9 @@
+<Template name="sisaeServicioSocial">
+    {{#if esJefe}}
+        {{> servicioSocialJefe}}
+    {{else}}
+        {{#if esAlumno}}
+            {{> servicioSocialAlumno}}
+        {{/if}}
+    {{/if}}
+</Template>

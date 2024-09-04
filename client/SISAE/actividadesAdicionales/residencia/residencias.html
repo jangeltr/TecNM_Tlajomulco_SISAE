@@ -1,0 +1,16 @@
+<Template name="sisaeResidencias">
+    {{#if esJefe}}
+        {{> residenciasJefe}}
+    {{else}}
+        {{#if esJejeDeptoGestionTecnologicaVinculacion}}
+            {{> residenciasJefeDeptoGestionTecnologicaVinculacion}}
+        {{else}}
+            {{#if esDocente}}
+                {{> residenciasDocente}}
+            {{/if}}
+            {{#if esAlumno}}
+                {{> residenciasAlumno}}
+            {{/if}}
+        {{/if}}
+    {{/if}}
+</Template>

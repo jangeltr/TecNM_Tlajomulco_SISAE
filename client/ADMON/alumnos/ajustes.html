@@ -1,0 +1,66 @@
+<!-- ************************************************************************************************************** -->
+<!--                                              AJUSTES EN ALUMNOS                                                -->
+<!-- ************************************************************************************************************** -->
+<template name="alumnosAjustes">
+    {{#if esJefe}}
+        <br>
+        <div class="text-primary text-center">
+            <h4>Ajustes en el semestre de los alumnos</h4>
+        </div>
+        <br>
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <h6>Alumnos que iniciaron en el periodo</h6>
+                </div>
+                <div class="col">
+                    <select class="selectPeriodo btn btn-default">
+                        {{#each periodos}}
+                            <option value="{{periodo}}">{{periodo}}--({{cantidad}} Alumnos)</option>
+                        {{/each}}
+                    </select>
+                </div>
+                <div class="col">
+                    <h6>poner el semestre</h6>
+                </div>
+                <div class="col">
+                    <input type="number" id="semestre" name="quantity" min="1" max="15" value="1">
+                </div>
+                <div class="col">
+                    <button type="button" class="guardar btn btn-primary" data-toggle="modal" data-target="#avisos">Registrar cambios</button>
+                </div>
+            </div>
+        </div>
+        <br><br><br>
+        <div class="text-primary text-center">
+            <h4>Alumnos por semestre</h4>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col text-center">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr class="success">
+                                    <th class="text-primary">Semestre</th>
+                                    <th class="text-primary">Alumnos</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {{#each semestres}}
+                                <tr class="sobre">
+                                    <td class="small">
+                                        {{semestre}}
+                                    </td>
+                                    <td class="small">{{cantidad}}</td>
+                                </tr>
+                                {{/each}}
+                            </tbody>  
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{> avisos}}
+    {{/if}}
+</template>
