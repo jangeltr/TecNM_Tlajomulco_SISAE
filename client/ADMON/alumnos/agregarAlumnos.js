@@ -65,7 +65,7 @@ Template.subirAlumnosNuevoIngreso.helpers({
     alumnosAmbiental : function(){
         return alumnosAmbiental.get()
     },
-    alumnosTodos: function(){
+    alumnosTotal: function(){
         return (alumnosSistemas.get()+alumnosAgronomia.get()+alumnosIndustrias.get()+alumnosInnovacion.get()+alumnosAmbiental.get())
     },
     puedecargar : function(){
