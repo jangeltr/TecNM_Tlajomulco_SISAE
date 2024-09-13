@@ -299,7 +299,10 @@ Template.vistaPreviaOficioAsesorInterno.events({
 		document.getElementById("btnImprimir").style.visibility = "hidden";
 		window.print()
 		document.getElementById("btnImprimir").style.visibility = "visible";
-	}
+	},
+    "click .regresarResidencias":function(){
+        BlazeLayout.render("main",{rellenaMenu:"menuSISAE",rellenaCuerpoSISAE:"sisaeResidencias"});
+    }
 });
 //*************************************************************************************************************************/
 //                   PLANTILLA PARA LA SOLICITUD DEL NUMERO DE OFICIO DE ASIGNACION DE ASESOR INTERNO
