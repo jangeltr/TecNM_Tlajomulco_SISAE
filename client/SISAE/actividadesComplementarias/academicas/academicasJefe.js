@@ -445,11 +445,16 @@ Template.vistaConstanciaTerminacionActividadAcademica.helpers({
 	}
 })
 Template.vistaConstanciaTerminacionActividadAcademica.events({
-	"click .imprimirConstancia":function(){
+	"click .imprimir":function(){
 		document.getElementById("btnImprimir").style.visibility = "hidden";
+		document.getElementById("btnRegresar").style.visibility = "hidden";
 		window.print()
 		document.getElementById("btnImprimir").style.visibility = "visible";
-	}
+		document.getElementById("btnRegresar").style.visibility = "visible";
+	},
+    "click .regresar":function(){
+        BlazeLayout.render("main",{rellenaMenu:"menuSISAE",rellenaCuerpoSISAE:"sisaeAcademicas"});
+    }
 })
 //*************************************************************************************************************************/
 //                                          SUBIR LA CONSTANCIA DE TERMINACION
