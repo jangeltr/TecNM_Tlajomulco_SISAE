@@ -1297,11 +1297,17 @@ Template.uploadInformeTecnicoResidencia.events({
         let fileName = Meteor.user().username+" InformeTecnicoResidencia.pdf";
 		reader.onload=function(fileLoadEvent){
 			let buffer = new Uint8Array(reader.result);
-			Meteor.call('fileUpload',fileName,buffer,"InformeTecnicoResidencia");
-            Meteor.call('subiInformeTecnicoResidencia',miResidencia.get()._id,fileName);
+			Meteor.call('fileUpload',fileName,buffer,"InformeTecnicoResidencia",function(err,res){
+                if (error) {
+                    console.log(err)
+                }
+                else {
+                    Meteor.call('subiInformeTecnicoResidencia',miResidencia.get()._id,fileName);
+                    subioInformeTecnicoResidencia.set(true);
+                }
+            });
 		};
         reader.readAsArrayBuffer(file);
-        subioInformeTecnicoResidencia.set(true);
     },
     "click .cerrar": function(event, template){
         if (subioInformeTecnicoResidencia.get()){
@@ -1309,7 +1315,7 @@ Template.uploadInformeTecnicoResidencia.events({
             Session.set("aviso",aviso);
         }
         else{
-            let aviso={encabezado:"Residencia Profesional",aviso:"No subio archivo",positivo:false};
+            let aviso={encabezado:"Residencia Profesional",aviso:"No selecciono archivo o ocurrio un error durante la carga del archivo",positivo:false};
             Session.set("aviso",aviso);
         }
     }

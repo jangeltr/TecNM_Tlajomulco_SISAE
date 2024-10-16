@@ -138,6 +138,12 @@ Template.editAlumno.events({
 //*************************************************************************************************************************/
 //                                                       BUSCAR ALUMNO
 //*************************************************************************************************************************/
+Template.buscarAlumno.onCreated(function(){
+	this.autorun(() =>{
+		//let aviso={encabezado:"Alumnos",aviso:"Alumno no encontrado",positivo:false};
+		//session.set("aviso",aviso);
+    })
+})
 Template.buscarAlumno.helpers({
 	esJefe:function(){
         if (isJefe()||isAdministrador())
@@ -156,9 +162,18 @@ Template.buscarAlumno.helpers({
 Template.buscarAlumno.events({
 	"click .buscar": function(){
 		ncAlumno.set(document.getElementById("numControl").value)
+		let aviso={encabezado:"Alumnos",aviso:"Alumno no encontrado",positivo:false};
 		Meteor.call("getAlumno",ncAlumno.get(),function(error,result){
-            if (error) alert("error")
-            else alumnoAEditar.set(result)
+            if (error) {
+				let aviso={aviso:"Ocurrio un error al buscar el alumno",positivo:false}
+				Session.set("aviso",aviso)
+			}
+            else {
+				alumnoAEditar.set(result)
+				if (result)
+					aviso={encabezado:"Alumnos",aviso:"Alumno encontrado",positivo:true};
+				Session.set("aviso",aviso)
+			}
         })
 	}
 })
