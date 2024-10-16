@@ -10,13 +10,23 @@
                 <i class="fa fa-users"></i>
             </button>
         {{/if}}
-        <button type="button" class="btn btn-default" title="Diagnostico inicial del tutorado">
-            <a href="{{ip}}/tutorias/Diagnostico inicial del tutorado.docx" target="_blank">
+        <button type="button" class="btn btn-default" title="Plan de Acción Tutorial">
+            <a href="{{ip}}/tutorias/Plan de Acción Tutorial.docx" target="_blank">
                 <i class="fa fa-arrow-down"></i><i class="fa fa-file-word-o"></i>
             </a>
         </button>
-        <button type="button" class="btn btn-default" title="Reporte semestral de tutor">
-            <a href="{{ip}}/tutorias/Reporte semestral de tutor.docx" target="_blank">
+        <button type="button" class="btn btn-default" title="Diagnostico Inicial del Tutorado">
+            <a href="{{ip}}/tutorias/Diagnostico Inicial del Tutorado.docx" target="_blank">
+                <i class="fa fa-arrow-down"></i><i class="fa fa-file-word-o"></i>
+            </a>
+        </button>
+        <button type="button" class="btn btn-default" title="Caracterización Grupal">
+            <a href="{{ip}}/tutorias/Caracterización Grupal.docx" target="_blank">
+                <i class="fa fa-arrow-down"></i><i class="fa fa-file-word-o"></i>
+            </a>
+        </button>
+        <button type="button" class="btn btn-default" title="Reporte Semestral de Tutor">
+            <a href="{{ip}}/tutorias/Reporte Semestral de Tutor.docx" target="_blank">
                 <i class="fa fa-arrow-down"></i><i class="fa fa-file-word-o"></i>
             </a>
         </button>
@@ -93,7 +103,7 @@
                         <th style="width:30%" class="text-info small text-center">Nombre</th>
                         <th style="width:4%" class="text-info small">Datos</th>
                         <th style="width:10%"  class="text-info small">Ficha de Id</th>
-                        <th style="width:5%" class="text-info small p-0 text-center">Terminó (Si/No)</th>
+                        <th style="width:5%" class="text-info small p-0 text-center" title="Solo si el alumno subio su Ficha de Id">Terminó (Si)</th>
                         <th style="width:15%" class="text-info small  text-center">No terminó (Motivo)</th>
                         <th style="width:15%" class="text-info small text-center">Desertó (Motivo)</th>
                         <th style="width:15%" class="text-info small text-center">Evaluación</th>
@@ -158,14 +168,16 @@
                             {{/unless}}
                         </td>
                         <td class="small text-center">
-                            {{#if fueEvaluado}}
-                                <button type="button" class="verEvaluacion btn btn-default" data-toggle="modal" data-target="#verMiEvaluacionAlumnoEnTutoria">
-                                    {{nivelDeDesempeño}}
-                                </button>
-                            {{else}}
-                                <button type="button" class="evaluarTutoria" data-toggle="modal" data-target="#evaluarTutoria">
-                                    <i class="fa fa-check-square-o" aria-hidden="true"></i>
-                                </button>
+                            {{#if terminoTutoriaSemestral}}
+                                {{#if fueEvaluado}}
+                                    <button type="button" class="verEvaluacion btn btn-default" data-toggle="modal" data-target="#verMiEvaluacionAlumnoEnTutoria">
+                                        {{nivelDeDesempeño}}
+                                    </button>
+                                {{else}}
+                                    <button type="button" class="evaluarTutoria" data-toggle="modal" data-target="#evaluarTutoria">
+                                        <i class="fa fa-check-square-o" aria-hidden="true"></i>
+                                    </button>
+                                {{/if}}
                             {{/if}}
                         </td>
                     </tr>  
