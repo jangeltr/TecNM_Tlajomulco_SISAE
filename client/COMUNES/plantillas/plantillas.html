@@ -3,15 +3,21 @@
 <!-- ************************************************************************************************************** -->
 <template name="catCarreras">
     <select class="select btn btn-default">
-        <option value="Ingenieria en Sistemas Computacionales">Ingenieria en Sistemas Computacionales</option>
-        <option value="Ingenieria en Agronomia">Ingenieria en Agronomia</option>
-        <option value="Ingenieria en Industrias Alimentarias">Ingenieria en Industrias Alimentarias</option>
-        <option value="Ingenieria en Innovacion Agricola">Ingenieria en Innovacion Agricola</option>
-        <option value="Ingenieria Ambiental">Ingenieria Ambiental</option>
-        <option value="Mestria en Ciencias en Agrobiotecnologia">Mestria en Ciencias en Agrobiotecnologia</option>
-        <option value="Doctorado en Ciencias de los Alimentos y Biotecnologia">Doctorado en Ciencias de los Alimentos y Biotecnologia</option>
-        <option value="Doctorado en Ciencias en Biotecnologia en Procesos Agropecuarios">Doctorado en Ciencias en Biotecnologia en Procesos Agropecuarios</option>
+        {{#each carreras}}
+            <option value={{label}}>{{value}}</option>
+        {{/each}}
         <option selected hidden value={{carrera}}>{{carrera}}</option>
+    </select>
+</template>
+<!-- ************************************************************************************************************** -->
+<!--                             CATALOGO DE MODULOS UTILIZADO POR VARIAS TEMPLATES                                 -->
+<!-- ************************************************************************************************************** -->
+<template name="catModulos">
+    <select class="select btn btn-default">
+        {{#each modulos}}
+            <option value={{label}}>{{value}}</option>
+        {{/each}}
+        <option selected hidden value={{modulo}}>{{modulo}}</option>
     </select>
 </template>
 <!-- ************************************************************************************************************** -->

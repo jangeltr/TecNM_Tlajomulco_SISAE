@@ -7,25 +7,32 @@ catCarreras = ['Ingenieria en Sistemas Computacionales',
                 'Doctorado en Ciencias de los Alimentos y Biotecnologia',
                 'Doctorado en Ciencias en Biotecnologia en Procesos Agropecuarios']
 optCarreras = [
-    {label:"Ingenieria en Sistemas Computacionales", value:"Ingenieria en Sistemas Computacionales"},
-    {label:"Ingenieria en Agronomia", value:"Ingenieria en Agronomia"},
-    {label:"Ingenieria en Industrias Alimentarias", value:"Ingenieria en Industrias Alimentarias"},
-    {label:"Ingenieria en Innovacion Agricola", value:"Ingenieria en Innovacion Agricola"},
-    {label:"Ingenieria Ambiental", value:"Ingenieria Ambiental"},
-    {label:"Maestria en Ciencias en Agrobiotecnologia", value:"Maestria en Ciencias en Agrobiotecnologia"},
-    {label:"Doctorado en Ciencias de los Alimentos y Biotecnologia", value:"Doctorado en Ciencias de los Alimentos y Biotecnologia"},
-    {label:"Doctorado en Ciencias en Biotecnologia en Procesos Agropecuarios", value:"Doctorado en Ciencias en Biotecnologia en Procesos Agropecuarios"}]
-carreraDefault = 'Ingenieria en Sistemas Computacionales'
+    {label:catCarreras[0], value:catCarreras[0]},
+    {label:catCarreras[1], value:catCarreras[1]},
+    {label:catCarreras[2], value:catCarreras[2]},
+    {label:catCarreras[3], value:catCarreras[3]}, 
+    {label:catCarreras[4], value:catCarreras[4]},
+    {label:catCarreras[5], value:catCarreras[5]},
+    {label:catCarreras[6], value:catCarreras[6]},
+    {label:catCarreras[7], value:catCarreras[7]}
+]
+carreraDefault = catCarreras[0]
 
 catModalidad = ['Escolarizado','Mixto']
-optModalidad =[{label:'Escolarizado',value:'Escolarizado'},
-                {label:'Mixto',value:'Mixto'}]
-modalidadDefault = 'Escolarizado'
+optModalidad = [
+    {label:catModalidad[0],value:catModalidad[0]},
+    {label:catModalidad[1],value:catModalidad[1]}
+]
+modalidadDefault = catModalidad[0]
 
-catModulo = ['Tlajomulco','Sayula'];
-optModulo = [{label:'Tlajomulco',value:'Tlajomulco'},
-            {label:'Sayula',value:'Sayula'}]
-moduloDefault ='Tlajomulco'
+catModulo = ['Tlajomulco','Sayula','Cd. Guzman','Tuxcacuesco'];
+optModulo = [
+    {label:catModulo[0],value:catModulo[0]},
+    {label:catModulo[1],value:catModulo[1]},
+    {label:catModulo[2],value:catModulo[2]},
+    {label:catModulo[3],value:catModulo[3]}
+]
+moduloDefault = catModulo[0]
 
 catTipoActividadAcademica = ['Abierta','Cerrada'];
 optTipoActividadAcademica =[{label:'Abierta',value:'Abierta'},

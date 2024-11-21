@@ -1,6 +1,5 @@
 let semestre = new ReactiveVar(1)
 let modalidad = new ReactiveVar("Escolarizado")
-let modulo = new ReactiveVar("Tlajomulco")
 let ncAlumno = new ReactiveVar("")
 let alumnoAEditar = new ReactiveVar()
 //*************************************************************************************************************************/
@@ -9,7 +8,7 @@ let alumnoAEditar = new ReactiveVar()
 Template.alumnos.onCreated(function(){
 	this.autorun(() =>{
 		if (Session.get("isAdministrador")||Session.get("isJefe")||Session.get("isSubAcademico")){
-			this.subscribe('alumnos',Session.get('carrera'),parseInt(semestre.get()),modalidad.get(),modulo.get(),'Activo')
+			this.subscribe('alumnos',Session.get('carrera'),parseInt(semestre.get()),modalidad.get(),Session.get('modulo'),'Activo')
 		}	
     })
 })
@@ -34,8 +33,7 @@ Template.alumnos.helpers({
 		return modulo.get();
     },
     email: function(){
-		if (this?.emails)
-        	return this.emails[0].address
+		if (this?.emails) return this.emails[0].address
 		return ""
 	},
 	puedeEgresar: function(){
@@ -63,10 +61,6 @@ Template.alumnos.events({
 		let c = event.currentTarget;
 		modalidad.set(c.options[c.selectedIndex].value);
 	},
-	"change .selectModulo":function(event){
-		let c = event.currentTarget;
-		modulo.set(c.options[c.selectedIndex].value);
-    },
     "click .datos":function(event){
 		ncAlumno.set(this.username)
 		alumnoAEditar.set(Meteor.users.findOne({'username':ncAlumno.get()}))

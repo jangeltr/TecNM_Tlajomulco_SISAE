@@ -4,7 +4,8 @@ variablesDeInicio=function(){
     //Session.set("puerto",':3000')  										//puerto por el que se encuentra corriendo el servidor de archivos para el SISAE
     //Session.set("periodo","Ene-Jun 2020")   							//periodo que aparecera seleccionado por default y es el perido en el que el usuario este trabajando
     Session.set("periodoActual",Session.get("periodo")) 				//ultimo periodo o periodo en curso
-    Session.set("carrera","Ingenieria en Sistemas Computacionales")		//carrera seleccionada por default
+    Session.set("carrera",carreraDefault)		//carrera seleccionada por default
+    Session.set("modulo",moduloDefault)									//modulo seleccionado por default
     Session.set("statusAlumno","Activo")
     let aviso={encabezado:"",aviso:"",positivo:false}
     Session.set("aviso",aviso)

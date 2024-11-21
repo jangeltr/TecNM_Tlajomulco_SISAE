@@ -4,12 +4,32 @@
 Template.catCarreras.helpers({
     carrera:function(){
 		return Session.get("carrera");
-    }
+    },
+	carreras:function(){
+		return optCarreras;
+	}
 }); 
 Template.catCarreras.events({
 	"change .select":function(event){
 		let c = event.currentTarget;
 		Session.set("carrera",c.options[c.selectedIndex].value);
+	}
+});
+//*************************************************************************************************************************/
+//                                           PARA LA PLANTILLA CATMODULOS
+//*************************************************************************************************************************/
+Template.catModulos.helpers({
+    modulo:function(){
+		return Session.get("modulo");
+    },
+	modulos:function(){
+		return optModulo;
+	}
+}); 
+Template.catModulos.events({
+	"change .select":function(event){
+		let c = event.currentTarget;
+		Session.set("modulo",c.options[c.selectedIndex].value);
 	}
 });
 //*************************************************************************************************************************/

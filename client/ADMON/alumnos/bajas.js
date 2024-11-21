@@ -1,5 +1,4 @@
 let modalidad = new ReactiveVar("Escolarizado");
-let modulo = new ReactiveVar("Tlajomulco");
 let ncAlumno = new ReactiveVar("");
 let alumnoAEditar = new ReactiveVar();
 //*************************************************************************************************************************/
@@ -8,7 +7,7 @@ let alumnoAEditar = new ReactiveVar();
 Template.alumnosBajas.onCreated(function(){
 	this.autorun(() =>{
 		if (Session.get("isAdministrador")||Session.get("isJefe")||Session.get("isSubAcademico")){
-			this.subscribe('bajas',Session.get('carrera'),modalidad.get(),modulo.get())
+			this.subscribe('bajas',Session.get('carrera'),modalidad.get(),Session.get('modulo'))
 		}	
     })
 })
@@ -29,9 +28,6 @@ Template.alumnosBajas.helpers({
 	modalidad: function(){
 		return modalidad.get();
 	},
-	modulo: function(){
-		return modulo.get();
-    },
     email: function(){
 		if (this?.emails)
 			return this.emails[0].address
