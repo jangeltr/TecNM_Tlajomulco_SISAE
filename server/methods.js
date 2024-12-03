@@ -1375,19 +1375,6 @@ Meteor.methods({
 //*************************************************************************************************************************/
 //                                                     SISAE: SERVICIO SOCIAL
 //*************************************************************************************************************************/ 
-    registrarFechasSeguimientoServicioSocial:function(periodo,conf){
-        let configuracion = conf.configuracion
-        let r=servicioSocial.findOne({'configuracion.periodo':periodo})
-        if (r){
-            servicioSocial.update({'configuracion.periodo':periodo},{$set:{
-                configuracion
-            }})
-        }else{
-            servicioSocial.insert(conf)
-        }
-        Meteor.call('agregarRegistroBitacora','SISAE','Servicio Social','Registro las fechas de seguimiento del periodo:'+periodo,Meteor.userId(),Meteor.user().profile.name);
-
-    },
     addServicioSocial: function(SS){
         if (SS._id){
             servicioSocial.update({_id:SS._id},{$set:{

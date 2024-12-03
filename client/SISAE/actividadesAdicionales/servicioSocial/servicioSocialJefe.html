@@ -4,8 +4,8 @@
 <template name="toolBoxServicioSocialJefe">
 	<div class="toolBox well well-sm text-center">
         {{> catPeriodos}}
-        <button type="button" class="configurarServicioSocial btn btn-default" data-toggle="modal" data-target="#configurarServicioSocial" title="Establecer las fechas de seguimiento para este periodo">
-            <i class="fa fa-cog" aria-hidden="true"></i>
+        <button style="padding: 3px 15px 3px 15px;" type="button" class="configurarServicioSocial btn btn-default" data-toggle="modal" data-target="#fechasServicioSocial" title="Establecer las fechas de seguimiento para este periodo">
+            <i class="fa fa-info" aria-hidden="true"></i>
         </button>
     </div>
 </template>
@@ -135,48 +135,32 @@
             </table>
         </div>
     {{/each}}
-
-    {{> configurarServicioSocial}}
+    {{> fechasServicioSocial}}
     {{> avisos}}
 </template>
 <!-- ************************************************************************************************************** -->
 <!--                                 CONFIGURAR EL SERVICIO SOCIAL DE ESTE PERIODO                                  -->
 <!-- ************************************************************************************************************** -->
-<template name="configurarServicioSocial">
-    <div class="modal fade" id="configurarServicioSocial">
+<template name="fechasServicioSocial">
+    <div class="modal fade" id="fechasServicioSocial">
         <div class="modal-dialog  modal-mg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="text-primary">Establece las fechas de seguimiento para el periodo:<h5 class="text-primary">{{periodo}}</h5></h4>
+                    <h4 class="text-primary">Fechas de seguimiento para el periodo:<h5 class="text-primary">{{periodo}}</h5></h4>
                 </div>
                 <div class="modal-body">
-                    {{#unless configurada}}
-                        <br>
-                        <label class="text-danger">Perido de Servicio Social sin fechas de seguimiento dafinidas</label>
-                        <br><br>
-                    {{/unless}}
-                    <label for="fechaISS">Fecha de inicio del Servicio Social:</label>
-                    <input type="date" class="form-control" id="fechaISS" value={{fechaISS}}>
-                    <label for="fechaTSS">Fecha de término del Servicio Social:</label>
-                    <input type="date" class="form-control" id="fechaTSS" value={{fechaTSS}}>
-                    <label for="fecha1">Fecha del primer seguimiento:</label>
-                    <input type="date" class="form-control" id="fecha1" value={{fecha1}}>
-                    <label for="fecha2">Fecha del segundo seguimiento:</label>
-                    <input type="date" class="form-control" id="fecha2" value={{fecha2}}>
-                    <label for="fecha3">Fecha del tercer seguimiento:</label>
-                    <input type="date" class="form-control" id="fecha3"  value={{fecha3}}>
-                    <label for="fechaCP">Fecha de las cartas de presentación:</label>
-                    <input type="date" class="form-control" id="fechaCP"  value={{fechaCP}}>
-                    <label for="fechaCA">Fecha de las cartas de aceptación:</label>
-                    <input type="date" class="form-control" id="fechaCA"  value={{fechaCA}}>
-                    <label for="fechaCT">Fecha de las cartas de terminación:</label>
-                    <input type="date" class="form-control" id="fechaCT"  value={{fechaCT}}>
-                    <label for="fechaRF">Fecha de entrega del reporte final:</label>
-                    <input type="date" class="form-control" id="fechaRF"  value={{fechaRF}}>
+                    <label>Inicio del Servicio Social: el dia de la solicitud</label>
+                    <label>Carta de asignación: fecha de la solicitud</label>
+                    <label>Carta de presentación: 2 dias despues de la solicitud</label>
+                    <label>Carta de aceptación: 1 dia despues de la de presentación</label>
+                    <label>Primer seguimiento: 2 meses despues de la solicitud</label>
+                    <label>Segundo seguimiento: 4 meses despues de la solicitud</label>
+                    <label>Tercer seguimiento: 6 meses despues de la solicitud</label>
+                    <label>Entrega del reporte final: La misma del 3er seguimiento</label>
+                    <label>Carta de terminación: 2 dias despues del reporte final</label>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="registrar btn btn-success" data-toggle="modal" data-target="#avisos"  data-dismiss="modal">Aceptar</button>
-                    <button id="btnCerrar" type="button" class="cerrar btn btn-danger" data-dismiss="modal">Cerrar</button>
+                    <button id="btnCerrar" type="button" class="cerrar btn btn-success" data-dismiss="modal">Cerrar</button>
                 </div>
             </div>
         </div>

@@ -2,6 +2,9 @@
 <!--                             BARRA DE HERRAMIENTAS DE SERVICIO SOCIAL PARA ALUMNOS                              -->
 <!-- ************************************************************************************************************** -->
 <template name="toolBoxServicioSocialAlumno">
+    <div class="toolBox well well-sm text-center">
+        <img src="/servicioSocial/servicioSocial.webp" height="150px">
+    </div>
     <nav class="navbar navbar-expand-xl bg-white navbar-primary">
 		<button class="navbar-toggler bg-success navbar-light" type="button" data-toggle="collapse" data-target="#collapsibleNavbarServicioSocial">
 			<span class="navbar-toggler-icon"></span>
@@ -55,39 +58,41 @@
 <!--                                         SERVICIO SOCIAL PARA ALUMNOS                                           -->
 <!-- ************************************************************************************************************** -->
 <template name="servicioSocialAlumno">
-    <div class="toolBox well well-sm text-center">
-        <img src="/servicioSocial/servicioSocial.webp" height="150px">
-    </div>
     {{> toolBoxServicioSocialAlumno}}
-    {{> detalleServivioSocialAlumno}}
-</template>
-<!-- ************************************************************************************************************** -->
-<!--                                 DETALLE DE SERVICIO SOCIAL PARA ALUMNOS                                        -->
-<!-- ************************************************************************************************************** -->
-<template name="detalleServivioSocialAlumno">
     <div class="container">
         <div class="row">
             <div class="col-12 text-center">
-                {{#if tieneConfiguracion}}
-                    <br><br><br>
-                    <h4 class="text-success">Programación para este ciclo escolar</h4>
+                <br><br><br>
+                {{#unless tieneSolicitudServicioSocial}}
+                    <h4 class="text-success">Fechas para tu solicitud en este ciclo escolar</h4>
                     <br><br>
-                    <h5 class="text-primary">Inicio del período Servicio Social: <span class="text-success">{{fechaISS}}</span></h5>
-                    <h5 class="text-primary">Primer seguimiento: <span class="text-success">{{fecha1}}</span></h5>
-                    <h5 class="text-primary">Segundo seguimiento: <span class="text-success">{{fecha2}}</span></h5>
-                    <h5 class="text-primary">Tercer seguimiento: <span class="text-success">{{fecha3}}</span></h5>
-                    <h5 class="text-primary">Entrega del reporte final: <span class="text-success">{{fechaRF}}</span></h5>
-                    <h5 class="text-primary">Término del período del Servicio Social: <span class="text-success">{{fechaTSS}}</span></h5>
-                    <br><br>
-                    <p class="text-danger">
-                        Todos los documentos administrados en esta plataforma deberán entregarse firmados y sellados sgún corresponda en físico y originales a la 
-                        oficina de Servicio Social para concluir satisfactoriamente éste proceso.
-                    </p>
+                    <label>Inicio del Servicio Social: el dia de la solicitud</label><br>
+                    <label>Carta de asignación: fecha de la solicitud</label><br>
+                    <label>Carta de presentación: 2 dias despues de la solicitud</label><br>
+                    <label>Carta de aceptación: 1 dia despues de la de presentación</label><br>
+                    <label>Primer seguimiento: 2 meses despues de la solicitud</label><br>
+                    <label>Segundo seguimiento: 4 meses despues de la solicitud</label><br>
+                    <label>Tercer seguimiento: 6 meses despues de la solicitud</label><br>
+                    <label>Entrega del reporte final: La misma del 3er seguimiento</label><br>
+                    <label>Carta de terminación: 2 dias despues del reporte final</label><br>
                 {{else}}
-                    <br><br><br>
-                    <h4 class="text-success">No se ha realizado calendarización de entrega de documentos para este ciclo escolar</h4>
-                    <br><br><br>
-                {{/if}}
+                    <h4 class="text-success">Fechas de tu Servicio Social</h4>
+                    <br><br>
+                    <label>Inicio del Servicio Social: </label><br>
+                    <label>Carta de asignación: </label><br>
+                    <label>Carta de presentación: </label><br>
+                    <label>Carta de aceptación: </label><br>
+                    <label>Primer seguimiento: </label><br>
+                    <label>Segundo seguimiento: </label><br>
+                    <label>Tercer seguimiento: </label><br>
+                    <label>Entrega del reporte final: </label><br>
+                    <label>Carta de terminación: </label><br>
+                {{/unless}}
+                <br><br>
+                <p class="text-danger">
+                    Todos los documentos administrados en esta plataforma deberán entregarse firmados y sellados sgún corresponda en físico y originales a la 
+                    oficina de Servicio Social para concluir satisfactoriamente éste proceso.
+                </p>
             </div>
         </div>
     </div>
@@ -96,11 +101,7 @@
 <!--                                SOLICITUD DE SERVICIO SOCIAL PARA ALUMNOS                                       -->
 <!-- ************************************************************************************************************** -->
 <template name="solicitudServicioSocialAlumno">
-    <div class="toolBox well well-sm text-center">
-        <img src="/servicioSocial/servicioSocial.webp" height="150px">
-    </div>
     {{> toolBoxServicioSocialAlumno}}
-    {{#if tieneConfiguracion}}
         <div class="container text-center bg-light">
             <br>
             <h5 class="text-primary">Solicitud de Servicio Social para el periodo {{periodo}}</h5>
@@ -193,12 +194,37 @@
                     </div>
                     <div class="row">
                         <div class="col-md-6">
-                            <span class="">Fecha de Icicio: <span class="text-success">{{fechaInicio}}</span></span>
+                            <span class="">Fecha de Inicio: <span class="text-success">{{fechaInicio}}</span></span>
                         </div>
                         <div class="col-md-6">
-                            <span class="">Fecha de Término: <span class="text-success">{{fechaTermino}}</span></span>
+                            <span class="">Fecha para la carta de presentación: <span class="text-success">{{fechaCartaPresentacion}}</span></span>
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <span class="">Fecha para la carta de aceptación: <span class="text-success">{{fechaCartaAceptacion}}</span></span>
+                        </div>
+                        <div class="col-md-6">
+                            <span class="">Fecha del 1er seguimiento: <span class="text-success">{{fechaPrimerSeguimiento}}</span></span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <span class="">Fecha del 2do seguimiento: <span class="text-success">{{fechaSegundoSeguimiento}}</span></span>
+                        </div>
+                        <div class="col-md-6">
+                            <span class="">Fecha del 3er seguimiento: <span class="text-success">{{fechaTercerSeguimiento}}</span></span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <span class="">Fecha del reporte final: <span class="text-success">{{fechaReporteFinal}}</span></span>
+                        </div>
+                        <div class="col-md-6">
+                            <span class="">Fecha de la carta de terminación: <span class="text-success">{{fechaCartaTerminacion}}</span></span>
+                        </div>
+                    </div>
+                    <br>
                     <div class="row">
                         <div class="col-md-12">
                             {{> afQuickField name='dependenciaOficial' class="text-uppercase" value=miServicioSocial.programa.dependenciaOficial}}
@@ -223,19 +249,7 @@
                     </div>
                 </div>
             {{/unless}}
-        {{/autoForm}}
-    {{else}}
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12 text-center">
-                    <br><br><br>
-                    <h4 class="text-success">No se ha realizado calendarización de entrega de documentos para este ciclo escolar.</h4>
-                    <h4 class="text-danger">No puede registrar solicitud</h4>
-                    <br><br><br>
-                </div>
-            </div>
-        </div>
-    {{/if}}
+        {{/autoForm}} 
     {{> uploadSolicitudServicioSocial}}
     {{> avisos}}
 </template>

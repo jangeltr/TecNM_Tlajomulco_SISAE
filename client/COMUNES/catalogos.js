@@ -1,11 +1,13 @@
-catCarreras = ['Ingenieria en Sistemas Computacionales',
-				'Ingenieria en Agronomia',
-				'Ingenieria en Industrias Alimentarias',
-                'Ingenieria en Innovacion Agricola',
-                'Ingenieria Ambiental',
-                'Maestria en Ciencias en Agrobiotecnologia',
-                'Doctorado en Ciencias de los Alimentos y Biotecnologia',
-                'Doctorado en Ciencias en Biotecnologia en Procesos Agropecuarios']
+catCarreras = [
+    'Ingenieria en Sistemas Computacionales',
+	'Ingenieria en Agronomia',
+	'Ingenieria en Industrias Alimentarias',
+    'Ingenieria en Innovacion Agricola',
+    'Ingenieria Ambiental',
+    'Maestria en Ciencias en Agrobiotecnologia',
+    'Doctorado en Ciencias de los Alimentos y Biotecnologia',
+    'Doctorado en Ciencias en Biotecnologia en Procesos Agropecuarios'
+]
 optCarreras = [
     {label:catCarreras[0], value:catCarreras[0]},
     {label:catCarreras[1], value:catCarreras[1]},
@@ -45,47 +47,50 @@ optNivelEscolar = [ {label:'Licenciatura',value:'Licenciatura'},
 					{label:'Doctorado',value:'Doctorado'}]
 nivelEscolarDefault = 'Licenciatura'
 
-catAreaDeAdscripcion = ['Direccion',
-                        'Sub. Academica',
-                        'Sub. Planeacion',
-                        'Sub. Administrativa']
+catAreaDeAdscripcion = [
+    'Direccion',
+    'Sub. Academica',
+    'Sub. Planeacion',
+    'Sub. Administrativa'
+]
 optAreaDeAdscripcion = [
-                        {label:"Direccion",value:"Direccion"},
-                        {label:"Sub. Academica",value:"Sub. Academica"},
-                        {label:"Sub. Planeacion",value:"Sub. Planeacion"},
-                        {label:"Sub. Administrativa",value:"Sub. Administrativa"}];
+    {label:"Direccion",value:"Direccion"},
+    {label:"Sub. Academica",value:"Sub. Academica"},
+    {label:"Sub. Planeacion",value:"Sub. Planeacion"},
+    {label:"Sub. Administrativa",value:"Sub. Administrativa"}
+]
 areaDeAdscripcionDefault = 'Sub. Academica'
 
 catRoles = [
-            'Subdirector Academico',
-            'Depto de Ciencias Basicas',
-            'Depto de Ciencias Agropecuarias',
-            'Depto de Ingenierias',
-            'Depto de Gestion Tecnologica y Vinculacion',
-            'Depto Division de Estudios Profesionales',
-            'Depto de Servicios Escolares',
-            'DEPI',
-            'Docente',
-            'Jefe de Tutorias',
-            'Jefe de Actividades Extraescolares',
-            'Jefe de Actividades Academicas',
-            'Jefe del Centro de Informacion'
-        ]
+    'Subdirector Academico',
+    'Depto de Ciencias Basicas',
+    'Depto de Ciencias Agropecuarias',
+    'Depto de Ingenierias',
+    'Depto de Gestion Tecnologica y Vinculacion',
+    'Depto Division de Estudios Profesionales',
+    'Depto de Servicios Escolares',
+    'DEPI',
+    'Docente',
+    'Jefe de Tutorias',
+    'Jefe de Actividades Extraescolares',
+    'Jefe de Actividades Academicas',
+    'Jefe del Centro de Informacion'
+]
 optRoles = [
-            {label:'Subdirector Academico',value:'Subdirector Academico'},
-            {label:'Depto de Ciencias Básicas',value:'Depto de Ciencias Básicas'},
-            {label:'Depto de Ciencias Agropecuarias',value:'Depto de Ciencias Agropecuarias'},
-            {label:'Depto de Ingenierias',value:'Depto de Ingenierias'},
-            {label:'Depto de Gestion Tecnologica y Vinculacion',value:'Depto de Gestion Tecnologica y Vinculacion'},
-            {label:'Depto Division de Estudios Profesionales',value:'Depto Division de Estudios Profesionales'},
-            {label:'Depto de Servicios Escolares',value:'Depto de Servicios Escolares'},
-            {label:'DEPI',value:'DEPI'},
-            {label:'Docente',value:'Docente'},
-            {label:'Jefe de Tutorias',value:'Jefe de Tutorias'},
-            {label:'Jefe de Actividades Extraescolares',value:'Jefe de Actividades Extraescolares'},
-            {label:'Jefe de Actividades Academicas',value:'Jefe de Actividades Academicas'},
-            {label:'Jefe del Centro de Informacion',value:'Jefe del Centro de Informacion'}
-        ];
+    {label:'Subdirector Academico',value:'Subdirector Academico'},
+    {label:'Depto de Ciencias Básicas',value:'Depto de Ciencias Básicas'},
+    {label:'Depto de Ciencias Agropecuarias',value:'Depto de Ciencias Agropecuarias'},
+    {label:'Depto de Ingenierias',value:'Depto de Ingenierias'},
+    {label:'Depto de Gestion Tecnologica y Vinculacion',value:'Depto de Gestion Tecnologica y Vinculacion'},
+    {label:'Depto Division de Estudios Profesionales',value:'Depto Division de Estudios Profesionales'},
+    {label:'Depto de Servicios Escolares',value:'Depto de Servicios Escolares'},
+    {label:'DEPI',value:'DEPI'},
+    {label:'Docente',value:'Docente'},
+    {label:'Jefe de Tutorias',value:'Jefe de Tutorias'},
+    {label:'Jefe de Actividades Extraescolares',value:'Jefe de Actividades Extraescolares'},
+    {label:'Jefe de Actividades Academicas',value:'Jefe de Actividades Academicas'},
+    {label:'Jefe del Centro de Informacion',value:'Jefe del Centro de Informacion'}
+]
 rolDefault = 'Docente'
 
 catEstados = [  'Activo',
@@ -94,13 +99,16 @@ optEstados = [  {label:'Activo',value:'Activo'},
                 {label:'Inactivo',value:'Inactivo'}]
 estadoDefault = 'Activo'
 
-catDepartamentos = [ "Depto de Ciencias Básicas",
-                    "Depto de Ciencias Agropecuarias",
-                    "Depto de Ingenierias"]
+catDepartamentos = [ 
+    "Depto de Ciencias Básicas",
+    "Depto de Ciencias Agropecuarias",
+    "Depto de Ingenierias"
+]
 optDepartamentos = [
-            {label:"Depto de Ciencias Básicas", value:"Depto de Ciencias Básicas"},
-            {label:"Depto de Ciencias Agropecuarias", value:"Depto de Ciencias Agropecuarias"},
-            {label:"Depto de Ingenierias", value:"Depto de Ingenierias"}]
+    {label:"Depto de Ciencias Básicas", value:"Depto de Ciencias Básicas"},
+    {label:"Depto de Ciencias Agropecuarias", value:"Depto de Ciencias Agropecuarias"},
+    {label:"Depto de Ingenierias", value:"Depto de Ingenierias"}
+]
 departamentoDeafult="Depto de Ingenierias"
 
 catSexos = ["Masculino",
@@ -108,7 +116,8 @@ catSexos = ["Masculino",
 optSexos = [{label:"Masculino", value:"Masculino"},
             {label:"Femenino", value:"Femenino"}]
 
-catStatusAlumno = ['Activo',
+catStatusAlumno = [
+    'Activo',
     'Inscrito',
     'Baja temporal Voluntaria',
     'Baja temporal por adeudo de exámenes especiales',
@@ -127,7 +136,8 @@ catStatusAlumno = ['Activo',
     'Baja Definitiva traslado otro Tec',
     'Baja Definitiva 3 periodos fuera',
     'Baja Definitiva Fallecimiento',
-    'Baja Definitiva Indisciplina']
+    'Baja Definitiva Indisciplina'
+]
 optStatusAlumno = [{label:'Activo',value:'Activo'},
     {label:'Inscrito',value:'Inscrito'},
     {label:'Egresado',value:'Egresado'},
@@ -147,7 +157,8 @@ optStatusAlumno = [{label:'Activo',value:'Activo'},
     {label:'Baja definitiva traslado otro Tec',value:'Baja Definitiva traslado otro Tec'},
     {label:'Baja definitiva 3 periodos fuera',value:'Baja Definitiva 3 periodos fuera'},
     {label:'Baja definitiva Fallecimiento',value:'Baja Definitiva Fallecimiento'},
-    {label:'Baja definitiva Indisciplina',value:'Baja Definitiva Indisciplina'}]
+    {label:'Baja definitiva Indisciplina',value:'Baja Definitiva Indisciplina'}
+]
 statusAlumnoDefault='Activo'
 
 catNivelDesempeñoActividadComplementaria = [
@@ -182,14 +193,14 @@ catGiroRamoSectorEmpresa = [
     'Público',
     'Privado',
     'Otro'
-];
+]
 optGiroRamoSectorEmpresa = [
     {label:'Industrial',value:'Industrial'},
     {label:'Servicios',value:'Servicios'},
     {label:'Público',value:'Público'},
     {label:'Privado',value:'Privado'},
     {label:'Otro',value:'Otro'}
-];
+]
 giroRamoSectorEmpresaDefault = 'Servicios';
 
 catSeguridadSocial = [

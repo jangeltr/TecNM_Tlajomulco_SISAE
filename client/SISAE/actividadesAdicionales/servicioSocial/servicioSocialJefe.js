@@ -48,60 +48,8 @@ Template.servicioSocialJefe.events({
 //*************************************************************************************************************************/
 //                            CONFIGURAR EL SERVICIO SOCIAL DE ESTE PERIODO 
 //*************************************************************************************************************************/
-Template.configurarServicioSocial.helpers({
+Template.fechasServicioSocial.helpers({
     periodo:function(){
         return Session.get('periodo');
-    },
-    configurada: function(){
-        if (configuracion.get()?.configuracion?.fecha1)
-            return true
-        return false
-    },
-    fechaISS:function(){
-        return configuracion.get()?.configuracion?.fechaISS
-    },
-    fechaTSS:function(){
-        return configuracion.get()?.configuracion?.fechaTSS
-    },
-    fecha1:function(){
-        return configuracion.get()?.configuracion?.fecha1
-    },
-    fecha2:function(){
-        return configuracion.get()?.configuracion?.fecha2
-    },
-    fecha3:function(){
-        return configuracion.get()?.configuracion?.fecha3
-    },
-    fechaCP:function(){
-        return configuracion.get()?.configuracion?.fechaCP
-    },
-    fechaCA:function(){
-        return configuracion.get()?.configuracion?.fechaCA
-    },
-    fechaCT:function(){
-        return configuracion.get()?.configuracion?.fechaCT
-    },
-    fechaRF:function(){
-        return configuracion.get()?.configuracion?.fechaRF
-    }
-})
-Template.configurarServicioSocial.events({
-    "click .registrar": function(){
-        let configuracion={}
-        configuracion.periodo=Session.get('periodo')
-        configuracion.fechaISS=document.getElementById("fechaISS").value
-        configuracion.fechaTSS=document.getElementById("fechaTSS").value
-        configuracion.fecha1=document.getElementById("fecha1").value
-        configuracion.fecha2=document.getElementById("fecha2").value
-        configuracion.fecha3=document.getElementById("fecha3").value
-        configuracion.fechaCP=document.getElementById("fechaCP").value
-        configuracion.fechaCA=document.getElementById("fechaCA").value
-        configuracion.fechaCT=document.getElementById("fechaCT").value
-        configuracion.fechaRF=document.getElementById("fechaRF").value
-        let conf = {}
-        conf.configuracion = configuracion
-        Meteor.call('registrarFechasSeguimientoServicioSocial',Session.get('periodo'),conf);
-        let aviso={encabezado:"Servicio Social",aviso:"Registro fechas de seguimiento",positivo:true};
-        Session.set("aviso",aviso);
     }
 })

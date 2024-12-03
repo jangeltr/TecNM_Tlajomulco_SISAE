@@ -165,9 +165,6 @@ Meteor.publish('servicioSocial',function(per){
 Meteor.publish('miServicioSocial',function(per,idAlumno){
     return servicioSocial.find({periodo:per,'alumno._id':idAlumno})
 })
-Meteor.publish('configuracionServicioSocial',function(per){
-    return servicioSocial.find({'configuracion.periodo':per})
-})
 //*************************************************************************************************************************/
 //                                      REPOSITORIOS: INFORMES DE RESIDENCIAS
 //*************************************************************************************************************************/

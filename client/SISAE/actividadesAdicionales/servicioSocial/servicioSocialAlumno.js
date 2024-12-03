@@ -1,65 +1,66 @@
-let configuracion = new ReactiveVar()
-let miServicioSocial = new ReactiveVar()
+let miSS = {}
 let tipoPrograma = {}
+let miServicioSocial = new ReactiveVar()
 let subioSolicitudServicioSocial = new ReactiveVar()
 let subioCartaCompromisoServicioSocial = new ReactiveVar()
+
+function inicializarMiSS(){
+  miSS.periodo = Session.get("periodo");
+  miSS.alumno._id = Meteor.userId()
+  miSS.alumno.nc = Meteor.user().username
+  miSS.alumno.nombre = Meteor.user().profile.name
+  miSS.alumno.sexo = Meteor.user().profile.sexo
+  miSS.alumno.carrera = Meteor.user().profile.carrera
+  miSS.alumno.modulo = Meteor.user().profile.modulo
+  miSS.alumno.modalidad = Meteor.user().profile.modalidad
+  miSS.alumno.semestre = Meteor.user().profile.semestre
+  miSS.alumno.telefono = Meteor.user().profile.telefono
+  miSS.alumno.email = Meteor.user().emails[0].address
+  let fechaI = new Date()
+  let fecha = new Date()
+  miSS.programa.fechaInicio =  fechaLarga(fechaI.toISOString().substring(0,10))
+  miSS.programa.fechaCartaPresentacion = fechaLarga(fecha.setDate(fechaI.getDate()+2))
+  miSS.programa.fechaCartaAceptacion = fechaLarga(fecha.setDate(fechaI.getDate()+3))
+  miSS.programa.fechaPrimerSeguimiento = fechaLarga(fecha.setMonth(fechaI.getMonth()+2))
+  miSS.programa.fechaSegundoSeguimiento = fechaLarga(fecha.setMonth(fechaI.getMonth()+4))
+  fecha.setMonth(fechaI.getMonth()+6)
+  miSS.programa.fechaTercerSeguimiento = fechaLarga(fecha)
+  miSS.programa.fechaReporteFinal = fechaLarga(fecha)
+  miSS.programa.fechaCartaTerminacion = fechaLarga(fecha.setDate(fecha.getDate()+2))
+}
 //*************************************************************************************************************************/
 //                                   SERVICIO SOCIAL ALUMNOS
 //*************************************************************************************************************************/
 Template.servicioSocialAlumno.onCreated(function(){
 	this.autorun(() =>{
         this.subscribe('miServicioSocial',Session.get('periodo'),Meteor.userId());
-        this.subscribe('configuracionServicioSocial',Session.get('periodo'))
         if(this.subscriptionsReady()){
-            configuracion.set(servicioSocial.findOne({'configuracion.periodo':Session.get('periodo')}))
+          miServicioSocial.set(servicioSocial.findOne({}))
         }
 	});
 })
 Template.servicioSocialAlumno.helpers({
-    servicioSocial: function(){
-        return servicioSocial.find({'periodo':Session.get('periodo')})
-    },
-    ip:function(){
-		return Session.get("ipLocal")+Session.get("puerto")
-	}
-})
-//*************************************************************************************************************************/
-//                                   SERVICIO SOCIAL ALUMNOS
-//*************************************************************************************************************************/
-Template.detalleServivioSocialAlumno.helpers({
-    tieneConfiguracion: function(){
-        if (configuracion.get())
+    tieneSolicitudServicioSocial: function(){
+        if (miServicioSocial.get())
             return true
         return false
     },
-    fechaISS: function(){
-      return fechaLarga(configuracion.get().configuracion.fechaISS)
+    servicioSocial: function(){
+        return miServicioSocial.get()
     },
-    fecha1: function(){
-      return fechaLarga(configuracion.get().configuracion.fecha1)
-    },
-    fecha2: function(){
-      return fechaLarga(configuracion.get().configuracion.fecha2)
-    },
-    fecha3: function(){
-      return fechaLarga(configuracion.get().configuracion.fecha3)
-    },
-    fechaRF: function(){
-      return fechaLarga(configuracion.get().configuracion.fechaRF)
-    },
-    fechaTSS: function(){
-      return fechaLarga(configuracion.get().configuracion.fechaTSS)
-    },
+    ip: function(){
+      return Session.get("ipLocal")+Session.get("puerto")
+    }
 })
 //*************************************************************************************************************************/
 //                               SOLICITUD SERVICIO SOCIAL ALUMNOS
 //*************************************************************************************************************************/
+Template.solicitudServicioSocialAlumno.onRendered(function(){
+})
 Template.solicitudServicioSocialAlumno.onCreated(function(){
-	this.autorun(() =>{
+  this.autorun(() =>{
     this.subscribe('miServicioSocial',Session.get('periodo'),Meteor.userId())
-    this.subscribe('configuracionServicioSocial',Session.get('periodo'))
     if(this.subscriptionsReady()){
-      configuracion.set(servicioSocial.findOne({'configuracion.periodo':Session.get('periodo')}))
       miServicioSocial.set(servicioSocial.findOne({'periodo':Session.get('periodo')}))
       tipoPrograma.EA='___'
       tipoPrograma.DC='___'
@@ -130,34 +131,47 @@ Template.solicitudServicioSocialAlumno.helpers({
         else
             return 'No ha registrado un correo electrónico en su cuenta (POR FAVOR VALLA A "MI PERFIL" Y REGISTRE UNO)'
     },
-    tieneConfiguracion: function(){
-      if (configuracion.get())
-          return true
-      return false
-    },
     miServicioSocial: function(){
         if (miServicioSocial.get())
             return miServicioSocial.get();
         return null
     },
     fechaInicio: function(){
-      return fechaLarga(configuracion.get().configuracion.fechaISS)
+      return miServicioSocial.get().programa.fechaInicio
     },
-    fechaTermino: function(){
-      return fechaLarga(configuracion.get().configuracion.fechaTSS)
+    fechaCartaPresentacion: function(){
+        return miServicioSocial.get().programa.fechaCartaPresentacion
+    },
+    fechaCartaAceptacion: function(){
+        return miServicioSocial.get().programa.fechaCartaAceptacion
+    },
+    fechaPrimerSeguimiento: function(){
+        return miServicioSocial.get().programa.fechaPrimerSeguimiento
+    },
+    fechaSegundoSeguimiento: function(){
+        return miServicioSocial.get().programa.fechaSegundoSeguimiento
+    },
+    fechaTercerSeguimiento: function(){
+        return miServicioSocial.get().programa.fechaTercerSeguimiento
+    },
+    fechaReporteFinal: function(){
+        return miServicioSocial.get().programa.fechaReporteFinal
+    },
+    fechaCartaTerminacion: function(){
+        return miServicioSocial.get().programa.fechaCartaTerminacion
     },
     tieneRegistradaSolicitud: function(){
-        if (servicioSocial.find({'configuracion.periodo':Session.get('periodo')}).count()>0)
+        if (miServicioSocial.get()._id)
             return true
         return false
     },
     yaSubioSolicitud: function(){
-      if (miServicioSocial.get().expedienteInicio.pathSolicitud)
+      if (miServicioSocial.get()?.expedienteInicio.pathSolicitud)
           return true
       return false
     },
     seAceptoSolictud: function(){
-      if (miServicioSocial.get().solicitud.dictamen=='Aceptado')
+      if (miServicioSocial.get()?.solicitud?.dictamen=='Aceptado')
           return true
       return false
     },
@@ -165,42 +179,25 @@ Template.solicitudServicioSocialAlumno.helpers({
       return Session.get("ipLocal")+Session.get("puerto")
     },
 })
+
 Template.solicitudServicioSocialAlumno.events({
   "click .imprimirSolicitud":function(){
-		BlazeLayout.render("impresion",{rellena2:"vistaPreviaSolicitudServicioSocialAlumno"});
+		//BlazeLayout.render("impresion",{rellena2:"vistaPreviaSolicitudServicioSocialAlumno"});
 	},
-  "click .agregar":function(event){
+  /* "click .agregar":function(event){
         let doc=document.getElementById("solicitudServicioSocialForm");
-        let SS = {};
+        let SS = miServicioSocial.get();
         if (!Meteor.user().emails){
-            let aviso={encabezado:"Error",aviso:'No cuentas con una cuenta de correo electrónico, por favor registralo en "Mi perfil"',positivo:false}
-            Session.set("aviso",aviso)
+          let aviso={encabezado:"Error",aviso:'No cuentas con una cuenta de correo electrónico, por favor registralo en "Mi perfil"',positivo:false}
+          Session.set("aviso",aviso)
         }
         else{
-          if (servicioSocial.find({'periodo':Session.get('periodo')}).count()>0)
-              SS._id=miServicioSocial.get()._id;
-
-          SS.periodo = Session.get("periodo");
-          
-          let alumno = {}
-          alumno._id = Meteor.userId()
-          alumno.nc = Meteor.user().username
-          alumno.nombre = Meteor.user().profile.name
-          alumno.sexo = Meteor.user().profile.sexo
-          alumno.carrera = Meteor.user().profile.carrera
-          alumno.modulo = Meteor.user().profile.modulo
-          alumno.modalidad = Meteor.user().profile.modalidad
-          alumno.semestre = Meteor.user().profile.semestre
-          alumno.telefono = Meteor.user().profile.telefono
-          alumno.email = Meteor.user().emails[0].address
-          alumno.domicilio = doc.domicilioAlumno.value
-          alumno.colonia = doc.coloniaAlumno.value
-          alumno.ciudad = doc.ciudadAlumno.value
-          alumno.cp = doc.CPAlumno.value
+          SS.alumno.domicilio = doc.domicilioAlumno.value
+          SS.alumno.colonia = doc.coloniaAlumno.value
+          SS.alumno.ciudad = doc.ciudadAlumno.value
+          SS.alumno.cp = doc.CPAlumno.value
           
           let programa = {}
-          programa.fechaInicio =  configuracion.get().configuracion.fechaISS
-          programa.fechaTermino = configuracion.get().configuracion.fechaTSS
           programa.dependenciaOficial = doc.dependenciaOficial.value
           programa.titularDependencia = doc.titularDependencia.value
           programa.puestoTitularDependencia = doc.puestoTitularDependencia.value
@@ -212,18 +209,20 @@ Template.solicitudServicioSocialAlumno.events({
 
           SS.alumno = alumno
           SS.programa = programa
+          miServicioSocial.set(SS)
       
           let aviso={encabezado:"Servivio Social",aviso:"Tu solicitud ha sido registrada",positivo:true}
           Session.set("aviso",aviso)
           
           Meteor.call('addServicioSocial',SS)
-        }
-	}
+        } 
+	} */
 })
+
 //*************************************************************************************************************************/
 //                         VISTA PREVIA SOLICITUD SERVICIO SOCIAL ALUMNOS
 //*************************************************************************************************************************/
-Template.vistaPreviaSolicitudServicioSocialAlumno.onCreated(function(){
+/* Template.vistaPreviaSolicitudServicioSocialAlumno.onCreated(function(){
 	this.autorun(() =>{
     this.subscribe('miServicioSocial',Session.get('periodo'),Meteor.userId())
     if(this.subscriptionsReady()){
@@ -283,11 +282,11 @@ Template.vistaPreviaSolicitudServicioSocialAlumno.events({
 		window.print()
 		document.getElementById("btnImprimir").style.visibility = "visible";
 	}
-})
+})  */
 //*************************************************************************************************************************/
 //                           CODIGO DE LA PLATILLA PARA SUBIR LA SOLICITUD
 //*************************************************************************************************************************/
-Template.uploadSolicitudServicioSocial.onCreated(function(){
+/* Template.uploadSolicitudServicioSocial.onCreated(function(){
   this.autorun(() =>{
       subioSolicitudServicioSocial.set(false)
   })
@@ -315,11 +314,11 @@ Template.uploadSolicitudServicioSocial.events({
           Session.set("aviso",aviso);
       }
   }
-})
+}) */
 //*************************************************************************************************************************/
 //                               CARTA COMPROMISO SERVICIO SOCIAL ALUMNOS
 //*************************************************************************************************************************/
-Template.cartaCompromisoServicioSocial.onCreated(function(){
+/* Template.cartaCompromisoServicioSocial.onCreated(function(){
 	this.autorun(() =>{
     this.subscribe('miServicioSocial',Session.get('periodo'),Meteor.userId())
     this.subscribe('configuracionServicioSocial',Session.get('periodo'))
@@ -409,11 +408,11 @@ Template.cartaCompromisoServicioSocial.events({
   "click .imprimirCartaCompromiso":function(){
 		BlazeLayout.render("impresion",{rellena2:"vistaPreviaCartaCompromisoServicioSocialAlumno"});
 	}
-})
+}) */
 //*************************************************************************************************************************/
 //                           VISTA PREVIA CARTA COMPROMISO DEL SERVICIO SOCIAL ALUMNOS
 //*************************************************************************************************************************/
-Template.vistaPreviaCartaCompromisoServicioSocialAlumno.onCreated(function(){
+/* Template.vistaPreviaCartaCompromisoServicioSocialAlumno.onCreated(function(){
 	this.autorun(() =>{
     this.subscribe('miServicioSocial',Session.get('periodo'),Meteor.userId())
     if(this.subscriptionsReady()){
@@ -449,11 +448,11 @@ Template.vistaPreviaCartaCompromisoServicioSocialAlumno.events({
 		window.print()
 		document.getElementById("btnImprimir").style.visibility = "visible";
 	}
-})
+}) */
 //*************************************************************************************************************************/
 //                           CODIGO DE LA PLATILLA PARA SUBIR LA SOLICITUD
 //*************************************************************************************************************************/
-Template.uploadCartaCompromisoServicioSocial.onCreated(function(){
+/* Template.uploadCartaCompromisoServicioSocial.onCreated(function(){
   this.autorun(() =>{
     subioCartaCompromisoServicioSocial.set(false)
   })
@@ -481,4 +480,4 @@ Template.uploadCartaCompromisoServicioSocial.events({
           Session.set("aviso",aviso);
       }
   }
-})
+}) */
