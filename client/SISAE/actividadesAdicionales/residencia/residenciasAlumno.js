@@ -1297,7 +1297,6 @@ Template.uploadInformeTecnicoResidencia.events({
         let fileName = Meteor.user().username+" InformeTecnicoResidencia.pdf";
 		reader.onload=function(fileLoadEvent){
             let buffer = new Uint8Array(reader.result);
-            alert("0");
 			Meteor.call('fileUpload',fileName,buffer,"InformeTecnicoResidencia"
             /* ,function(err,res){
                 if (error) {
