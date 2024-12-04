@@ -1755,7 +1755,7 @@ deberá de visitar y/o tener contacto con el asesor externo de la empresa al men
             </div>
             <div class="col-3 text-center">
                 <br><br><br><br><br><br><br>
-                <a href="{{ip}}/actividadesAdicionales/residencias/guiaElaboracionInformeTecnicoResidencia.pdf"  target="_blank">
+                <a href="{{ip}}/actividadesAdicionales/residencias/guiaElaboracionInformeTecnicoResidencia.pdf" target="_blank">
                     Guía para la elaboración del informe técnico
                 </a>
                 <br><br>
@@ -1764,7 +1764,7 @@ deberá de visitar y/o tener contacto con el asesor externo de la empresa al men
                         <h6 class="text-success">Una vez revizado y aprobado el informe técnico por tu asesor interno</h6>
                         <h6 class="text-success">Súbelo <a href="" class="text-primary" data-toggle="modal" data-target="#uploadInformeTecnicoResidencia">(aquí)</a></h6>
                     {{else}}
-                        <a href="{{ip}}{{expedienteEvaluacion.pathInformeTecnico}}">Descarga tu informe técnico aquí</a>
+                        <a href="{{ip}}{{expedienteEvaluacion.pathInformeTecnico}}" target="_blank">Descarga tu informe técnico aquí</a>
                     {{/unless}}    
                 {{else}}
                     <h5 class="text-warning">No has subido tu segunda evaluación firmada y sellada</h5>
@@ -1792,7 +1792,10 @@ deberá de visitar y/o tener contacto con el asesor externo de la empresa al men
                             <input id="b" name="fileUploadName" class="file-upload-input" method="fileUploadMethod" type="file" accept=".pdf" style="width: 100%"/>
                         </span>
                         <br><br>
-                        <button id="btnCerrar" type="button" class="cerrar btn btn-primary" data-toggle="modal" data-target="#avisos" data-dismiss="modal">Cerrar</button>
+                        {{#if cargoArchivo}}
+                            <button id="btnCerrar" type="button" class="enviar btn btn-success" data-toggle="modal" data-target="#avisos" data-dismiss="modal">Enviar</button>
+                        {{/if}}
+                        <button id="btnCerrar" type="button" class="cancelar btn btn-danger" data-dismiss="modal">Cancelar</button>
                     </div>
                 </div>
             </div>

@@ -19,7 +19,7 @@ let actividadesRealizadas = new ReactiveVar([])
 let actividades = new ReactiveVar([])
 let configuracion = new ReactiveVar()
 let resultadosEvaluacion = new ReactiveVar([])
-let nombreJefeDeptoVinculacion = new ReactiveVar('');
+let nombreJefeDeptoVinculacion = new ReactiveVar('')
 //*************************************************************************************************************************/
 //                                 CODIGO DE LA BARRA DE HERRAMIENTAS DE RESIDENCIAS ALUMNO
 //*************************************************************************************************************************/
@@ -1285,46 +1285,45 @@ Template.informeTecnicoResidencia.helpers({
 //*************************************************************************************************************************/
 //                                  CODIGO DE LA PLATILLA PARA SUBIR EL INFORME TECNICO
 //*************************************************************************************************************************/
+//let buffer = new ReactiveVar(null);
+let buffer = null
+let cargoArchivo = new ReactiveVar(false);
 Template.uploadInformeTecnicoResidencia.onCreated(function(){
     this.autorun(() =>{
         subioInformeTecnicoResidencia.set(false);
     })
-});
+})
+Template.uploadInformeTecnicoResidencia.helpers({
+    cargoArchivo:function(){
+        return cargoArchivo.get()
+    }
+})
 Template.uploadInformeTecnicoResidencia.events({
 	"change .file-upload-input": function(event, template){
 		let file = event.currentTarget.files[0];
 		let reader = new FileReader();
-        let fileName = Meteor.user().username+" InformeTecnicoResidencia.pdf";
+        //let fileName = Meteor.user().username+" InformeTecnicoResidencia.pdf";
 		reader.onload=function(fileLoadEvent){
-            let buffer = new Uint8Array(reader.result);
-			Meteor.call('fileUpload',fileName,buffer,"InformeTecnicoResidencia"
-            /* ,function(err,res){
-                if (error) {
-                    console.log(err)
+            buffer = new Uint8Array(reader.result)
+            cargoArchivo.set(true)
+		};
+        reader.readAsArrayBuffer(file)
+    },
+    "click .enviar": function(event, template){
+        let fileName = Meteor.user().username+" InformeTecnicoResidencia.pdf";
+        if (cargoArchivo.get())
+            Meteor.call('fileUpload',fileName,buffer,"InformeTecnicoResidencia",(err,res)=>{
+                if (err) {
+                    aviso={encabezado:"Residencia Profesional",aviso:"Ocurrio un error durante la carga del archivo",positivo:false}
+                    Session.set("aviso",aviso);
                 }
                 else {
-                    alert("1");
-                    Meteor.call('subiInformeTecnicoResidencia',miResidencia.get()._id,fileName);
-                    alert("2 ");
-                    subioInformeTecnicoResidencia.set(true);
-                    alert("3");
+                    Meteor.call('subiInformeTecnicoResidencia',miResidencia.get()._id,fileName)
+                    aviso={encabezado:"Residencia Profesional",aviso:"Ha subido su informe técnico de residencia",positivo:true}
+                    Session.set("aviso",aviso);
                 }
-            } */
-            );
-            Meteor.call('subiInformeTecnicoResidencia',miResidencia.get()._id,fileName);
-            subioInformeTecnicoResidencia.set(true);
-		};
-        reader.readAsArrayBuffer(file);
-    },
-    "click .cerrar": function(event, template){
-        if (subioInformeTecnicoResidencia.get()){
-            let aviso={encabezado:"Residencia Profesional",aviso:"Ha subido su informe técnico de residencia",positivo:true};
-            Session.set("aviso",aviso);
-        }
-        else{
-            let aviso={encabezado:"Residencia Profesional",aviso:"No selecciono archivo o ocurrio un error durante la carga del archivo",positivo:false};
-            Session.set("aviso",aviso);
-        }
+            })
+        cargoArchivo.set(false)
     }
 });
 //*************************************************************************************************************************/
