@@ -1296,16 +1296,24 @@ Template.uploadInformeTecnicoResidencia.events({
 		let reader = new FileReader();
         let fileName = Meteor.user().username+" InformeTecnicoResidencia.pdf";
 		reader.onload=function(fileLoadEvent){
-			let buffer = new Uint8Array(reader.result);
-			Meteor.call('fileUpload',fileName,buffer,"InformeTecnicoResidencia",function(err,res){
+            let buffer = new Uint8Array(reader.result);
+            alert("0");
+			Meteor.call('fileUpload',fileName,buffer,"InformeTecnicoResidencia"
+            /* ,function(err,res){
                 if (error) {
                     console.log(err)
                 }
                 else {
+                    alert("1");
                     Meteor.call('subiInformeTecnicoResidencia',miResidencia.get()._id,fileName);
+                    alert("2 ");
                     subioInformeTecnicoResidencia.set(true);
+                    alert("3");
                 }
-            });
+            } */
+            );
+            Meteor.call('subiInformeTecnicoResidencia',miResidencia.get()._id,fileName);
+            subioInformeTecnicoResidencia.set(true);
 		};
         reader.readAsArrayBuffer(file);
     },

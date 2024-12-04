@@ -4,30 +4,6 @@ let miServicioSocial = new ReactiveVar()
 let subioSolicitudServicioSocial = new ReactiveVar()
 let subioCartaCompromisoServicioSocial = new ReactiveVar()
 
-function inicializarMiSS(){
-  miSS.periodo = Session.get("periodo");
-  miSS.alumno._id = Meteor.userId()
-  miSS.alumno.nc = Meteor.user().username
-  miSS.alumno.nombre = Meteor.user().profile.name
-  miSS.alumno.sexo = Meteor.user().profile.sexo
-  miSS.alumno.carrera = Meteor.user().profile.carrera
-  miSS.alumno.modulo = Meteor.user().profile.modulo
-  miSS.alumno.modalidad = Meteor.user().profile.modalidad
-  miSS.alumno.semestre = Meteor.user().profile.semestre
-  miSS.alumno.telefono = Meteor.user().profile.telefono
-  miSS.alumno.email = Meteor.user().emails[0].address
-  let fechaI = new Date()
-  let fecha = new Date()
-  miSS.programa.fechaInicio =  fechaLarga(fechaI.toISOString().substring(0,10))
-  miSS.programa.fechaCartaPresentacion = fechaLarga(fecha.setDate(fechaI.getDate()+2))
-  miSS.programa.fechaCartaAceptacion = fechaLarga(fecha.setDate(fechaI.getDate()+3))
-  miSS.programa.fechaPrimerSeguimiento = fechaLarga(fecha.setMonth(fechaI.getMonth()+2))
-  miSS.programa.fechaSegundoSeguimiento = fechaLarga(fecha.setMonth(fechaI.getMonth()+4))
-  fecha.setMonth(fechaI.getMonth()+6)
-  miSS.programa.fechaTercerSeguimiento = fechaLarga(fecha)
-  miSS.programa.fechaReporteFinal = fechaLarga(fecha)
-  miSS.programa.fechaCartaTerminacion = fechaLarga(fecha.setDate(fecha.getDate()+2))
-}
 //*************************************************************************************************************************/
 //                                   SERVICIO SOCIAL ALUMNOS
 //*************************************************************************************************************************/
@@ -41,7 +17,7 @@ Template.servicioSocialAlumno.onCreated(function(){
 })
 Template.servicioSocialAlumno.helpers({
     tieneSolicitudServicioSocial: function(){
-        if (miServicioSocial.get())
+        if (miServicioSocial.get()._id)
             return true
         return false
     },
@@ -128,45 +104,68 @@ Template.solicitudServicioSocialAlumno.helpers({
     email: function(){
         if (Meteor.user().emails)
             return Meteor.user().emails[0].address
-        else
-            return 'No ha registrado un correo electrónico en su cuenta (POR FAVOR VALLA A "MI PERFIL" Y REGISTRE UNO)'
+        return 'No ha registrado un correo electrónico en su cuenta (POR FAVOR VALLA A "MI PERFIL" Y REGISTRE UNO)'
     },
     miServicioSocial: function(){
-        if (miServicioSocial.get())
-            return miServicioSocial.get();
+        if (miServicioSocial.get()._id)
+            return miServicioSocial.get()
         return null
     },
     fechaInicio: function(){
-      return miServicioSocial.get().programa.fechaInicio
+      if (miServicioSocial.get()?._id)
+        return miServicioSocial.get().programa.fechaInicio
+      return fechaLarga(new Date().toISOString().substring(0,10))
     },
     fechaCartaPresentacion: function(){
+      if (miServicioSocial.get()?._id) 
         return miServicioSocial.get().programa.fechaCartaPresentacion
+      let fecha = new Date()
+      return fechaLarga(fecha.setDate(fecha.getDate()+2))
     },
     fechaCartaAceptacion: function(){
+      if (miServicioSocial.get()?._id)
         return miServicioSocial.get().programa.fechaCartaAceptacion
+      let fecha = new Date()
+      return fechaLarga(fecha.setDate(fecha.getDate()+3))
     },
     fechaPrimerSeguimiento: function(){
+      if (miServicioSocial.get()?._id)
         return miServicioSocial.get().programa.fechaPrimerSeguimiento
+      let fecha = new Date()
+      return fechaLarga(fecha.setMonth(fecha.getMonth()+2))
     },
     fechaSegundoSeguimiento: function(){
+      if (miServicioSocial.get()?._id)
         return miServicioSocial.get().programa.fechaSegundoSeguimiento
+      let fecha = new Date()
+      return fechaLarga(fecha.setMonth(fecha.getMonth()+4))
     },
     fechaTercerSeguimiento: function(){
+      if (miServicioSocial.get()?._id)
         return miServicioSocial.get().programa.fechaTercerSeguimiento
+      let fecha = new Date()
+      return fechaLarga(fecha.setMonth(fecha.getMonth()+6))
     },
     fechaReporteFinal: function(){
+      if (miServicioSocial.get()?._id)
         return miServicioSocial.get().programa.fechaReporteFinal
+      let fecha = new Date()
+      return fechaLarga(fecha.setMonth(fecha.getMonth()+6))
     },
     fechaCartaTerminacion: function(){
+      if (miServicioSocial.get()?._id)
         return miServicioSocial.get().programa.fechaCartaTerminacion
+      let fecha = new Date()
+      fecha.setMonth(fecha.getMonth()+6)
+      return fechaLarga(fecha.setDate(fecha.getDate()+2))
     },
     tieneRegistradaSolicitud: function(){
-        if (miServicioSocial.get()._id)
+        if (miServicioSocial.get()?._id)
             return true
         return false
     },
     yaSubioSolicitud: function(){
-      if (miServicioSocial.get()?.expedienteInicio.pathSolicitud)
+      if (miServicioSocial.get()?.expedienteInicio?.pathSolicitud)
           return true
       return false
     },
@@ -184,39 +183,50 @@ Template.solicitudServicioSocialAlumno.events({
   "click .imprimirSolicitud":function(){
 		//BlazeLayout.render("impresion",{rellena2:"vistaPreviaSolicitudServicioSocialAlumno"});
 	},
-  /* "click .agregar":function(event){
+  "click .agregar":function(event){
         let doc=document.getElementById("solicitudServicioSocialForm");
-        let SS = miServicioSocial.get();
+        let SS = {}
         if (!Meteor.user().emails){
           let aviso={encabezado:"Error",aviso:'No cuentas con una cuenta de correo electrónico, por favor registralo en "Mi perfil"',positivo:false}
           Session.set("aviso",aviso)
         }
         else{
+          SS.periodo = Session.get('periodo')
+          SS.alumno = {}
+          SS.alumno.username = Meteor.user().username
+          SS.alumno.nombre = Meteor.user().profile.name
+          SS.alumno.carrera = Meteor.user().profile.carrera
+          SS.alumno.semestre = Meteor.user().profile.semestre
+          SS.alumno.email = Meteor.user().emails[0].address
           SS.alumno.domicilio = doc.domicilioAlumno.value
           SS.alumno.colonia = doc.coloniaAlumno.value
           SS.alumno.ciudad = doc.ciudadAlumno.value
           SS.alumno.cp = doc.CPAlumno.value
-          
-          let programa = {}
-          programa.dependenciaOficial = doc.dependenciaOficial.value
-          programa.titularDependencia = doc.titularDependencia.value
-          programa.puestoTitularDependencia = doc.puestoTitularDependencia.value
-          programa.domicilioDependencia = doc.domicilioDependencia.value
-          programa.nombrePrograma = doc.nombrePrograma.value
-          programa.modalidad = doc.modalidad.value
-          programa.tipoPrograma = doc.tipoPrograma.value
-          programa.actividades = doc.actividades.value
-
-          SS.alumno = alumno
-          SS.programa = programa
+          let fecha = new Date()
+          let fechaI = new Date()
+          SS.programa = {}
+          SS.programa.fechaInicio = fechaI.toISOString().substring(0,10)
+          SS.programa.fechaCartaPresentacion = fecha.setDate(fecha.getDate()+2)
+          SS.programa.fechaCartaAceptacion = fecha.setDate(fecha.getDate()+1)
+          SS.programa.fechaPrimerSeguimiento = fecha.setMonth(fechaI.getMonth()+2)
+          SS.programa.fechaSegundoSeguimiento = fecha.setMonth(fecha.getMonth()+2)
+          SS.programa.fechaTercerSeguimiento = fecha.setMonth(fecha.getMonth()+2)
+          SS.programa.fechaReporteFinal = fecha.setDate(fecha.getDate()+2)
+          SS.programa.dependenciaOficial = doc.dependenciaOficial.value
+          SS.programa.titularDependencia = doc.titularDependencia.value
+          SS.programa.puestoTitularDependencia = doc.puestoTitularDependencia.value
+          SS.programa.domicilioDependencia = doc.domicilioDependencia.value
+          SS.programa.nombrePrograma = doc.nombrePrograma.value
+          SS.programa.modalidad = doc.modalidad.value
+          SS.programa.tipoPrograma = doc.tipoPrograma.value
+          SS.programa.actividades = doc.actividades.value
           miServicioSocial.set(SS)
-      
           let aviso={encabezado:"Servivio Social",aviso:"Tu solicitud ha sido registrada",positivo:true}
           Session.set("aviso",aviso)
           
           Meteor.call('addServicioSocial',SS)
         } 
-	} */
+	}
 })
 
 //*************************************************************************************************************************/
