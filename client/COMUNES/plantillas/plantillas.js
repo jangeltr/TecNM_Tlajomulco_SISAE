@@ -78,6 +78,9 @@ Template.avisos.helpers({
 	aviso:function(){
 		return Session.get("aviso").aviso;
 	},
+	uploading:function(){
+		return Session.get("aviso").uploading;
+	},
 	positivo:function(){
 		return Session.get("aviso").positivo;
 	}

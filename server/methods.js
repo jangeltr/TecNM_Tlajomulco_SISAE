@@ -1372,6 +1372,15 @@ Meteor.methods({
         Meteor.call('sendeMail',doc);
         Meteor.call('agregarRegistroBitacora','SISAE','Residencias','Se envio email de: '+doc.from+', para: '+doc.to,Meteor.userId(),Meteor.user().profile.name);
     },
+    registrarEvaluacionTAE:function(idResidencia,eAEF1,eAEF2,eAEF3,calificacionTotal){
+        residencias.update({_id:idResidencia},{$set:{
+            eAEF1,
+            eAEF2,
+            eAEF3,
+            calificacionTotal
+        }})
+        Meteor.call('agregarRegistroBitacora','SISAE','Residencias','Registro calificacion del Asesor Externo y total de la residencia: '+idResidencia,Meteor.userId(),Meteor.user().profile.name);
+    },
 //*************************************************************************************************************************/
 //                                                     SISAE: SERVICIO SOCIAL
 //*************************************************************************************************************************/ 

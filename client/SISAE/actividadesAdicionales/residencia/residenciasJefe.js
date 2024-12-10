@@ -88,15 +88,55 @@ Template.residenciasJefe.helpers({
             return true
         return false
     },
+    evaluacionTotalFecha1:function(){
+        if (this?.evaluacionFecha1)
+            return this.evaluacionFecha1['Calificación Total']
+        return null
+    },
     tieneSegundaEvaluacionSeguimiento:function(){
         if (this?.expedienteEvaluacion?.pathSegundaEvaluacion)
             return true
         return false
     },
+    evaluacionTotalFecha2:function(){
+        if (this?.evaluacionFecha2)
+            return this.evaluacionFecha2['Calificación Total']
+        return null
+    },
     tieneTercerEvaluacionSeguimiento:function(){
         if (this?.expedienteEvaluacion?.pathTercerEvaluacion)
             return true
         return false
+    },
+    evaluacionTotalFecha3:function(){
+        if (this?.evaluacionFecha3)
+            return this.evaluacionFecha3['Calificación Total']
+        return null
+    },
+    evaluacionTotal:function(){
+        if (this?.evaluacionTotal)
+            return this.evaluacionTotal
+        return 0
+    },
+    calificacionTotal:function(){
+        if (this?.calificacionTotal)
+            return this.calificacionTotal
+        return 0
+    },
+    eAEF1: function(){
+        if (this?.eAEF1)
+            return this.eAEF1
+        return 0
+    },
+    eAEF2: function(){
+        if (this?.eAEF2)
+            return this.eAEF2
+        return 0
+    },
+    eAEF3: function(){
+        if (this?.eAEF3)
+            return this.eAEF3
+        return 0
     },
     tieneInformeTecnico:function(){
         if (this?.expedienteEvaluacion?.pathInformeTecnico)
@@ -216,8 +256,52 @@ Template.residenciasJefe.events({
         e.classList.toggle("border-info")
         e.classList.toggle("bg-light")
         e.classList.toggle("font-weight-bold")
+    },
+    "click .CAE":function(){
+        residencia.set(this)
     }
 });
+//*************************************************************************************************************************/
+//                         CODIGO DE LA PLATILLA REGISTRAR CALIFICACION ASESOR EXTERNO
+//*************************************************************************************************************************/
+Template.addCalificacionAsesorExterno.helpers({
+    eAEF1: function(){
+        if (residencia.get()?.eAEF1)
+            return residencia.get().eAEF1
+        return 0
+    },
+    eAEF2: function(){
+        if (residencia.get()?.eAEF2)
+            return residencia.get().eAEF2
+        return 0
+    },
+    eAEF3: function(){
+        if (residencia.get()?.eAEF3)
+            return residencia.get().eAEF3
+        return 0
+    },
+})
+Template.addCalificacionAsesorExterno.events({
+    "click .registrarCAE":function(){
+        let eAEF1=parseInt(document.getElementById('eAEF1').value)
+        let eAEF2=parseInt(document.getElementById('eAEF2').value)
+        let eAEF3=parseInt(document.getElementById('eAEF3').value)
+        let eAIF1=residencia.get().evaluacionFecha1['Calificación Total']
+        let eAIF2=residencia.get().evaluacionFecha2['Calificación Total']
+        let eAIF3=residencia.get().evaluacionFecha3['Calificación Total']
+        let eAE=eAEF1*.05+eAEF2*.05+eAEF3*.40
+        let eAI=eAIF1*.05+eAIF2*.05+eAIF3*.40
+        let calificacionTotal=eAE+eAI
+        Meteor.call('registrarEvaluacionTAE',residencia.get()._id,eAEF1,eAEF2,eAEF3,calificacionTotal)
+        let aviso={encabezado:"Residencias",aviso:`Se registro calificacion del asesor externo`,positivo:true}
+        Session.set("aviso",aviso)
+    },
+    "click .cancelar":function(){
+        let aviso={encabezado:"Residencias",aviso:`No se registro calificacion`,positivo:false}
+        Session.set("aviso",aviso)
+        FlowRouter.go('/sisae/residencias');
+    }
+})
 //*************************************************************************************************************************/
 //                                 CODIGO DE LA PLATILLA AGREGAR ASESOR INTERNO
 //*************************************************************************************************************************/

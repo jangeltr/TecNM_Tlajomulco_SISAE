@@ -57,10 +57,14 @@
                     <h3 class="text-primary">{{encabezado}}</h3>
                 </div>
                 <div class="modal-body" style="text-align: center;">
-                    {{#if positivo}}
-                        <img src="/Si.png" height="100px">
+                    {{#if uploading}}
+                        <img src="/Uploading.gif" height="100px">
                     {{else}}
-                        <img src="/No.png" height="120px">
+                        {{#if positivo}}
+                            <img src="/Si.png" height="100px">
+                        {{else}}
+                            <img src="/No.png" height="120px">
+                        {{/if}}
                     {{/if}}
                     <br><br>
                     <h5>{{aviso}}</h5>  

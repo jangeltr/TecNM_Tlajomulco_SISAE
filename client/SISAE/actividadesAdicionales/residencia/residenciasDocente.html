@@ -32,7 +32,9 @@
                                 <span><b>Carrera</b>: {{residente.carrera}}</span><br>
                                 <span><b>Proyecto</b>: {{solicitud.nombreProyecto}}</span><br>
                                 <span><b>Empresa</b>: {{empresa.nombre}}</span><br>
-                                <br><hr>
+                                <span class="text-primary">CALIFICACION: </span>
+                                <span class="text-success"> {{calificacionTotal}}</span><br>
+                                <hr>
                                 {{#if tieneOficioAsignacionAsesorInterno}}
                                     <a href="{{ip}}{{asesor.pathOficioAsignacion}}" target="_blank">
                                         <i class="fa fa-file-pdf-o text-success" aria-hidden="true"></i>
@@ -90,13 +92,17 @@
                                 <br>
                                 
                                 <a href="#">
-                                    <i class="estaResidencia fa fa-calendar text-primary" aria-hidden="true" title="Plan de actividades" data-toggle="modal" data-target="#verSeguimientoResidenciasAlumnoEnDocente"></i>
+                                    <i class="estaResidencia fa fa-calendar text-primary" aria-hidden="true" title="Plan de actividades" 
+                                        data-toggle="modal" data-target="#verSeguimientoResidenciasAlumnoEnDocente">
+                                    </i>
                                 </a>
                                 <span>&nbsp;&nbsp;</span>
                                 <span>Planeacion de Actividades</span>
                                 <br>
                                 <a href="#">
-                                    <i class="estaResidencia fa fa-calendar text-primary" aria-hidden="true" title="Realización de las actividades" data-toggle="modal" data-target="#verRealizacionResidenciasAlumnoEnDocente"></i>
+                                    <i class="estaResidencia fa fa-calendar text-primary" aria-hidden="true" title="Realización de las actividades" 
+                                        data-toggle="modal" data-target="#verRealizacionResidenciasAlumnoEnDocente">
+                                    </i>
                                 </a>
                                 <span>&nbsp;&nbsp;</span>
                                 <span>Realización de Actividades</span>
@@ -104,13 +110,17 @@
                                 <br>
                                 {{#if tieneRealizacion}}
                                     <a href="#">
-                                        <i class="evaluarPrimerSeguimiento fa fa-check text-success" aria-hidden="true" title="Evaluar el primer seguimiento" data-toggle="modal" data-target="#evaluarPrimerSeguimientoResidencia"></i>
+                                        <i class="evaluarPrimerSeguimiento fa fa-check text-success" aria-hidden="true" title="Evaluar el primer seguimiento" 
+                                            data-toggle="modal" data-target="#evaluarPrimerSeguimientoResidencia">
+                                        </i>
                                     </a>
                                     <span>&nbsp;&nbsp;</span>
                                     <span>Evaluar 1er seguimiento</span>
                                     <br>
                                     <a href="#">
-                                        <i class="evaluarSegundoSeguimiento fa fa-check text-success" aria-hidden="true" title="Evaluar el segundo seguimiento" data-toggle="modal" data-target="#evaluarSegundoSeguimientoResidencia"></i>
+                                        <i class="evaluarSegundoSeguimiento fa fa-check text-success" aria-hidden="true" title="Evaluar el segundo seguimiento" 
+                                            data-toggle="modal" data-target="#evaluarSegundoSeguimientoResidencia">
+                                        </i>
                                     </a>
                                     <span>&nbsp;&nbsp;</span>
                                     <span>Evaluar 2do seguimiento</span>
@@ -311,7 +321,7 @@
 <!--                       VER LA REALIZACION DE LAS ACTIVIDADES DE LA RESIDENCIA DEL ALUMNO                        -->
 <!-- ************************************************************************************************************** -->
 <template name="verRealizacionResidenciasAlumnoEnDocente">
-    <div class="modal fade" id="verRealizacionResidenciasAlumnoEnDocente">
+    <div class="modal fade" id="verRealizacionResidenciasAlumnoEnDocente" data-bs-backdrop="static" data-bs-keyboard="false">
         <div class="modal-dialog  modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -371,14 +381,26 @@
                     {{/if}}
                     <br>
                     <label class="text-primary">Para la aceptación de las actividades es necesario dar el visto bueno de acuerdo a 3 fechas programadas por el jefe de departamento.</label>
-                    <input type="checkbox" id="VoBoFecha1" {{VoBoFecha1}}>
-                    <label for="aceptoPlanActividades" class="text-success">Vo. Bo. de las actividades realizadas hasta la fecha {{configuracion.fecha1}}</label>
+                    {{#if VoBoFecha1}}
+                        <input type="checkbox" id="VoBoFecha1" checked>
+                    {{else}}
+                        <input type="checkbox" id ="VoBoFecha1">
+                    {{/if}}
+                    <label class="text-success">Vo. Bo. de las actividades realizadas hasta la fecha {{configuracion.fecha1}}</label>
                     <hr>
-                    <input type="checkbox" id="VoBoFecha2" {{VoBoFecha2}}>
-                    <label for="aceptoPlanActividades" class="text-success">Vo. Bo. de las actividades realizadas hasta la fecha {{configuracion.fecha2}}</label>
+                    {{#if VoBoFecha2}}
+                        <input type="checkbox" id="VoBoFecha2" checked>
+                    {{else}}
+                        <input type="checkbox" id="VoBoFecha2">
+                    {{/if}}
+                    <label class="text-success">Vo. Bo. de las actividades realizadas hasta la fecha {{configuracion.fecha2}}</label>
                     <hr>
-                    <input type="checkbox" id="VoBoFecha3" {{VoBoFecha3}}>
-                    <label for="aceptoPlanActividades" class="text-success">Vo. Bo. de las actividades realizadas hasta la fecha {{configuracion.fecha3}}</label>
+                    {{#if VoBoFecha3}}
+                        <input type="checkbox" id="VoBoFecha3" checked>
+                    {{else}}
+                        <input type="checkbox" id="VoBoFecha3">
+                    {{/if}}
+                    <label class="text-success">Vo. Bo. de las actividades realizadas hasta la fecha {{configuracion.fecha3}}</label>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="registrarVoBoRealizacion btn btn-success" data-toggle="modal" data-target="#avisos" data-dismiss="modal">Registrar</button>

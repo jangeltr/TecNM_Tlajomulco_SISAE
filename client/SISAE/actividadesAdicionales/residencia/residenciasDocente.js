@@ -66,6 +66,11 @@ Template.residenciasDocente.helpers({
         if (this.expedienteEvaluacion?.pathInformeTecnico)
             return true
         return false
+    },
+    calificacionTotal:function(){
+        if (this.calificacionTotal)
+            return this.calificacionTotal
+        return "sin calificar"
     }
 }); 
 Template.residenciasDocente.events({
@@ -219,6 +224,17 @@ Template.verSeguimientoResidenciasAlumnoEnDocente.events({
 //*************************************************************************************************************************/
 //                              VER LA REALIZACION DE LAS ACTIVIDADES DE LA RESIDENCIA DEL ALUMNO
 //*************************************************************************************************************************/
+Template.verRealizacionResidenciasAlumnoEnDocente.onCreated(function(){
+    
+})
+Template.verRealizacionResidenciasAlumnoEnDocente.onRendered(function(){
+    this.autorun(() =>{
+
+	});
+})
+Template.verRealizacionResidenciasAlumnoEnDocente.onDestroyed(function(){
+    
+})
 Template.verRealizacionResidenciasAlumnoEnDocente.helpers({
     tieneDictamenAceptado:function(){
         if (residencia.get()?.solicitud?.dictamen=="Aceptado")
@@ -235,16 +251,13 @@ Template.verRealizacionResidenciasAlumnoEnDocente.helpers({
         return residencia.get();
 	},
     VoBoFecha1: function(){
-        if (residencia.get()?.seguimiento?.VoBoFecha1)
-            return "Checked";
+        return residencia.get().seguimiento.VoBoFecha1
     },
     VoBoFecha2: function(){
-        if (residencia.get()?.seguimiento?.VoBoFecha2)
-            return "Checked";
+        return residencia.get().seguimiento.VoBoFecha2
     },
     VoBoFecha3: function(){
-        if (residencia.get()?.seguimiento?.VoBoFecha3)
-            return "Checked";
+        return residencia.get().seguimiento.VoBoFecha3
     },
     actividades: function (){
         if (residencia.get()?.seguimiento?.realizacion)
@@ -316,6 +329,12 @@ Template.verRealizacionResidenciasAlumnoEnDocente.events({
         Meteor.call('registrarVoBoRealizacionResidencia',residencia.get()._id,VoBoFecha1,VoBoFecha2,VoBoFecha3);
         let aviso={encabezado:"Residencia Profesional",aviso:"Registro realizado",positivo:true};
         Session.set("aviso",aviso);
+        FlowRouter.go('/sisae/residencias');
+        residencia.set("");
+    },
+    "click .cerrar":function(){
+        FlowRouter.go('/sisae/residencias');
+        residencia.set("");
     }
 })
 //*************************************************************************************************************************/

@@ -7,6 +7,6 @@ variablesDeInicio=function(){
     Session.set("carrera",carreraDefault)		//carrera seleccionada por default
     Session.set("modulo",moduloDefault)									//modulo seleccionado por default
     Session.set("statusAlumno","Activo")
-    let aviso={encabezado:"",aviso:"",positivo:false}
+    let aviso={encabezado:"",aviso:"",positivo:false, uploading:false}
     Session.set("aviso",aviso)
 }
