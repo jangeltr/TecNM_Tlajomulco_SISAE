@@ -113,11 +113,6 @@ Template.residenciasJefe.helpers({
             return this.evaluacionFecha3['Calificación Total']
         return null
     },
-    evaluacionTotal:function(){
-        if (this?.evaluacionTotal)
-            return this.evaluacionTotal
-        return 0
-    },
     calificacionTotal:function(){
         if (this?.calificacionTotal)
             return this.calificacionTotal
