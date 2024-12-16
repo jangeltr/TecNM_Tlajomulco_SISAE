@@ -42,19 +42,7 @@ Template.menuADMON.onCreated(function(){
 });
 
 Template.menuADMON.helpers({
-	esJefe:function(){
-		if (Session.get("isAdministrador")||Session.get("isJefe"))
-			return true;
-		else
-			return false;
-	},
 	esDocente:function(){
 		return Session.get("isDocente");
-	},
-	esAlumno:function(){
-		return Session.get("isAlumno");
-	},
-	esAdministrador:function(){
-		return Session.get("isAdministrador");
 	}
 });

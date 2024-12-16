@@ -375,10 +375,10 @@ let modalidad = new ReactiveVar("Escolarizado");
 let modulo = new ReactiveVar("Tlajomulco");
 Template.asigAlumnosTutor.onCreated(function(){
 	this.autorun(() =>{
-		if (Session.get("isAdministrador")||Session.get("isJefeTutorias")||Session.get("isSubAcademico")){
+		if (Session.get("isAdministrador")||Session.get("isSubAcademico"||Session.get("isJefeTutorias"))){
 			this.subscribe('tutorias',Session.get("periodo"))
 			this.subscribe('alumnos',Session.get('carrera'),parseInt(semestre.get()),modalidad.get(),modulo.get(),'Activo')
-			this.subscribe('docentes');
+			this.subscribe('docentes')
 		}	
     })
 })

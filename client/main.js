@@ -99,5 +99,11 @@ Template.opciones.helpers({
 			return true;
 		else
 			return false;
-	}
+	},
+	esDocente:function(){
+		if (isDocente())
+			return true;
+		else
+			return false;
+	},
 });

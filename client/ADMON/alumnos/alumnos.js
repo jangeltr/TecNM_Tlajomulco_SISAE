@@ -7,7 +7,7 @@ let alumnoAEditar = new ReactiveVar()
 //*************************************************************************************************************************/
 Template.alumnos.onCreated(function(){
 	this.autorun(() =>{
-		if (Session.get("isAdministrador")||Session.get("isJefe")||Session.get("isSubAcademico")){
+		if (Session.get("isDocente")){
 			this.subscribe('alumnos',Session.get('carrera'),parseInt(semestre.get()),modalidad.get(),Session.get('modulo'),'Activo')
 		}	
     })

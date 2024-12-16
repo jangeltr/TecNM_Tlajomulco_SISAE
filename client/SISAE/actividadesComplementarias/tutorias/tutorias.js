@@ -10,21 +10,19 @@ Template.sisaeTutorias.onCreated(function(){
         if(this.subscriptionsReady()){
             let existo = seguridad.findOne({'permisos.idDocente':Meteor.userId()})
             if (existo){
+                Session.set("isJefeTutorias",true) //temporal, se debe cambiar de acuerdo al permiso
                 existo.permisos.forEach((element)=>{
-                    if (element.idDocente==Meteor.userId()){
-                        Session.set("miPermiso",element.permiso)
-                        Session.set("isJefeTutorias",true)
-                    }
+                    if (element.idDocente==Meteor.userId()) Session.set("miPermiso",element.permiso)
                 })
             }
             else
                 Session.set("miPermiso","Sin acceso")
         }
-	});
+	})
 });
 Template.sisaeTutorias.helpers({
     esJefe:function(){
-        if (Session.get("isAdministrador")||Session.get("isJefeTutorias")||Session.get("isSubAcademico"))
+        if (Session.get("isAdministrador")||Session.get("isSubAcademico")||Session.get("isJefeTutorias"))
             return true
         return false
     },

@@ -2,78 +2,78 @@
 <!--                                                ALUMNOS                                                         -->
 <!-- ************************************************************************************************************** -->
 <template name="alumnos">
-    {{#if esJefe}}  
-        <ul class="nav nav-pills nav-justified">
-            <li class="nav-item">
-                {{> catCarreras}}
-            </li>
-            <li class="nav-item">
-                <select class="selectModalidad btn btn-default">
-                    <option value="Escolarizado">Escolarizado</option>
-                    <option value="Mixto">Mixto</option>
-                    <option selected hidden value={{modalidad}}>{{modalidad}}</option>
-                </select>
-            </li>
-            <li class="nav-item">
-                {{> catModulos}}
-            </li>
-            <li class="nav-item">
-                <txt class="text-primary">Semestre</txt>
-                <input type="number" id="semestre" name="quantity" min="1" max="15" value="{{semestre}}" class="selectSemestre btn btn-default">
-            </li>
-            <li>
-                <txt class="text-primary btn btn-default">Cantidad: <txt class="text-success">{{cantidad}}</txt></txt>
-            </li>
-        </ul>
-        <div class="text-center">
-            <input class="form-control myTxtBoxFiltro" id="myAlumnosFiltro" type="text" placeholder="Filtrar por cualquier campo...">
-        </div>
-        {{#if Template.subscriptionsReady}}
-            <div class="table-responsive">
-                <table class="table table-hover">
-                    <thead>
-                        <tr class="success">
-                            <th class="text-primary">NC</th>
-                            <th class="text-primary">Nombre</th>
-                            <th class="text-primary text-center">Sexo</th>
-                            <th class="text-primary">Per. ingreso</th>
-                            <th class="text-primary">eMail</th>
-                            <th class="text-primary"></th>
-                        </tr>
-                    </thead>
-                    <tbody id="myTableAlumnos">
-                        {{#each listaAlumnos}}
-                        <tr class="sobre">
-                            <td class="small">
-                                <button type="button" class="datos text-success" data-toggle="modal" data-target="#showDatosAlumnoEnAlumnos">
-                                    <i class="fa fa-address-card" aria-hidden="true"></i>
-                                </button>
-                                {{username}}</td>
-                            <td class="small">{{profile.name}}</td>
-                            <td class="small text-center">{{profile.sexo}}</td>
-                            <td class="small text-center">{{profile.periodoIngreso}}</td>
-                            <td class="small">{{email}}</td>
-                            <td class="small">
+    <ul class="nav nav-pills nav-justified">
+        <li class="nav-item">
+            {{> catCarreras}}
+        </li>
+        <li class="nav-item">
+            <select class="selectModalidad btn btn-default">
+                <option value="Escolarizado">Escolarizado</option>
+                <option value="Mixto">Mixto</option>
+                <option selected hidden value={{modalidad}}>{{modalidad}}</option>
+            </select>
+        </li>
+        <li class="nav-item">
+            {{> catModulos}}
+        </li>
+        <li class="nav-item">
+            <txt class="text-primary">Semestre</txt>
+            <input type="number" id="semestre" name="quantity" min="1" max="15" value="{{semestre}}" class="selectSemestre btn btn-default">
+        </li>
+        <li>
+            <txt class="text-primary btn btn-default">Cantidad: <txt class="text-success">{{cantidad}}</txt></txt>
+        </li>
+    </ul>
+    <div class="text-center">
+        <input class="form-control myTxtBoxFiltro" id="myAlumnosFiltro" type="text" placeholder="Filtrar por cualquier campo...">
+    </div>
+    {{#if Template.subscriptionsReady}}
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr class="success">
+                        <th class="text-primary">NC</th>
+                        <th class="text-primary">Nombre</th>
+                        <th class="text-primary text-center">Sexo</th>
+                        <th class="text-primary">Per. ingreso</th>
+                        <th class="text-primary">eMail</th>
+                        <th class="text-primary"></th>
+                    </tr>
+                </thead>
+                <tbody id="myTableAlumnos">
+                    {{#each listaAlumnos}}
+                    <tr class="sobre">
+                        <td class="small">
+                            <button type="button" class="datos text-success" data-toggle="modal" data-target="#showDatosAlumnoEnAlumnos">
+                                <i class="fa fa-address-card" aria-hidden="true"></i>
+                            </button>
+                            {{username}}</td>
+                        <td class="small">{{profile.name}}</td>
+                        <td class="small text-center">{{profile.sexo}}</td>
+                        <td class="small text-center">{{profile.periodoIngreso}}</td>
+                        <td class="small">{{email}}</td>
+                        <td class="small">
+                            {{#if esJefe}}  
                                 <button type="button" class="datos text-success" data-toggle="modal" data-target="#editAlumno">
                                     <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                                 </button>
-                                {{#if puedeEgresar}}
-                                    <button type="button" class="egreso text-success">
-                                        <input type="checkbox" unchecked>Egresó
-                                    </button>
-                                {{/if}}
-                            </td>
-                        </tr>
-                        {{/each}}
-                    </tbody>  
-                </table>
-            </div>
-            {{> showDatosAlumnoEnAlumnos}}
-            {{> editAlumno}}
-            {{> avisos}}
-        {{else}}
-            {{> spinner}}
-        {{/if}}
+                            {{/if}}
+                            {{#if puedeEgresar}}
+                                <button type="button" class="egreso text-success">
+                                    <input type="checkbox" unchecked>Egresó
+                                </button>
+                            {{/if}}
+                        </td>
+                    </tr>
+                    {{/each}}
+                </tbody>  
+            </table>
+        </div>
+        {{> showDatosAlumnoEnAlumnos}}
+        {{> editAlumno}}
+        {{> avisos}}
+    {{else}}
+        {{> spinner}}
     {{/if}}
 </template>
 <!-- ************************************************************************************************************** -->
@@ -190,38 +190,38 @@
 <!--                                              BUSCAR ALUMNO                                                     -->
 <!-- ************************************************************************************************************** -->
 <template name="buscarAlumno">
-    {{#if esJefe}}  
-        <div class="container">
-            <div class="row">
-                <div class="col-md-6 text-center">
-                    <div class="form-group">
-                        <label for="numControl" class="text-primary">Numero de Control:</label>
-                        <input type="text" class="form-control" id="numControl"><br>
-                        <button type="button" class="btn btn-success buscar" data-toggle="modal" data-target="#avisos" data-dismiss="modal">Buscar</button>
-                    </div>
-                </div>
-                <div class="col-md-6 text-left">
-                    <br>
-                    <label class="text-primary">Numero de Control: </label><label class="text-success">{{alumno.username}}</label><br>
-                    <label class="text-primary">Nombre: </label><label class="text-success">{{alumno.profile.name}}</label><br>
-                    <label class="text-primary">Carrera: </label><label class="text-success">{{alumno.profile.carrera}}</label><br>
-                    <label class="text-primary">Semestre: </label><label class="text-success">{{alumno.profile.semestre}}</label><br>
-                    <label class="text-primary">Modalidad: </label><label class="text-success">{{alumno.profile.modalidad}}</label><br>
-                    <label class="text-primary">Modulo: </label><label class="text-success">{{alumno.profile.modulo}}</label><br>
-                    <label class="text-primary">Nivel escolar: </label><label class="text-success">{{alumno.profile.nivelEscolar}}</label><br>
-                    <label class="text-primary">Periodo de Ingreso: </label><label class="text-success">{{alumno.profile.periodoIngreso}}</label><br>
-                    <label class="text-primary">Fecha de Nacimiento: </label><label class="text-success">{{alumno.profile.fechaNacimiento}}</label><br>
-                    <label class="text-primary">Telefono: </label><label class="text-success">{{alumno.profile.telefono}}</label><br>
-                    <label class="text-primary">eMail: </label><label class="text-success">{{email}}</label><br>
-                    <label class="text-primary">Num. de semetres con tutoria: </label><label class="text-success">{{alumno.profile.semestresConTutoria}}</label><br>
-                    <label class="text-primary">Status: </label><label class="text-success">{{alumno.profile.status}}</label><br>
-                    {{#if alumno}}
-                        <button type="button" class="btn btn-success editar" data-toggle="modal" data-target="#editAlumno">Editar</button>
-                    {{/if}}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 text-center">
+                <div class="form-group">
+                    <label for="numControl" class="text-primary">Numero de Control:</label>
+                    <input type="text" class="form-control" id="numControl"><br>
+                    <button type="button" class="btn btn-success buscar" data-toggle="modal" data-target="#avisos" data-dismiss="modal">Buscar</button>
                 </div>
             </div>
+            <div class="col-md-6 text-left">
+                <br>
+                <label class="text-primary">Numero de Control: </label><label class="text-success">{{alumno.username}}</label><br>
+                <label class="text-primary">Nombre: </label><label class="text-success">{{alumno.profile.name}}</label><br>
+                <label class="text-primary">Carrera: </label><label class="text-success">{{alumno.profile.carrera}}</label><br>
+                <label class="text-primary">Semestre: </label><label class="text-success">{{alumno.profile.semestre}}</label><br>
+                <label class="text-primary">Modalidad: </label><label class="text-success">{{alumno.profile.modalidad}}</label><br>
+                <label class="text-primary">Modulo: </label><label class="text-success">{{alumno.profile.modulo}}</label><br>
+                <label class="text-primary">Nivel escolar: </label><label class="text-success">{{alumno.profile.nivelEscolar}}</label><br>
+                <label class="text-primary">Periodo de Ingreso: </label><label class="text-success">{{alumno.profile.periodoIngreso}}</label><br>
+                <label class="text-primary">Fecha de Nacimiento: </label><label class="text-success">{{alumno.profile.fechaNacimiento}}</label><br>
+                <label class="text-primary">Telefono: </label><label class="text-success">{{alumno.profile.telefono}}</label><br>
+                <label class="text-primary">eMail: </label><label class="text-success">{{email}}</label><br>
+                <label class="text-primary">Num. de semetres con tutoria: </label><label class="text-success">{{alumno.profile.semestresConTutoria}}</label><br>
+                <label class="text-primary">Status: </label><label class="text-success">{{alumno.profile.status}}</label><br>
+                {{#if alumno}}
+                    {{#if esJefe}}
+                        <button type="button" class="btn btn-success editar" data-toggle="modal" data-target="#editAlumno">Editar</button>
+                    {{/if}}
+                {{/if}}
+            </div>
         </div>
-        {{> editAlumno}}
-        {{> avisos}}
-    {{/if}}
+    </div>
+    {{> editAlumno}}
+    {{> avisos}}
 </template>

@@ -116,14 +116,13 @@
 <!-- ************************************************************************************************************** -->
 <template name="opciones">
 	<br>	
-	<div class="row">
+	<div class="row justify-content-center">
 		<div class="col-md-3">
 			<div class="card" style="width: 15rem;">
 				<div class="card-header" style="text-align: center">
 					<img src="/logoSISAE2.png" class="card-img-top"> 
 				</div>
 				<div class="card-body" style="text-align: justify">
-					<h5 class="card-title">Alumnos y Docentes</h5>
 					<ul>
 						<li>
 							<a class="p-0" href="/sisae/docentes">Docentes</a>
@@ -149,9 +148,6 @@
 						<li>
 							Titulación
 						</li>
-					</ul>
-					<hr>
-					<ul>
 						<li>
 							Egresados
 						</li>
@@ -162,13 +158,13 @@
 				</div>
 			</div>
 		</div>
+		{{#if esDocente}}
 		<div class="col-md-3">
 			<div class="card" style="width: 15rem;">
 				<div class="card-header"  style="text-align: center">
 					<img src="/logoSAD.png" class="card-img-top"> 
 				</div>
 				<div class="card-body" style="text-align: justify">
-					<h5 class="card-title">Docentes</h5>
 					<ul>
 						<li>
 							<a class="p-0" href="/sad/asignacionMaterias">Materias asignadas</a>
@@ -186,9 +182,6 @@
 						<li>
 							<a href="/sad/constanciaTerminacion">Const. de terminación</a>
 						</li>
-					</ul>
-					<hr>
-					<ul>
 						<li>
 							Academias
 						</li>
@@ -199,20 +192,17 @@
 				</div>
 			</div>
 		</div>
+		{{/if}}
 		<div class="col-md-3">
 			<div class="card" style="width: 15rem;">
 				<div class="card-header"  style="text-align: center">
 					<img src="/Alfaomega.png" class="card-img-top"> 
 				</div>
 				<div class="card-body text-left">
-					<h5 class="card-title">Comunidad escolar</h5>
 					<ul>
 						<li>
 							<a href="https://elibro.net/es/lc/tlajomulco/login_usuario/" target="_blank">Biblioteca Digital</a>
 						</li>
-					</ul>
-					<h5>Repositorios</h5>
-					<ul>
 						<li>
 							<a href="/repositorios/informesResidencias" title="Informes Técnicos de Residencias">Inf. de Residencias</a>
 						</li>
@@ -229,13 +219,13 @@
 				</div>
 			</div>
 		</div>
+		{{#if esDocente}}
 		<div class="col-md-3">
 			<div class="card" style="width: 15rem;">
 				<div class="card-header" style="text-align: center">
 					<img src="/Admon.png" class="card-img-top">
 				</div>
 				<div class="card-body" style="text-align: justify">
-					<h5 class="card-title">Jefes de Depto.</h5>
 					<ul>
 						<li>
 							<a class="p-0" href="/admon/materias">Materias</a>
@@ -271,6 +261,7 @@
 				</div>
 			</div>
 		</div>
+		{{/if}}
 	</div>
 	<br>
 </template>
