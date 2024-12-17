@@ -113,17 +113,7 @@ Template.tutoriasDocente.helpers({
 		if (this.fechaFichaIdentificacion)
 			return true
 		return false
-    },
-    tieneMotivoNoTermino:function(){
-		if (this.motivoNoTermino)
-			return true
-		return false
-	},
-	tieneMotivoDeserto:function(){
-		if (this.motivoDeserto)
-			return true
-		return false
-	},
+    }
 });
 Template.tutoriasDocente.events({
 	"keyup .myTxtBoxFiltroTutorados":function(){
@@ -139,6 +129,9 @@ Template.tutoriasDocente.events({
     },
     "click .terminoTutoriaSemestral":function(){
 		Meteor.call('terminoTutoriaSemestral',tutoria.get(),this._id);
+    },
+	"click .noTerminoTutoriaSemestral":function(){
+		Meteor.call('noTerminoTutoriaSemestral',tutoria.get(),this._id);
     },
     "click .addMotivoNoTermino":function(){
 		ncAlumno.set(this.nc)

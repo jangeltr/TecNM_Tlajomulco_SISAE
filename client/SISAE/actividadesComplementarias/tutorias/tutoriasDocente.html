@@ -128,46 +128,40 @@
                         </td>
                         <td class="small text-center">
                             {{#if terminoTutoriaSemestral}}
-                                <i class="fa fa-check" aria-hidden="true" title="Termino su tutoria semestral"></i>
-                                {{else}}
-                                    {{#if tieneFichaDeIdentificacion}}
-                                        {{#unless tieneMotivoNoTermino}}
-                                            {{#unless tieneMotivoDeserto}}
-                                                <button type="button" class="terminoTutoriaSemestral btn btn-default m-0" title="Terminó su tutoria semestral">
-                                                    <input type="checkbox" unchecked>
-                                                </button>
-                                            {{/unless}}
+                                <button type="button" class="noTerminoTutoriaSemestral btn btn-default m-0" title="Terminó su tutoria semestral">
+                                    <input type="checkbox" checked>
+                                </button>
+                            {{else}}
+                                {{#if tieneFichaDeIdentificacion}}
+                                    {{#unless tieneMotivoNoTermino}}
+                                        {{#unless tieneMotivoDeserto}}
+                                            <button type="button" class="terminoTutoriaSemestral btn btn-default m-0" title="Terminó su tutoria semestral">
+                                                <input type="checkbox" unchecked>
+                                            </button>
                                         {{/unless}}
-                                    {{/if}}
+                                    {{/unless}}
+                                {{/if}}
                             {{/if}}
                         </td>
-                        <td title="No termino tutoria" class="small text-center">
+                        <td title="Editar el motivo por el que no termino tutoria" class="small text-center">
                             {{#unless terminoTutoriaSemestral}}
-                                {{#if tieneMotivoNoTermino}}
-                                    {{motivoNoTermino}}
-                                {{else}}
-                                    {{#unless tieneMotivoDeserto}}
-                                        <button type="button" class="addMotivoNoTermino" data-toggle="modal" data-target="#addMotivoNoTerminoTutoria">
-                                            <i class="fa fa-pencil" aria-hidden="true"></i>
-                                        </button>
-                                    {{/unless}}    
-                                {{/if}}
+                                <button type="button" class="addMotivoNoTermino" data-toggle="modal" data-target="#addMotivoNoTerminoTutoria">
+                                    <i class="fa fa-pencil" aria-hidden="true"></i>
+                                </button>
+                                <br>
+                                {{motivoNoTermino}}
                             {{/unless}}
                         </td>
-                        <td title="Deserto" class="small text-center">
+                        <td title="Editar el motivo de la deserción" class="small text-center">
                             {{#unless terminoTutoriaSemestral}}
-                                {{#if tieneMotivoDeserto}}
-                                    {{motivoDeserto}}
-                                {{else}}
-                                    {{#unless tieneMotivoNoTermino}}
-                                        <button type="button" class="addMotivoDeserto" data-toggle="modal" data-target="#addMotivoDesertoTutoria">
-                                            <i class="fa fa-pencil" aria-hidden="true"></i>
-                                        </button>
-                                    {{/unless}}   
-                                {{/if}}
+                                <button type="button" class="addMotivoDeserto" data-toggle="modal" data-target="#addMotivoDesertoTutoria">
+                                    <i class="fa fa-pencil" aria-hidden="true"></i>
+                                </button>
+                                <br>
+                                {{motivoDeserto}}
                             {{/unless}}
                         </td>
-                        <td class="small text-center">
+                        <td class="small text-center" title="Evaluar la tutoria">
                             {{#if terminoTutoriaSemestral}}
                                 {{#if fueEvaluado}}
                                     <button type="button" class="verEvaluacion btn btn-default" data-toggle="modal" data-target="#verMiEvaluacionAlumnoEnTutoria">

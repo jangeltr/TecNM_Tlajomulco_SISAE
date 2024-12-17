@@ -702,6 +702,19 @@ Meteor.methods({
         })
         Meteor.call('agregarRegistroBitacora','SISAE','Tutorias','Termino la tutoria semetral el alumno: '+idAlumno,Meteor.userId(),Meteor.user().profile.name);
     },
+    noTerminoTutoriaSemestral:function(tutoria,idAlumno){
+        tutorias.update({'_id':tutoria._id,alumnos:{$elemMatch:{_id:idAlumno}}},{
+            $set:{
+                'alumnos.$.terminoTutoriaSemestral':false
+            }
+        })
+        Meteor.users.update({'_id':idAlumno},{
+            $inc:{
+                'profile.semestresConTutoria':1
+            }
+        })
+        Meteor.call('agregarRegistroBitacora','SISAE','Tutorias','Termino la tutoria semetral el alumno: '+idAlumno,Meteor.userId(),Meteor.user().profile.name);
+    },
     guardarMotivoNoTerminoTutoria:function(tutoria,ncAlumno,motivo){
         tutorias.update({'_id':tutoria._id,alumnos:{$elemMatch:{nc:ncAlumno}}},{
             $set:{
