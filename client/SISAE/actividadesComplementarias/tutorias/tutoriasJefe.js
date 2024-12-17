@@ -11,7 +11,7 @@ Template.toolBoxTutoriasJefe.helpers({
 		return false
 	},
 	puedoEscribir: function(){
-		if ((Session.get("miPermiso")=="Escritura")||Session.get("isAdministrador")||Session.get("isSubAcademico"))
+		if (Session.get("isAdministrador")||Session.get("isSubAcademico")||Session.get("isJefeTutorias")||(Session.get("miPermiso")=="Escritura"))
 			return true
 		return false
 	}
