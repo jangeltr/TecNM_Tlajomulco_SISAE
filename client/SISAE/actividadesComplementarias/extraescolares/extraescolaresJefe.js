@@ -217,6 +217,11 @@ Template.verEvaluacionAlumnoEnActividadExtraescolarJefe.helpers({
 		return alumno.get()?.evaluacion;
 	}
 })
+Template.verEvaluacionAlumnoEnActividadExtraescolarJefe.events({
+	"click .eliminarEvaluacion":function(){
+		Meteor.call('eliminarEvaluacionActividadExtraescolar',actividad.get()._id,alumno.get()._id)
+	}
+})
 //*************************************************************************************************************************/
 //                                  GENERAR LA LISTA DE ASISTENCIA A LA ACTIVIDAD EXTRAESCOLAR
 //*************************************************************************************************************************/

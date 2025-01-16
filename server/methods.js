@@ -922,6 +922,15 @@ Meteor.methods({
             }
         })
     },
+    eliminarEvaluacionActividadExtraescolar: function(idActividad,alumno){
+        actividadExtraescolar.update({_id:idActividad,alumnos:{$elemMatch:{_id:alumno._id,nc:alumno.nc}}},{
+            $unset:{
+                'alumnos.$.nivelDeDesempeño':1,
+                'alumnos.$.evaluacion':1
+            }
+        })
+        Meteor.call('agregarRegistroBitacora','SISAE','Extraescolares','Elimino la evaluacion del alumno: '+alumno.nc,Meteor.userId(),Meteor.user().profile.name);
+    },
 //*************************************************************************************************************************/
 //                                              SISAE: ACTIVIDADES ACADEMICAS
 //*************************************************************************************************************************/ 

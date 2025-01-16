@@ -26,7 +26,12 @@
                     <table class="table table-hover m-0 p-0">
                         <tbody id="myTableExtraescolares">
                             <tr class="table-success">
-                                <td style="width:20%" class="small">{{actividad}}</td>
+                                <td style="width:20%" class="small">
+                                    <a href="#">
+                                        <i class="borrar fa fa-trash fa-lg text-danger" aria-hidden="true" title="Borrar la actividad" data-toggle="modal" data-target="#avisos"></i>
+                                    </a>
+                                    {{actividad}}
+                                </td>
                                 <td style="width:20%" class="small">{{docente}}</td>
                                 <td style="width:10%" class="small">{{modalidad}}</td>
                                 <td style="width:10%" class="small">{{horario}}</td>
@@ -34,16 +39,18 @@
                                 <td style="width:10%" class="small">Solicitudes: {{numSolicitudes}}</td>
                                 <td style="width:10%" class="small">Aceptados: {{numAceptados}}</td>
                                 <td style="width:10%" class="small text-right">
-                                    <i class="borrar fa fa-trash fa-lg" aria-hidden="true" title="Borrar la actividad" data-toggle="modal" data-target="#avisos"></i>
-                                    |
-                                    <i class="generarListaAsistencia fa fa-print" title="Generar lista de asistencia"></i>
+                                    <a href="#">    
+                                        <i class="generarListaAsistencia fa fa-print" title="Generar lista de asistencia"></i>
+                                    </a>
                                     |
                                     {{#if subioListaAsistencia}}
                                         <a href="{{ip}}{{listaAsistencia}}" title="descargar el registro de asistencia" target="_blank">
                                             <i class="fa fa-file-pdf-o"></i>
                                         </a>
                                     {{else}}
-                                        <i class="subirListaAsistencia fa fa-upload" title="subir el registro de asistencia" data-toggle="modal" data-target="#uploadListaAsistenciaJefe"></i>
+                                        <a href="#">
+                                            <i class="subirListaAsistencia fa fa-upload" title="subir el registro de asistencia" data-toggle="modal" data-target="#uploadListaAsistenciaJefe"></i>
+                                        </a>
                                     {{/if}}
                                     |
                                     <a class="expandirActividad collapsed card-link" data-toggle="collapse" href="#{{_id}}">
@@ -98,8 +105,13 @@
                                                         <button type="button" class="verEvaluacion btn btn-default small text-success m-0 p-0" data-toggle="modal" data-target="#verEvaluacionAlumnoEnActividadExtraescolarJefe" title="Ver la evaluacion del alumno en esta actividad">
                                                             <txt class="small">{{nivelDeDesempeño}}</txt>
                                                         </button>
-                                                        <i class="generarConstancia fa fa-print small text-primary" aria-hidden="true" data-toggle="modal" data-target="#solicitudDatosParaConstanciaTerminacionActividadExtraescolar" title="Generar la Constancia de Terminación"></i>
-                                                        <i class="subirConstancia fa fa-upload small text-success" aria-hidden="true" data-toggle="modal" data-target="#uploadConstanciaTermicacionActividadExtraescolar" title="Subir la Constancia de Terminación"></i>
+                                                        <br>
+                                                        <a href="#">
+                                                            <i class="generarConstancia fa fa-print small" aria-hidden="true" data-toggle="modal" data-target="#solicitudDatosParaConstanciaTerminacionActividadExtraescolar" title="Generar la Constancia de Terminación"></i>
+                                                        </a>
+                                                        <a href="#">
+                                                            <i class="subirConstancia fa fa-upload small" aria-hidden="true" data-toggle="modal" data-target="#uploadConstanciaTermicacionActividadExtraescolar" title="Subir la Constancia de Terminación"></i>
+                                                        </a>
                                                         {{#if pathConstanciaTerminacionDelDepto}}
                                                             <a href="{{ip}}{{pathConstanciaTerminacionDelDepto}}" title="Descargar la constancia" target="_blank">
                                                                 <i class="fa fa-file-pdf-o"></i>
@@ -226,7 +238,10 @@
                                 {{/each}}
                             </tbody>  
                         </table>
+                    </div>
+                    <div class="modal-footer">
                         <button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>
+                        <button type="button" class="btn btn-danger eliminarEvaluacion" data-dismiss="modal">Eliminar evaluacion</button>
                     </div>
                 </div>
             </div>
