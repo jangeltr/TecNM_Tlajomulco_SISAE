@@ -126,7 +126,9 @@ Meteor.publish('misTutorias',function(prop,per){
 //*************************************************************************************************************************/
 //                                            SISAE: EXTRAESCOLARES
 //*************************************************************************************************************************/
-Meteor.publish('actividadExtraescolar',function(per){
+Meteor.publish('actividadExtraescolar',function(per,ncAlumno){
+    if (ncAlumno)
+        return actividadExtraescolar.find({periodo:per,'alumnos.nc':ncAlumno})
     return actividadExtraescolar.find({periodo:per})
 })
 Meteor.publish('miActividadExtraescolar',function(per,idUsuario){
@@ -135,7 +137,9 @@ Meteor.publish('miActividadExtraescolar',function(per,idUsuario){
 //*************************************************************************************************************************/
 //                                               SISAE: ACADEMICAS
 //*************************************************************************************************************************/
-Meteor.publish('actividadAcademica',function(per){
+Meteor.publish('actividadAcademica',function(per,ncAlumno){
+    if (ncAlumno)
+        return actividadAcademica.find({periodo:per,'alumnos.nc':ncAlumno})
     return actividadAcademica.find({periodo:per})
 })
 Meteor.publish('miActividadAcademica',function(per,idUsuario){

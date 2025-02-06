@@ -17,7 +17,14 @@
 <template name="academicasJefe">
     {{> toolBoxAcademicasJefe}}
     <div class="container">
-        <input class="form-control myTxtBoxFiltroAcademicas" id="myFiltroAcademicas" type="text" placeholder="Filtrar por cualquier campo...">
+        <div class="row justify-content-around">
+            <div class="col-5">
+                <input class="form-control myTxtBoxFiltroAcademicas" id="myFiltroAcademicas" type="text" placeholder="Filtrar por cualquier campo...">
+            </div>
+            <div class="col-5">
+                <input class="form-control myTxtBoxNC" id="myFiltroNC" type="text" placeholder="Buscar por el NC del estudiante...">
+            </div>
+        </div>
     </div>	
     <div id="accordion">
         {{#each actividadAcademica}}
@@ -83,7 +90,7 @@
                                         <th style="width:15%" title="Evaluar al alumno en esta actividad" class="text-success text-center small">Evaluacion</th>
                                     </tr>
                                 </thead>
-                                <tbody id="myTableAcademicasAlumno{{_id}}">
+                                <tbody class="myTableAcademicasAlumno" id="myTableAcademicasAlumno{{_id}}">
                                     {{#each alumnos}} 
                                         <tr>
                                             <td title="Número de Control" class="small">{{nc}}</td>

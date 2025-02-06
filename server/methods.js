@@ -294,6 +294,13 @@ Meteor.methods({
             }
         });
     },
+    cambieMiFirma:function(){
+        Meteor.users.update({_id:Meteor.userId()},{
+            $set:{
+                'profile.firma':true
+            }
+        });
+    },
     actualizarMiPerfil:function(usuario){
         Meteor.users.update({_id:usuario._id},{
             $set:{

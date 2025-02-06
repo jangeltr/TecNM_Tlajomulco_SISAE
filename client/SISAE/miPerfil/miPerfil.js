@@ -131,8 +131,15 @@ Template.siSoyDocente.helpers({
     tieneFoto:function(){
         if (usuario.get().profile.foto)
             return true;
-        else
-            return false;
+        return false;
+    },
+    tieneFirma:function(){
+        if (usuario.get().profile.firma)
+            return true;
+        return false;
+    },
+    firma:function(){
+        return Session.get("ipLocal")+Session.get("puerto")+"/fotos/docentes/Firma_"+usuario.get().username+".jpg" 
     }
 });
 Template.siSoyDocente.events({
@@ -175,14 +182,11 @@ Template.uploadFotoMiPerfil.events({
     "click .btnGuardar":function(){
         let reader = new FileReader();
         let tipo=""
-        let path=""
         if (usuario.get().profile.tipo=="Docente"){
             tipo="fotoDocente";
-            path=`/fotos/docentes/`
         }
         else{
             tipo="fotoAlumno";
-            path=`/fotos/alumnos/`
         }
         reader.onload=function(fileLoadEvent){
             let buffer = new Uint8Array(reader.result)
@@ -226,6 +230,87 @@ Template.uploadFotoMiPerfil.events({
         function recortarImagen(data) {     //Funcion que se ejecuta cada que se selecciona un area a recortar
             document.querySelector("#tres").style.display="inline"
             document.querySelector("#cuatro").style.display="inline"
+            const inicioX = data.x;
+            const inicioY = data.y;
+            const anchoDelRecorte = data.width;
+            const alturaDelRecorte = data.height;
+            const zoom = 1;
+            
+            // El canvas donde se mostraria la imagen recortada pero esta oculto porque si la imagen recortada es muy grande se sale de la modal
+            contexto.clearRect(0, 0, previewCanvas.width, previewCanvas.height)
+            previewCanvas.width = anchoDelRecorte * zoom;
+            previewCanvas.height = alturaDelRecorte * zoom;
+            
+            let miNuevaImagenTemp = new Image()
+            miNuevaImagenTemp.onload = function() { // Cuando la imagen completa se carge se procederá al recorte
+                // Se recorta
+                contexto.drawImage(miNuevaImagenTemp, inicioX, inicioY, anchoDelRecorte, alturaDelRecorte, 0, 0, anchoDelRecorte * zoom, alturaDelRecorte * zoom);
+                
+                imagenEn64 = previewCanvas.toDataURL("image/jpeg")  // Se transforma a base64
+                previewCanvas.toBlob(function(blob) {
+                    fileBlob = blob
+                }, 'image/jpeg', 0.8)
+                previewImg.setAttribute('src',imagenEn64)           // Se coloca en el elemento Img
+            }
+            miNuevaImagenTemp.src = urlImage    // Contiene la imagen completa sin recorte
+        }
+	},
+    "click .btnCerrar":function(){
+		document.getElementById("imgCargoMiFotoPerfil").style.display = "none"
+	}
+});
+//*************************************************************************************************************************/
+//                                           CODIGO DE LA PLATILLA PARA SUBIR LA FIRMA
+//*************************************************************************************************************************/
+Template.uploadFotoMiFirma.events({
+    "click .btnSubirArchivo":function(){
+		let btnFile = document.getElementById("btnFileMiFirma")
+		btnFile.click()
+	},
+    "click .btnGuardar":function(){
+        let reader = new FileReader();
+        let tipo="fotoDocente"
+        reader.onload=function(fileLoadEvent){
+            let buffer = new Uint8Array(reader.result)
+            Meteor.call('fileUpload','Firma_'+usuario.get().username+".jpg",buffer,tipo)
+            Meteor.call('cambieMiFirma')
+        }
+        document.getElementById("imgCargoMiFotoFirma").style.display = "inline"
+        reader.readAsArrayBuffer(fileBlob);
+	},
+	"change .file-upload-input": function(event, template){
+        document.querySelector("#dosFirma").style.display="inline"
+        document.querySelector("#tresFirma").style.display="none"
+        document.querySelector("#cuatroFirma").style.display="none"
+		let file = event.currentTarget.files[0]
+        
+        const previewCanvas = document.querySelector('#previewCanvasFirma')
+        const contexto = previewCanvas.getContext('2d')
+        contexto.clearRect(0, 0, previewCanvas.width, previewCanvas.height)//cada que seleccione un archivo limpia el canvas en caso de estar visible
+
+        const previewImg = document.querySelector('#previewImgFirma')
+        previewImg.style.width="250px"
+
+        let urlImage = URL.createObjectURL(file)
+
+        //const divImg1 = document.querySelector('#divImgFirma')  //Aqui obtiene el div donde se colocara el elemento img con la imagen completa
+        const divImg1 = document.getElementById('divImgFirma')
+        divImg1.innerHTML = ''                              //Se limpia cada que selecciona una diferente
+        let imgCompleta = document.createElement('img');    //Se crea el elemento con la imagen seleccionada
+        imgCompleta.setAttribute('id', 'imgCompletaFirma');
+        imgCompleta.style.width="500px"
+        divImg1.appendChild(imgCompleta);
+        imgCompleta.setAttribute('src',urlImage)
+
+        new Croppr('#imgCompletaFirma', {        //Crea el objeto que se encargara del recorte de la imagen con el id del elemento que contiene la imagen
+            aspectRatio: 0,
+            startSize: [70, 70],
+            onCropEnd: recortarImagen       //Funcion que sera llamada al seleccionar un area a recortar
+        })
+
+        function recortarImagen(data) {     //Funcion que se ejecuta cada que se selecciona un area a recortar
+            document.querySelector("#tresFirma").style.display="inline"
+            document.querySelector("#cuatroFirma").style.display="inline"
             const inicioX = data.x;
             const inicioY = data.y;
             const anchoDelRecorte = data.width;

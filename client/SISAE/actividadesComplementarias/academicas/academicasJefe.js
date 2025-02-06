@@ -1,4 +1,5 @@
 let ncAlumno = new ReactiveVar('')
+let nc = new ReactiveVar(null)
 let actividad = new ReactiveVar()
 let alumno = new ReactiveVar()
 let jefeServiciosEcolares = new ReactiveVar()
@@ -18,7 +19,7 @@ Template.toolBoxAcademicasJefe.events({
 Template.academicasJefe.onCreated(function(){
 	this.autorun(() => {
 		this.subscribe('docentesActivos');
-		this.subscribe('actividadAcademica',Session.get('periodo'))
+		this.subscribe('actividadAcademica',Session.get('periodo'),nc.get())
 		this.subscribe('alumno',ncAlumno.get())
 	});
 });
@@ -88,15 +89,20 @@ Template.academicasJefe.events({
     "keyup .myTxtBoxFiltroAcademicas":function(){
 		let filtro = $("#myFiltroAcademicas");
 		let value  = filtro.val().toLowerCase();
-    	$("#myTableAcademicas tr").filter(function(){
+		$("#myTableAcademicas tr").filter(function(){
 			$(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-    	});
+		});
+    },
+	"keyup .myTxtBoxNC":function(){
+		let filtro = $("#myFiltroNC");
+		let value  = filtro.val().toLowerCase();
+		nc.set(value)
     },
     "keyup .myTxtBoxFiltroAcademicasAlumno":function(){
         let filtro = "#myFiltroAcademicasAlumno"+this._id;
 		let value  = $(filtro).val().toLowerCase();
 		let tabla = '#myTableAcademicasAlumno'+this._id+' tr';
-    	$(tabla).filter(function(){
+		$(tabla).filter(function(){
 			$(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
 		});
     },

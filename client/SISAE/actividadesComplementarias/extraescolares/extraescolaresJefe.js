@@ -1,6 +1,7 @@
 let actividad 	= new ReactiveVar();
 let alumno 		= new ReactiveVar();
 let ncAlumno 	= new ReactiveVar();
+let nc = new ReactiveVar(null)
 let nAlumno		= 0;
 let jefeServiciosEcolares = new ReactiveVar()
 //*************************************************************************************************************************/
@@ -18,7 +19,7 @@ Template.toolBoxExtraescolaresJefe.events({
 Template.extraescolaresJefe.onCreated(function(){
 	this.autorun(() => {
         this.subscribe('docentesActivos');
-		this.subscribe('actividadExtraescolar',Session.get('periodo'))
+		this.subscribe('actividadExtraescolar',Session.get('periodo'),nc.get())
 		this.subscribe('alumno',ncAlumno.get())
 	});
 });
@@ -71,6 +72,11 @@ Template.extraescolaresJefe.events({
     	$("#myTableExtraescolares tr").filter(function(){
 			$(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
     	});
+    },
+	"keyup .myTxtBoxNC":function(){
+		let filtro = $("#myFiltroNC");
+		let value  = filtro.val().toLowerCase();
+		nc.set(value)
     },
     "keyup .myTxtBoxFiltroExtraescolaresAlumno":function(){
         let filtro = "#myFiltroExtraescolaresAlumno"+this._id;

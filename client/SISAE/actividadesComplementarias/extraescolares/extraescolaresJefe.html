@@ -17,7 +17,14 @@
 <template name="extraescolaresJefe">
     {{> toolBoxExtraescolaresJefe}}
     <div class="container">
-        <input class="form-control myTxtBoxFiltroExtraescolares" id="myFiltroExtraescolares" type="text" placeholder="Filtrar por cualquier campo...">
+        <div class="row justify-content-around">
+            <div class="col-5">
+                <input class="form-control myTxtBoxFiltroExtraescolares" id="myFiltroExtraescolares" type="text" placeholder="Filtrar por cualquier campo...">
+            </div>
+            <div class="col-5">
+                <input class="form-control myTxtBoxNC" id="myFiltroNC" type="text" placeholder="Buscar por el NC del estudiante...">
+            </div>
+        </div>
     </div>	
     <div id="accordion">
         {{#each actividadExtraescolar}}

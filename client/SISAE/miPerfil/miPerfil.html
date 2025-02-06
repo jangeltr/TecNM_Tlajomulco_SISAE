@@ -8,6 +8,7 @@
         {{> siSoyAlumno}}
     {{/if}}
     {{> uploadFotoMiPerfil}}
+    {{> uploadFotoMiFirma}}
     {{> avisos}}
 </template>
 <!-- ************************************************************************************************************** -->
@@ -144,12 +145,27 @@
                     <h6 class="card-text">Area de adscripción: {{areaDeAdscripcion}}</h6>
                     <h6 class="card-text">Correo electrónico: {{eMail}}</h6>
                     <h6 class="card-text">Telefono: {{telefono}}</h6>
-                    <button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#uploadFotoMiPerfil"
-                    title="Actualiza tu foto de perfil">
-                        Sube o cambia tu foto de perfil
-                    </button>
+                    <div class="container">
+                        <div class="row justify-content-around">
+                            <div class="col-6 text-center">
+                                <button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#uploadFotoMiPerfil"
+                                    title="Actualiza tu foto de perfil">
+                                    Foto de perfil
+                                </button>
+                            </div>
+                            <div class="col-6 text-center">
+                                <button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#uploadFotoMiFirma"
+                                    title="Actualiza la foto de tu firma">
+                                    Foto de tu firma
+                                </button>
+                            </div>
+                        </div>
+                    </div>
 				</div>
 			</div>
+            <div class="card">
+                <img src="{{firma}}" alt="" height="150">
+            </div>
         </div>
         <div class="col-md-7">
             <div class="card">
@@ -184,7 +200,7 @@
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h3 class="text-primary">Sube tu foto de perfil</h3>
+                    <h3 class="text-primary">Sube tu foto de PERFIL</h3>
                 </div>
                 <div class="modal-body text-center">
                     <div class="text-center">
@@ -223,6 +239,60 @@
                     </div>
                     <div class="col-6 text-right">
                         <img src="/Si.png" height="40px" id="imgCargoMiFotoPerfil" style="display: none;">
+                        <button type="button" class="btnCerrar btn btn-outline-primary" data-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+<!-- ************************************************************************************************************** -->
+<!--                                          PLATILLA PARA SUBIR LA FIRMA                                          -->
+<!-- ************************************************************************************************************** -->
+<template name="uploadFotoMiFirma">
+    <div class="modal fade" id="uploadFotoMiFirma">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="text-primary">Sube tu foto de tu FIRMA</h3>
+                </div>
+                <div class="modal-body text-center">
+                    <div class="text-center">
+                        <input id="btnFileMiFirma" class="file-upload-input" method="fileUploadMethod" 
+                        type="file" accept=".jpg,.png" hidden/>
+                        <button class="btnSubirArchivo btn btn-outline-success">1.- Selecciona una foto</button><br><br>
+                        <span class="text-success" style="display: none;" id="dosFirma">
+                            <b>2.- Selecciona el area de la foto que tiene tu firma</b>
+                        </span><br><br>
+					</div>
+
+                    <!-- En este div se inserta un elemento img para mostrar la imagen completa -->
+                    <div id="divImgFirma"></div>
+
+                    <!-- En este canvas se corta la imagen -->
+                    <canvas id="previewCanvasFirma" hidden></canvas>
+
+                    <!-- En este img donde se muestra la imagen ya recortada pero ajustandose al ancho -->
+                    <div class="container-sm" id="cuatroFirma"  style="display: none;">
+                        <br>
+                        <div class="row align-items-center">
+                            <div class="col-6 text-right">
+                                <h4 class="text-primary">Tu foto de firma:</h4>
+                            </div>
+                            <div class="col-6 text-left">
+                                <img src="" alt="" id="previewImgFirma" class="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="col-6 text-left">
+                        <button class="btnGuardar btn btn-outline-success" style="display: none;" id="tresFirma">
+                            3.- Establecer como imagen de firma
+                        </button>
+                    </div>
+                    <div class="col-6 text-right">
+                        <img src="/Si.png" height="40px" id="imgCargoMiFotoFirma" style="display: none;">
                         <button type="button" class="btnCerrar btn btn-outline-primary" data-dismiss="modal">Cerrar</button>
                     </div>
                 </div>
