@@ -106,9 +106,8 @@ Template.siSoyAlumno.events({
 Template.siSoyDocente.helpers({
     foto:function(){
         if (usuario.get().profile.foto)
-            return Session.get("ipLocal")+Session.get("puerto")+"/fotos/docentes/"+usuario.get().username+".jpg" 
-        else
-            return Session.get("ipLocal")+Session.get("puerto")+"/fotos/fotoPerfil.jpg";
+            return `${Session.get("ipLocal")}${Session.get("puerto")}/fotos/docentes/${usuario.get().username}.jpg?${new Date().getTime()}`
+        return Session.get("ipLocal")+Session.get("puerto")+"/fotos/fotoPerfil.jpg";
     },
     nombre:function(){
         return usuario.get().profile.prefijo + ' '+ usuario.get().profile.name;
@@ -139,7 +138,9 @@ Template.siSoyDocente.helpers({
         return false;
     },
     firma:function(){
-        return Session.get("ipLocal")+Session.get("puerto")+"/fotos/docentes/Firma_"+usuario.get().username+".jpg" 
+        if (usuario.get().profile.firma)
+            return `${Session.get("ipLocal")}${Session.get("puerto")}/fotos/docentes/Firma_${usuario.get().username}.jpg?${new Date().getTime()}` 
+        return Session.get("ipLocal")+Session.get("puerto")+"/fotos/sinFirma.jpg";
     }
 });
 Template.siSoyDocente.events({
@@ -275,6 +276,7 @@ Template.uploadFotoMiFirma.events({
             Meteor.call('fileUpload','Firma_'+usuario.get().username+".jpg",buffer,tipo)
             Meteor.call('cambieMiFirma')
         }
+        document.getElementById('imgFirmaPerfil').src = imagenEn64
         document.getElementById("imgCargoMiFotoFirma").style.display = "inline"
         reader.readAsArrayBuffer(fileBlob);
 	},
