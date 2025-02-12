@@ -16,7 +16,7 @@ let num=0
 //                        CODIGO DE LA PLATILLA DE BARRA DE HERRAMIENTAS RESIDENCIAS JEFES
 //*************************************************************************************************************************/
 Template.toolBoxResidenciasJefe.events({
-
+    
 });
 //*************************************************************************************************************************/
 //                                   CODIGO DE LA PLATILLA RESIDENCIAS JEFES
@@ -37,7 +37,7 @@ Template.residenciasJefe.helpers({
     },
     cantidad: function(){
         if (residencias.find().count()>0)
-            return residencias.find().count()-1 //le resto el documento de configuracion
+            return residencias.find({'residente':{$exists:true}}).count()
         return 0
     },
     ip:function(){
@@ -573,7 +573,7 @@ Template.dictaminarAnteproyecto.events({
 //*************************************************************************************************************************/
 Template.vistaPreviaReporteDictamenAnteproyectos.onCreated(function(){
 	this.autorun(() =>{
-        this.subscribe('residencias',Session.get('periodo'));
+        this.subscribe('residencias',Session.get('periodo'),Session.get('carrera'));
 	});
 });
 Template.vistaPreviaReporteDictamenAnteproyectos.helpers({
@@ -605,7 +605,10 @@ Template.vistaPreviaReporteDictamenAnteproyectos.events({
 		document.getElementById("btnImprimir").style.visibility = "hidden";
 		window.print()
 		document.getElementById("btnImprimir").style.visibility = "visible";
-	}
+	},
+    "click .regresarResidencias":function(){
+        BlazeLayout.render("main",{rellenaMenu:"menuSISAE",rellenaCuerpoSISAE:"sisaeResidencias"});
+    }
 });
 //*************************************************************************************************************************/
 //                 PLANTILLA PARA LA SOLICITUD DE LOS DATOS DEL REPORTE DICTAMEN DE ANTEPROYECTOS
@@ -625,7 +628,7 @@ Template.solicitudDatosDictamenAnteproyecto.events({
         datos.nombrePresidenteAcademia = document.getElementById("nombrePresidenteAcademia").value;
         datos.nombreJefeDepto = document.getElementById("nombreJefeDepto").value;
         datos.nombreSubdirectorAcedemico = document.getElementById("nombreSubdirectorAcedemico").value;
-        datos.nombreCarrera = document.getElementById("nombreCarrera").value;
+        datos.nombreCarrera = Session.get('carrera')//document.getElementById("nombreCarrera").value;
         datosDictamenAnteproyectos.set(datos);
         BlazeLayout.render("impresion",{rellena2:"vistaPreviaReporteDictamenAnteproyectos"});
     }
@@ -1279,7 +1282,54 @@ Template.eliminarDocumento.events({
         Meteor.call('registrarDoctosEliminadosExpediente',residenciaSeleccionada.get())
     }
 })
+//*************************************************************************************************************************/
+//                                                GRAFICA DE RESIDENTES
+//*************************************************************************************************************************/
+Template.graficaResidentes.onRendered(function(){
+    Meteor.call('cantResidentes',Session.get('periodo'),Session.get('carrera'),function(error,result){
+		if (error) alert("error")
+		else if (result){
+			cant=result;
+            let container=document.getElementById("myChartResidentes");
 
+            let chart =  anychart.column();
+
+            let datos={
+                title:'Grafica de Residentes',
+                header:['#','Terminaron','Industrial','Servicios','Público','Privado','Otro'],
+                rows:[
+                    [Session.get("periodo"),cant.Terminaron,cant.Industrial,cant.Servicios,cant.Publico,cant.Privado,cant.Otro]
+                ]
+            };
+            chart.data(datos);
+            chart.animation(true);
+            chart.yAxis().labels().format('{%Value}{groupsSeparator: }');
+            chart.yAxis().title('Residentes: '+cant.Total);
+            chart.yScale().maximum(cant.tutorados);
+            chart.labels()
+                .enabled(true)
+                .position('center-top')
+                .anchor('center-bottom')
+                .format('{%Value}{groupsSeparator: }');
+                        chart.hovered().labels(false);
+                        chart.legend()
+                .enabled(true)
+                .fontSize(13)
+                            .padding([0, 0, 20, 0]);
+                        chart.interactivity().hoverMode('single');
+                        chart.tooltip()
+                .positionMode('point')
+                .position('center-top')
+                .anchor('center-bottom')
+                .offsetX(0)
+                .offsetY(5)
+                .titleFormat('{%X}')
+                .format('{%SeriesName} : {%Value}{groupsSeparator: }');
+
+            chart.container(container).draw();
+        }
+    });
+});
 
 
 
@@ -1288,7 +1338,7 @@ Template.eliminarDocumento.events({
 //*************************************************************************************************************************/
 Template.residenciasJefeDeptoGestionTecnologicaVinculacion.onCreated(function(){
     this.autorun(() =>{
-        this.subscribe('residencias',Session.get('periodo'));
+        this.subscribe('residencias',Session.get('periodo'),Session.get('carrera'));
         this.subscribe('docentesActivos');
         this.subscribe('configuracionResidencias',Session.get('periodo'))
         if(this.subscriptionsReady()){
@@ -1298,7 +1348,12 @@ Template.residenciasJefeDeptoGestionTecnologicaVinculacion.onCreated(function(){
 });
 Template.residenciasJefeDeptoGestionTecnologicaVinculacion.helpers({
     residencias: function(){
-        return residencias.find({'periodo':Session.get('periodo')});
+        return residencias.find({'residente':{$exists:true}});
+    },
+    cantidad: function(){
+        if (residencias.find().count()>0)
+            return residencias.find({'residente':{$exists:true}}).count()
+        return 0
     },
     ip:function(){
 		return Session.get("ipLocal")+Session.get("puerto");

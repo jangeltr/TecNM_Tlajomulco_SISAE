@@ -10,6 +10,9 @@
         <button type="button" class="generaReporteDictamen btn btn-default" data-toggle="modal" data-target="#solicitudDatosDictamenAnteproyecto" title="Reporte de dictamen de anteproyectos">
             <i class="fa fa-file-pdf-o"></i>
         </button>
+        <button type="button" class="graficaResidentes btn btn-default" title="Grafica" data-toggle="modal" data-target="#graficaResidentes">
+            <i class="fa fa-bar-chart"></i>
+        </button>
     </div>
 </template>
 <!-- ************************************************************************************************************** -->
@@ -363,6 +366,7 @@
     {{> verTercerSeguimientoResidencia}}
     {{> eliminarDocumento}}
     {{> sendeMail}}
+    {{> graficaResidentes}}
 </template>
 <!-- ************************************************************************************************************** -->
 <!--                                REGISTRAR CALIFICACION DEL ASESOR EXTERNO                                       -->
@@ -938,6 +942,10 @@
         </div> 
     </div>
     <button id="btnImprimir" type="button" class="imprimirDictamenAnteproyectos btn btn-success btn-block" style="position: fixed; left:0px; top:0px; animation: blink 1s linear infinite;"><i class="fa fa-file-pdf-o"></i>  Imprimir el dictamen de anteproyectos de residencia profesional</button>
+    <button id="btnRegresarResidencias" type="button" class="regresarResidencias btn btn-success btn-block" 
+            style="position: fixed; left:0px; top:30px; animation: blink 1s linear infinite;">
+        Regresar a Residencias
+    </button>
 </template>
 <!-- ************************************************************************************************************** -->
 <!--                        SOLICITA LOS DATOS PARA GENERAR EL DICTAMEN DE ANTEPROYECTOS                            -->
@@ -957,7 +965,6 @@
                             <option value="Ciencias Basicas">Ciencias Básicas</option>
                             <option value="Ciencias de la Agronomia">Ciencias de la Agronomía</option>
                         </select>
-
                         <label for="nombreJefeDepto">Nombre del Jefe de Departamento:</label>
                         <input  class="form-control typeahead text-center" 
                                 name="nombreJefeDepto" id="nombreJefeDepto" 
@@ -965,7 +972,6 @@
                                 placeholder="Docente" autocomplete="off" 
                                 spellcheck="off" data-source="docente"  
                         />
-
                         <label for="nombrePresidenteAcademia">Nombre del presidente de academia:</label>
                         <input  class="form-control typeahead text-center" 
                                 name="nombrePresidenteAcademia" id="nombrePresidenteAcademia" 
@@ -973,7 +979,6 @@
                                 placeholder="Docente" autocomplete="off" 
                                 spellcheck="off" data-source="docente"  
                         />
-
                         <label for="nombreSubdirectorAcedemico">Nombre del Subdirector Académico:</label>
                         <input  class="form-control typeahead text-center" 
                                 name="nombreSubdirectorAcedemico" id="nombreSubdirectorAcedemico" 
@@ -981,18 +986,6 @@
                                 placeholder="Docente" autocomplete="off" 
                                 spellcheck="off" data-source="docente"  
                         />
-
-                        <label for="nombreCarrera">Nombre de la Carrera:</label>
-                        <select class="form-control" id="nombreCarrera" name="nombreCarrera">
-                            <option value="Ingenieria en Sistemas Computacionales">Ingenieria en Sistemas Computacionales</option>
-                            <option value="Ingenieria en Agronomia">Ingenieria en Agronomia</option>
-                            <option value="Ingenieria en Industrias Alimentarias">Ingenieria en Industrias Alimentarias</option>
-                            <option value="Ingenieria en Innovacion Agricola">Ingenieria en Innovacion Agricola</option>
-                            <option value="Ingenieria Ambiental">Ingenieria Ambiental</option>
-                            <option value="Mestria en Ciencias en Agrobiotecnologia">Mestria en Ciencias en Agrobiotecnologia</option>
-                            <option value="Doctorado en Ciencias de los Alimentos y Biotecnologia">Doctorado en Ciencias de los Alimentos y Biotecnologia</option>
-                            <option value="Doctorado en Ciencias en Biotecnologia en Procesos Agropecuarios">Doctorado en Ciencias en Biotecnologia en Procesos Agropecuarios</option>
-                        </select>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -1692,7 +1685,20 @@
         </div>
     </div>
 </template>
-
+<!-- ************************************************************************************************************** -->
+<!--                                              GRAFICA DE RESIDENTES                                             -->
+<!-- ************************************************************************************************************** -->
+<template name="graficaResidentes">
+    <div class="modal fade" id="graficaResidentes">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div id="myChartResidentes" class="modal-body" style="width:800px; height:500px;">
+                            
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
 
 
 
@@ -1711,20 +1717,27 @@
 <template name="residenciasJefeDeptoGestionTecnologicaVinculacion">
     {{> toolBoxResidenciasJefeDeptoGestionTecnologicaVinculacion}} 
     <div class="container">
-        <input class="form-control myTxtBoxFiltroResidencias" id="myFiltroResidencias" type="text" placeholder="Filtrar por cualquier campo...">
-    </div>
+        <div class="row justify-content-around">
+            <div class="col-3">
+                <input class="form-control myTxtBoxFiltroResidencias" id="myFiltroResidencias" type="text" placeholder="Filtrar por cualquier campo...">
+            </div>
+            <div class="col-6">
+                {{> catCarreras}}
+            </div>
+            <div class="col-1">
+                <span>Cantidad:{{cantidad}}</span>
+            </div>
+        </div>
+    </div>	
     <div class="container">
         <div class="row bg-info text-white">
             <div class="col-1 text-center">
                 NC
             </div>
-            <div class="col-3 text-center">
+            <div class="col-4 text-center">
                 Alumno
             </div>
-            <div class="col-2 text-center">
-                Carrera
-            </div>
-            <div class="col-2 text-center">
+            <div class="col-3 text-center">
                 Asesor
             </div>
             <div class="col-1 text-center">
@@ -1747,13 +1760,10 @@
                 <div class="col-1">
                     <a href="#" class="datosAlumno" data-toggle="modal" data-target="#showDatosAlumnoEnResidencias">{{residente.nc}}</a>
                 </div>
-                <div class="col-3">
+                <div class="col-4">
                     {{residente.nombre}}
                 </div>
-                <div class="col-2">
-                    {{residente.carrera}}
-                </div>
-                <div class="col-2">
+                <div class="col-3">
                     {{asesor.nombre}}
                 </div>
                 <div class="col-1 text-center">

@@ -301,14 +301,10 @@ Template.graficaDocentesTutores.onRendered(function(){
 //                                                GRAFICA DE ALUMNOS
 //*************************************************************************************************************************/
 Template.graficaAlumnosTutorados.onRendered(function(){
-	let container=document.getElementById("myChartAlumnos");
-	let entregados=0;
-	let no_entregados=0;
 	Meteor.call('cantTutorados',Session.get('periodo'),function(error,result){
 		if (error) alert("error")
 		else  if (result){
 			cant=result;
-			
 			let container=document.getElementById("myChartAlumnos");
 
 			let chart =  anychart.column();
