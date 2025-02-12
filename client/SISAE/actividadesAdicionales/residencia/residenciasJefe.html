@@ -18,9 +18,18 @@
 <template name="residenciasJefe">
     {{> toolBoxResidenciasJefe}} 
     <div class="container">
-        <input class="form-control myTxtBoxFiltroResidencias" id="myFiltroResidencias" type="text" placeholder="Filtrar por cualquier campo...">
-    </div>
-    
+        <div class="row justify-content-around">
+            <div class="col-3">
+                <input class="form-control myTxtBoxFiltroResidencias" id="myFiltroResidencias" type="text" placeholder="Filtrar por cualquier campo...">
+            </div>
+            <div class="col-6">
+                {{> catCarreras}}
+            </div>
+            <div class="col-1">
+                <span>Cantidad:{{cantidad}}</span>
+            </div>
+        </div>
+    </div>	
     <div class="container">
         <div class="row bg-info text-white">
             <div class="col-1">
@@ -29,13 +38,10 @@
             <div class="col-1 text-center">
                 NC
             </div>
-            <div class="col-3 text-center">
+            <div class="col-4 text-center">
                 Alumno
             </div>
-            <div class="col-2 text-center">
-                Carrera
-            </div>
-            <div class="col-2 text-center">
+            <div class="col-3 text-center">
                 Asesor
             </div>
             <div class="col-1 text-center">
@@ -66,13 +72,10 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-3">
+                <div class="col-4">
                     {{residente.nombre}}
                 </div>
-                <div class="col-2">
-                    {{residente.carrera}}
-                </div>
-                <div class="col-2">
+                <div class="col-3">
                     {{asesor.nombre}}
                 </div>
                 <div class="col-1 text-center">

@@ -23,7 +23,7 @@ Template.toolBoxResidenciasJefe.events({
 //*************************************************************************************************************************/
 Template.residenciasJefe.onCreated(function(){
 	this.autorun(() =>{
-        this.subscribe('residencias',Session.get('periodo'));
+        this.subscribe('residencias',Session.get('periodo'),Session.get('carrera'));
         this.subscribe('docentesActivos');
         this.subscribe('configuracionResidencias',Session.get('periodo'))
         if(this.subscriptionsReady()){
@@ -33,7 +33,12 @@ Template.residenciasJefe.onCreated(function(){
 });
 Template.residenciasJefe.helpers({
     residencias: function(){
-        return residencias.find({'periodo':Session.get('periodo')})
+        return residencias.find({'residente':{$exists:true}}) //Solo las residencias que tengan residente, el documento de configuracion no tiene residente
+    },
+    cantidad: function(){
+        if (residencias.find().count()>0)
+            return residencias.find().count()-1 //le resto el documento de configuracion
+        return 0
     },
     ip:function(){
 		return Session.get("ipLocal")+Session.get("puerto")

@@ -148,8 +148,8 @@ Meteor.publish('miActividadAcademica',function(per,idUsuario){
 //*************************************************************************************************************************/
 //                                               SISAE: RESIDENCIAS
 //*************************************************************************************************************************/
-Meteor.publish('residencias',function(per){
-    return residencias.find({periodo:per})
+Meteor.publish('residencias',function(per,carr){
+    return residencias.find({periodo:per,'residente.carrera':carr})
 })
 Meteor.publish('miResidencia',function(per,idAlumno){
     return residencias.find({periodo:per,'residente._id':idAlumno})
