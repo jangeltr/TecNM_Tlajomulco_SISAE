@@ -1090,7 +1090,7 @@ Meteor.methods({
     cantResidentes:function(per,carr){
         datos={
             Total:residencias.find({periodo:per,'residente.carrera':carr}).count(),
-            Terminaron:residencias.find({periodo:per,'residente.carrera':carr,'evaluacionFecha3.Resultados':{$exists:true}}).count(),
+            Terminaron:residencias.find({periodo:per,'residente.carrera':carr,'evaluacionFecha3.Calificación Total':{$exists:true}}).count(),
             Industrial:residencias.find({periodo:per,'residente.carrera':carr,'empresa.giro':'Industrial'}).count(),
             Servicios:residencias.find({periodo:per,'residente.carrera':carr,'empresa.giro':'Servicios'}).count(),
             Publico:residencias.find({periodo:per,'residente.carrera':carr,'empresa.giro':'Público'}).count(),

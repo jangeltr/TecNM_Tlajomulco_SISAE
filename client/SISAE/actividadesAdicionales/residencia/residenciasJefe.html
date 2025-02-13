@@ -3,370 +3,381 @@
 <!-- ************************************************************************************************************** -->
 <template name="toolBoxResidenciasJefe">
 	<div class="toolBox well well-sm text-center">
-        {{> catPeriodos}}
-        <button type="button" class="configurarResidencia btn btn-default" data-toggle="modal" data-target="#configurarResidencia" title="Establecer las fechas de seguimiento para este periodo">
-            <i class="fa fa-cog" aria-hidden="true"></i>
-        </button>
-        <button type="button" class="generaReporteDictamen btn btn-default" data-toggle="modal" data-target="#solicitudDatosDictamenAnteproyecto" title="Reporte de dictamen de anteproyectos">
-            <i class="fa fa-file-pdf-o"></i>
-        </button>
-        <button type="button" class="graficaResidentes btn btn-default" title="Grafica" data-toggle="modal" data-target="#graficaResidentes">
-            <i class="fa fa-bar-chart"></i>
-        </button>
+        {{#unless grafica}}
+            {{> catPeriodos}}
+            <button type="button" class="configurarResidencia btn btn-default" data-toggle="modal" data-target="#configurarResidencia" title="Establecer las fechas de seguimiento para este periodo">
+                <i class="fa fa-cog" aria-hidden="true"></i>
+            </button>
+            <button type="button" class="generaReporteDictamen btn btn-default" data-toggle="modal" data-target="#solicitudDatosDictamenAnteproyecto" title="Reporte de dictamen de anteproyectos">
+                <i class="fa fa-file-pdf-o"></i>
+            </button>
+            <button type="button" class="graficaResidentes btn btn-default" title="Grafica" >
+                <i class="fa fa-bar-chart"></i>
+            </button>
+        {{else}}
+            <button type="button" class="regresarResidencias btn btn-default" title="Regresar a la lista de residentes">
+                <i class="fa fa-arrow-left"></i>
+            </button>
+        {{/unless}}
     </div>
 </template>
 <!-- ************************************************************************************************************** -->
 <!--                                             RESIDENCIAS JEFE                                                   -->
 <!-- ************************************************************************************************************** -->
 <template name="residenciasJefe">
+    <div id="residenciasJefe">
     {{> toolBoxResidenciasJefe}} 
-    <div class="container">
-        <div class="row justify-content-around">
-            <div class="col-3">
-                <input class="form-control myTxtBoxFiltroResidencias" id="myFiltroResidencias" type="text" placeholder="Filtrar por cualquier campo...">
-            </div>
-            <div class="col-6">
-                {{> catCarreras}}
-            </div>
-            <div class="col-1">
-                <span>Cantidad:{{cantidad}}</span>
-            </div>
-        </div>
-    </div>	
-    <div class="container">
-        <div class="row bg-info text-white">
-            <div class="col-1">
-                
-            </div>
-            <div class="col-1 text-center">
-                NC
-            </div>
-            <div class="col-4 text-center">
-                Alumno
-            </div>
-            <div class="col-3 text-center">
-                Asesor
-            </div>
-            <div class="col-1 text-center">
-                Convenio vigente
-            </div>
-            <div class="col-1 text-center">
-                Dictamen
-            </div>
-            <div class="col-1">
-                
-            </div>
-        </div>
-    </div>
-    {{#each residencias}}
-        <div class="container small" id="myResidencias">
-            <division class="row" style="height:50px" id="div{{_id}}">
-                <div class="col-2">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-6">
-                                <a href="#">
-                                    <i class="eliminarResidencia fa fa-trash text-danger" aria-hidden="true"></i>
-                                </a>
-                            </div>
-                            <div class="col-6 text-right">
-                                <a href="#" class="datosAlumno" data-toggle="modal" data-target="#showDatosAlumnoEnResidencias">{{residente.nc}}</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-4">
-                    {{residente.nombre}}
-                </div>
+    {{#if grafica}}
+        {{> graficaResidentes}}
+    {{else}}
+        <div class="container">
+            <div class="row justify-content-around">
                 <div class="col-3">
-                    {{asesor.nombre}}
+                    <input class="form-control myTxtBoxFiltroResidencias" id="myFiltroResidencias" type="text" placeholder="Filtrar por cualquier campo...">
+                </div>
+                <div class="col-6">
+                    {{> catCarreras}}
+                </div>
+                <div class="col-1">
+                    <span>Cantidad:{{cantidad}}</span>
+                </div>
+            </div>
+        </div>	
+        <div class="container">
+            <div class="row bg-info text-white">
+                <div class="col-1">
+                    
                 </div>
                 <div class="col-1 text-center">
-                    {{#if tieneConvenioVigente}}  
-                        <span class="text-success">
-                            <i class="fa fa-check-square-o" aria-hidden="true" title="Tiene el Convenio Vigente"></i>
-                        </span>
-                    {{else}}
-                        <span class="text-danger"  title="NO tiene el Convenio Vigente">
-                            NO
-                        </span>
-                    {{/if}}
+                    NC
                 </div>
-                <div class="col-2">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-6 text-center">
-                                {{#if dictamen}}
-                                <span class="text-success">{{solicitud.dictamen}}</span>
-                                {{else}}
-                                <span class="text-danger">{{solicitud.dictamen}}</span>
-                                {{/if}}
-                            </div>
-                            <div class="col-6 text-right">
-                                <a class="expandirActividad collapsed card-link" data-toggle="collapse" href="#{{_id}}">
-                                    <i class="fa fa-caret-down" aria-hidden="true"></i>
-                                </a>
+                <div class="col-4 text-center">
+                    Alumno
+                </div>
+                <div class="col-3 text-center">
+                    Asesor
+                </div>
+                <div class="col-1 text-center">
+                    Convenio vigente
+                </div>
+                <div class="col-1 text-center">
+                    Dictamen
+                </div>
+                <div class="col-1">
+                    
+                </div>
+            </div>
+        </div>
+        {{#each residencias}}
+            <div class="container small" id="myResidencias">
+                <division class="row" style="height:50px" id="div{{_id}}">
+                    <div class="col-2">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-6">
+                                    <a href="#">
+                                        <i class="eliminarResidencia fa fa-trash text-danger" aria-hidden="true"></i>
+                                    </a>
+                                </div>
+                                <div class="col-6 text-right">
+                                    <a href="#" class="datosAlumno" data-toggle="modal" data-target="#showDatosAlumnoEnResidencias">{{residente.nc}}</a>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </division>
-        </div>
-        <div  class="collapse" id="{{_id}}">
-            <table class="table table-striped">
-                <thead>
-                    <tr class="bg-light border-left border-right border-info text-center">
-                        <th width="25%" title="Nombre del proyecto">Proyecto</th>
-                        <th width="20%" title="Nombre de la empresa">Empresa</th>
-                        <th width="30%">Documentos</th>
-                        <th width="25%">Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td class="small">{{solicitud.nombreProyecto}}
-                            <br><br>
-                            <span class="text-primary">ASESOR INTERNO</span><br>
-                            {{#if evaluacionTotalFecha1}}
-                                <span class="text-primary">Evaluacion 1: </span>
-                                <span class="text-success"> {{evaluacionTotalFecha1}} </span>
-                                <span class="text-primary"> --> 5% </span><br>
-                            {{/if}}
-                            {{#if evaluacionTotalFecha2}}
-                                <span class="text-primary">Evaluacion 2: </span>
-                                <span class="text-success"> {{evaluacionTotalFecha2}} </span>
-                                <span class="text-primary"> --> 5% </span><br>
-                            {{/if}}
-                            {{#if evaluacionTotalFecha3}}
-                                <span class="text-primary">Evaluacion 3: </span>
-                                <span class="text-success"> {{evaluacionTotalFecha3}} </span>
-                                <span class="text-primary"> --> 40% </span>
-                                <br>
-                                <span class="text-primary">ASESOR EXTERNO</span>
-                                <button class="CAE text-success" data-toggle="modal" data-target="#addCalificacionAsesorExterno">Evaluar</button><br>
-                                <span class="text-primary">Evaluacion 1: </span>
-                                <span class="text-success"> {{eAEF1}} </span>
-                                <span class="text-primary"> --> 5% </span><br>
-                                <span class="text-primary">Evaluacion 2: </span>
-                                <span class="text-success"> {{eAEF2}} </span>
-                                <span class="text-primary"> --> 5% </span><br>
-                                <span class="text-primary">Evaluacion 3: </span>
-                                <span class="text-success"> {{eAEF3}} </span>
-                                <span class="text-primary"> --> 40% </span><br>
-                            {{/if}}
-                            <br>
-                            {{#if calificacionTotal}}
-                                <span class="text-primary">CALIFICACION TOTAL: </span>
-                                <span class="text-primary">{{calificacionTotal}}</span>
-                            {{/if}}
-                        </td>
-                        <td class="small">{{empresa.nombre}}</td>
-                        <td class="text-left small">
-                            <span class="text-primary">Asesor Solicitado: </span>
-                            {{#if tieneAsesorPropuesto}}
-                                <span class="text-success">{{solicitud.asesorPropuesto}}</span>
-                            {{else}}
-                                <span class="text-warning">Aun no propone un asesor</span>
-                            {{/if}}
-                            <br>
-                            {{#if tieneSolicitudFirmada}}
-                                <a href="{{ip}}{{expedienteInicio.pathSolicitud}}" target="_blank">
-                                    <i class="fa fa-file-pdf-o" aria-hidden="true"></i>
-                                </a>
-                            {{else}}
-                                <i class="fa fa-file-pdf-o text-danger" aria-hidden="true"></i>
-                            {{/if}}
-                            Solicitud Firmada
-                            <br>
-                            {{#if tieneAnteproyecto}}
-                                <a href="{{ip}}{{expedienteInicio.pathAnteproyecto}}" target="_blank">
-                                    <i class="fa fa-file-pdf-o" aria-hidden="true"></i>
-                                </a>
-                            {{else}}
-                                <i class="fa fa-file-pdf-o text-danger" aria-hidden="true"></i>
-                            {{/if}}
-                            Anteproyecto
-                            <br>
-                            {{#if tieneOficioAsignacionAsesorInterno}}
-                                <a href="{{ip}}{{asesor.pathOficioAsignacion}}" target="_blank">
-                                    <i class="fa fa-file-pdf-o" aria-hidden="true"></i>
-                                </a>
-                            {{else}}
-                                <i class="fa fa-file-pdf-o text-danger" aria-hidden="true"></i>
-                            {{/if}}
-                            Oficio de asignación de asesor interno
-                            <br>
-                            {{#if tieneCartaDeTerminacionDeServicioSocial}}
-                                <a href="{{ip}}{{expedienteInicio.pathCartaTerminacionServicioSocial}}" target="_blank">
-                                    <i class="fa fa-file-pdf-o" aria-hidden="true"></i>
-                                </a>
-                            {{else}}
-                                <i class="fa fa-file-pdf-o text-danger" aria-hidden="true"></i>
-                            {{/if}}
-                            Carta de terminacion del Servicio Social
-                            <br>
-                            {{#if tieneCartaDePresentacion}}
-                                <a href="{{ip}}{{expedienteInicio.pathCartaPresentacion}}" target="_blank">
-                                    <i class="fa fa-file-pdf-o" aria-hidden="true"></i>
-                                </a>
-                            {{else}}
-                                <i class="fa fa-file-pdf-o text-danger" aria-hidden="true"></i>
-                            {{/if}}
-                            Carta de presentacion
-                            <br>
-                            {{#if tieneCartaDePresentacionFirmada}}
-                                <a href="{{ip}}{{expedienteInicio.pathCartaPresentacionFirmada}}" target="_blank">
-                                    <i class="fa fa-file-pdf-o" aria-hidden="true"></i>
-                                </a>
-                            {{else}}
-                                <i class="fa fa-file-pdf-o text-danger" aria-hidden="true"></i>
-                            {{/if}}
-                            Carta de presentacion con firma de recibido
-                            <br>
-                            {{#if tieneCartaDeAceptacion}}
-                                <a href="{{ip}}{{expedienteInicio.pathCartaAceptacion}}" target="_blank">
-                                    <i class="fa fa-file-pdf-o" aria-hidden="true"></i>
-                                </a>
-                            {{else}}
-                                <i class="fa fa-file-pdf-o text-danger" aria-hidden="true"></i>
-                            {{/if}}
-                            Carta de aceptacion
-                            <br>
-                            {{#if tienePrimerEvaluacionSeguimiento}}
-                                <a href="{{ip}}{{expedienteEvaluacion.pathPrimeraEvaluacion}}" target="_blank">
-                                    <i class="fa fa-file-pdf-o text-success" aria-hidden="true"></i>
-                                </a>
-                            {{else}}
-                                <i class="fa fa-file-pdf-o text-danger" aria-hidden="true"></i>
-                            {{/if}}
-                            Primer evaluacion
-                            <br>
-                            {{#if tieneSegundaEvaluacionSeguimiento}}
-                                <a href="{{ip}}{{expedienteEvaluacion.pathSegundaEvaluacion}}" target="_blank">
-                                    <i class="fa fa-file-pdf-o text-success" aria-hidden="true"></i>
-                                </a>
-                            {{else}}
-                                <i class="fa fa-file-pdf-o text-danger" aria-hidden="true"></i>
-                            {{/if}}
-                            Segunda evaluacion
-                            <br>
-                            {{#if tieneTercerEvaluacionSeguimiento}}
-                                <a href="{{ip}}{{expedienteEvaluacion.pathTercerEvaluacion}}" target="_blank">
-                                    <i class="fa fa-file-pdf-o text-success" aria-hidden="true"></i>
-                                </a>
-                            {{else}}
-                                <i class="fa fa-file-pdf-o text-danger" aria-hidden="true"></i>
-                            {{/if}}
-                            Tercer evaluacion
-                            <br>
-                            {{#if tieneInformeTecnico}}
-                                <a href="{{ip}}{{expedienteEvaluacion.pathInformeTecnico}}" target="_blank">
-                                    <i class="fa fa-file-pdf-o text-success" aria-hidden="true"></i>
-                                </a>
-                            {{else}}
-                                <i class="fa fa-file-pdf-o text-danger" aria-hidden="true"></i>
-                            {{/if}}
-                            Informe Tecnico
-                            <br>
-                            {{#if tieneCartaTerminacion}}
-                                <a href="{{ip}}{{pathCartaTerminacionResidencia}}" target="_blank">
-                                    <i class="fa fa-file-pdf-o text-success" aria-hidden="true"></i>
-                                </a>
-                            {{else}}
-                                <i class="fa fa-file-pdf-o text-danger" aria-hidden="true"></i>
-                            {{/if}}
-                            Carta de Terminacion
-                            <br>
-                            <a href="#">
-                                <i class="eliminarDocumento fa fa-trash text-warning" data-toggle="modal" data-target="#eliminarDocumento" aria-hidden="true"></i>
-                            </a>
-                            Eliminar algún documento del alumno
-                        </td>
-                        <td class="small text-left">
-                            <a href="#">
-                                <i class="dictaminarAnteproyecto fa fa-check-square-o text-success" aria-hidden="true" data-toggle="modal" data-target="#dictaminarAnteproyecto"></i>
-                            </a>
-                            Dictaminar el anteproyecto<br>
-                            <a href="#">
-                                <i class="modificarTituloAnteproyecto fa fa-pencil-square-o text-success" aria-hidden="true" data-toggle="modal" data-target="#modificarTituloAnteproyecto"></i>
-                            </a>
-                            Modificar el titulo del anteproyecto<br>
-                            <a href="#">
-                                <i class="asignarAsesorInterno fa fa-user-plus text-primary" aria-hidden="true" data-toggle="modal" data-target="#addAsesorInterno"></i>
-                            </a>
-                            Asignar asesor interno<br>
-                            <a href="#">
-                                <i class="generarOficioAsesorInterno fa fa-print text-primary" aria-hidden="true" data-toggle="modal" data-target="#solicitudNumOficioAsignacionAsesor"></i>
-                            </a>
-                            Generar el oficio de asignación de asesor interno<br>
-                            <a href="#">
-                                <i class="subirOficioAsesorInterno fa fa-file-pdf-o text-primary" aria-hidden="true"  data-toggle="modal" data-target="#uploadOficioAsignacionAsesorInterno"></i>
-                            </a>
-                            Subir firmado el oficio de asignación de asesor interno<br>
-                            <a href="#">
-                                <i class="generarCartaPresentacion fa fa-print text-success" aria-hidden="true" data-toggle="modal" data-target="#solicitudNumOficioCartaPresentacion"></i>
-                            </a>
-                            Generar la carta de presentación<br>
-                            <a href="#">
-                                <i class="subirCartaPresentacion fa fa-file-pdf-o text-success" aria-hidden="true"  data-toggle="modal" data-target="#uploadCartaPresentacion"></i>
-                            </a>    
-                            Subir firmada la carta de presentación<br>
-                            <a href="#">
-                                <i class="verPlanActividades fa fa-calendar text-primary" aria-hidden="true" data-toggle="modal" data-target="#verSeguimientoResidenciasAlumno"></i>
-                            </a>
-                            Plan de actrividades del alumno<br>
-                            <a href="#">
-                                <i class="verRealizacionActividades fa fa-calendar text-primary" aria-hidden="true" data-toggle="modal" data-target="#verRealizacionResidenciasAlumnoEnJefe" ></i>
-                            </a>
-                            Realización de las actividades<br>
-                            {{#if tieneEvaluacion1_soyAsesor}}
-                                <a href="#">
-                                    1<i class="verEvaluacion1 fa fa-check text-success" aria-hidden="true" data-toggle="modal" data-target="#verPrimerSeguimientoResidencia"></i>
-                                </a>
-                                Primer evaluacion de seguimiento<br>
-                                {{#if tieneEvaluacion2_soyAsesor}}
-                                    <a href="#">
-                                        2<i class="verEvaluacion2 fa fa-check text-success" aria-hidden="true" data-toggle="modal" data-target="#verSegundoSeguimientoResidencia"></i>
+                    <div class="col-4">
+                        {{residente.nombre}}
+                    </div>
+                    <div class="col-3">
+                        {{asesor.nombre}}
+                    </div>
+                    <div class="col-1 text-center">
+                        {{#if tieneConvenioVigente}}  
+                            <span class="text-success">
+                                <i class="fa fa-check-square-o" aria-hidden="true" title="Tiene el Convenio Vigente"></i>
+                            </span>
+                        {{else}}
+                            <span class="text-danger"  title="NO tiene el Convenio Vigente">
+                                NO
+                            </span>
+                        {{/if}}
+                    </div>
+                    <div class="col-2">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-6 text-center">
+                                    {{#if dictamen}}
+                                    <span class="text-success">{{solicitud.dictamen}}</span>
+                                    {{else}}
+                                    <span class="text-danger">{{solicitud.dictamen}}</span>
+                                    {{/if}}
+                                </div>
+                                <div class="col-6 text-right">
+                                    <a class="expandirActividad collapsed card-link" data-toggle="collapse" href="#{{_id}}">
+                                        <i class="fa fa-caret-down" aria-hidden="true"></i>
                                     </a>
-                                    Segunda evaluacion de seguimiento<br>
-                                    {{#if tieneEvaluacion3_soyAsesor}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </division>
+            </div>
+            <div  class="collapse" id="{{_id}}">
+                <table class="table table-striped">
+                    <thead>
+                        <tr class="bg-light border-left border-right border-info text-center">
+                            <th width="25%" title="Nombre del proyecto">Proyecto</th>
+                            <th width="20%" title="Nombre de la empresa">Empresa</th>
+                            <th width="30%">Documentos</th>
+                            <th width="25%">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="small">{{solicitud.nombreProyecto}}
+                                <br><br>
+                                <span class="text-primary">ASESOR INTERNO</span><br>
+                                {{#if evaluacionTotalFecha1}}
+                                    <span class="text-primary">Evaluacion 1: </span>
+                                    <span class="text-success"> {{evaluacionTotalFecha1}} </span>
+                                    <span class="text-primary"> --> 5% </span><br>
+                                {{/if}}
+                                {{#if evaluacionTotalFecha2}}
+                                    <span class="text-primary">Evaluacion 2: </span>
+                                    <span class="text-success"> {{evaluacionTotalFecha2}} </span>
+                                    <span class="text-primary"> --> 5% </span><br>
+                                {{/if}}
+                                {{#if evaluacionTotalFecha3}}
+                                    <span class="text-primary">Evaluacion 3: </span>
+                                    <span class="text-success"> {{evaluacionTotalFecha3}} </span>
+                                    <span class="text-primary"> --> 40% </span>
+                                    <br>
+                                    <span class="text-primary">ASESOR EXTERNO</span>
+                                    <button class="CAE text-success" data-toggle="modal" data-target="#addCalificacionAsesorExterno">Evaluar</button><br>
+                                    <span class="text-primary">Evaluacion 1: </span>
+                                    <span class="text-success"> {{eAEF1}} </span>
+                                    <span class="text-primary"> --> 5% </span><br>
+                                    <span class="text-primary">Evaluacion 2: </span>
+                                    <span class="text-success"> {{eAEF2}} </span>
+                                    <span class="text-primary"> --> 5% </span><br>
+                                    <span class="text-primary">Evaluacion 3: </span>
+                                    <span class="text-success"> {{eAEF3}} </span>
+                                    <span class="text-primary"> --> 40% </span><br>
+                                {{/if}}
+                                <br>
+                                {{#if calificacionTotal}}
+                                    <span class="text-primary">CALIFICACION TOTAL: </span>
+                                    <span class="text-primary">{{calificacionTotal}}</span>
+                                {{/if}}
+                            </td>
+                            <td class="small">{{empresa.nombre}}</td>
+                            <td class="text-left small">
+                                <span class="text-primary">Asesor Solicitado: </span>
+                                {{#if tieneAsesorPropuesto}}
+                                    <span class="text-success">{{solicitud.asesorPropuesto}}</span>
+                                {{else}}
+                                    <span class="text-warning">Aun no propone un asesor</span>
+                                {{/if}}
+                                <br>
+                                {{#if tieneSolicitudFirmada}}
+                                    <a href="{{ip}}{{expedienteInicio.pathSolicitud}}" target="_blank">
+                                        <i class="fa fa-file-pdf-o" aria-hidden="true"></i>
+                                    </a>
+                                {{else}}
+                                    <i class="fa fa-file-pdf-o text-danger" aria-hidden="true"></i>
+                                {{/if}}
+                                Solicitud Firmada
+                                <br>
+                                {{#if tieneAnteproyecto}}
+                                    <a href="{{ip}}{{expedienteInicio.pathAnteproyecto}}" target="_blank">
+                                        <i class="fa fa-file-pdf-o" aria-hidden="true"></i>
+                                    </a>
+                                {{else}}
+                                    <i class="fa fa-file-pdf-o text-danger" aria-hidden="true"></i>
+                                {{/if}}
+                                Anteproyecto
+                                <br>
+                                {{#if tieneOficioAsignacionAsesorInterno}}
+                                    <a href="{{ip}}{{asesor.pathOficioAsignacion}}" target="_blank">
+                                        <i class="fa fa-file-pdf-o" aria-hidden="true"></i>
+                                    </a>
+                                {{else}}
+                                    <i class="fa fa-file-pdf-o text-danger" aria-hidden="true"></i>
+                                {{/if}}
+                                Oficio de asignación de asesor interno
+                                <br>
+                                {{#if tieneCartaDeTerminacionDeServicioSocial}}
+                                    <a href="{{ip}}{{expedienteInicio.pathCartaTerminacionServicioSocial}}" target="_blank">
+                                        <i class="fa fa-file-pdf-o" aria-hidden="true"></i>
+                                    </a>
+                                {{else}}
+                                    <i class="fa fa-file-pdf-o text-danger" aria-hidden="true"></i>
+                                {{/if}}
+                                Carta de terminacion del Servicio Social
+                                <br>
+                                {{#if tieneCartaDePresentacion}}
+                                    <a href="{{ip}}{{expedienteInicio.pathCartaPresentacion}}" target="_blank">
+                                        <i class="fa fa-file-pdf-o" aria-hidden="true"></i>
+                                    </a>
+                                {{else}}
+                                    <i class="fa fa-file-pdf-o text-danger" aria-hidden="true"></i>
+                                {{/if}}
+                                Carta de presentacion
+                                <br>
+                                {{#if tieneCartaDePresentacionFirmada}}
+                                    <a href="{{ip}}{{expedienteInicio.pathCartaPresentacionFirmada}}" target="_blank">
+                                        <i class="fa fa-file-pdf-o" aria-hidden="true"></i>
+                                    </a>
+                                {{else}}
+                                    <i class="fa fa-file-pdf-o text-danger" aria-hidden="true"></i>
+                                {{/if}}
+                                Carta de presentacion con firma de recibido
+                                <br>
+                                {{#if tieneCartaDeAceptacion}}
+                                    <a href="{{ip}}{{expedienteInicio.pathCartaAceptacion}}" target="_blank">
+                                        <i class="fa fa-file-pdf-o" aria-hidden="true"></i>
+                                    </a>
+                                {{else}}
+                                    <i class="fa fa-file-pdf-o text-danger" aria-hidden="true"></i>
+                                {{/if}}
+                                Carta de aceptacion
+                                <br>
+                                {{#if tienePrimerEvaluacionSeguimiento}}
+                                    <a href="{{ip}}{{expedienteEvaluacion.pathPrimeraEvaluacion}}" target="_blank">
+                                        <i class="fa fa-file-pdf-o text-success" aria-hidden="true"></i>
+                                    </a>
+                                {{else}}
+                                    <i class="fa fa-file-pdf-o text-danger" aria-hidden="true"></i>
+                                {{/if}}
+                                Primer evaluacion
+                                <br>
+                                {{#if tieneSegundaEvaluacionSeguimiento}}
+                                    <a href="{{ip}}{{expedienteEvaluacion.pathSegundaEvaluacion}}" target="_blank">
+                                        <i class="fa fa-file-pdf-o text-success" aria-hidden="true"></i>
+                                    </a>
+                                {{else}}
+                                    <i class="fa fa-file-pdf-o text-danger" aria-hidden="true"></i>
+                                {{/if}}
+                                Segunda evaluacion
+                                <br>
+                                {{#if tieneTercerEvaluacionSeguimiento}}
+                                    <a href="{{ip}}{{expedienteEvaluacion.pathTercerEvaluacion}}" target="_blank">
+                                        <i class="fa fa-file-pdf-o text-success" aria-hidden="true"></i>
+                                    </a>
+                                {{else}}
+                                    <i class="fa fa-file-pdf-o text-danger" aria-hidden="true"></i>
+                                {{/if}}
+                                Tercer evaluacion
+                                <br>
+                                {{#if tieneInformeTecnico}}
+                                    <a href="{{ip}}{{expedienteEvaluacion.pathInformeTecnico}}" target="_blank">
+                                        <i class="fa fa-file-pdf-o text-success" aria-hidden="true"></i>
+                                    </a>
+                                {{else}}
+                                    <i class="fa fa-file-pdf-o text-danger" aria-hidden="true"></i>
+                                {{/if}}
+                                Informe Tecnico
+                                <br>
+                                {{#if tieneCartaTerminacion}}
+                                    <a href="{{ip}}{{pathCartaTerminacionResidencia}}" target="_blank">
+                                        <i class="fa fa-file-pdf-o text-success" aria-hidden="true"></i>
+                                    </a>
+                                {{else}}
+                                    <i class="fa fa-file-pdf-o text-danger" aria-hidden="true"></i>
+                                {{/if}}
+                                Carta de Terminacion
+                                <br>
+                                <a href="#">
+                                    <i class="eliminarDocumento fa fa-trash text-warning" data-toggle="modal" data-target="#eliminarDocumento" aria-hidden="true"></i>
+                                </a>
+                                Eliminar algún documento del alumno
+                            </td>
+                            <td class="small text-left">
+                                <a href="#">
+                                    <i class="dictaminarAnteproyecto fa fa-check-square-o text-success" aria-hidden="true" data-toggle="modal" data-target="#dictaminarAnteproyecto"></i>
+                                </a>
+                                Dictaminar el anteproyecto<br>
+                                <a href="#">
+                                    <i class="modificarTituloAnteproyecto fa fa-pencil-square-o text-success" aria-hidden="true" data-toggle="modal" data-target="#modificarTituloAnteproyecto"></i>
+                                </a>
+                                Modificar el titulo del anteproyecto<br>
+                                <a href="#">
+                                    <i class="asignarAsesorInterno fa fa-user-plus text-primary" aria-hidden="true" data-toggle="modal" data-target="#addAsesorInterno"></i>
+                                </a>
+                                Asignar asesor interno<br>
+                                <a href="#">
+                                    <i class="generarOficioAsesorInterno fa fa-print text-primary" aria-hidden="true" data-toggle="modal" data-target="#solicitudNumOficioAsignacionAsesor"></i>
+                                </a>
+                                Generar el oficio de asignación de asesor interno<br>
+                                <a href="#">
+                                    <i class="subirOficioAsesorInterno fa fa-file-pdf-o text-primary" aria-hidden="true"  data-toggle="modal" data-target="#uploadOficioAsignacionAsesorInterno"></i>
+                                </a>
+                                Subir firmado el oficio de asignación de asesor interno<br>
+                                <a href="#">
+                                    <i class="generarCartaPresentacion fa fa-print text-success" aria-hidden="true" data-toggle="modal" data-target="#solicitudNumOficioCartaPresentacion"></i>
+                                </a>
+                                Generar la carta de presentación<br>
+                                <a href="#">
+                                    <i class="subirCartaPresentacion fa fa-file-pdf-o text-success" aria-hidden="true"  data-toggle="modal" data-target="#uploadCartaPresentacion"></i>
+                                </a>    
+                                Subir firmada la carta de presentación<br>
+                                <a href="#">
+                                    <i class="verPlanActividades fa fa-calendar text-primary" aria-hidden="true" data-toggle="modal" data-target="#verSeguimientoResidenciasAlumno"></i>
+                                </a>
+                                Plan de actrividades del alumno<br>
+                                <a href="#">
+                                    <i class="verRealizacionActividades fa fa-calendar text-primary" aria-hidden="true" data-toggle="modal" data-target="#verRealizacionResidenciasAlumnoEnJefe" ></i>
+                                </a>
+                                Realización de las actividades<br>
+                                {{#if tieneEvaluacion1_soyAsesor}}
+                                    <a href="#">
+                                        1<i class="verEvaluacion1 fa fa-check text-success" aria-hidden="true" data-toggle="modal" data-target="#verPrimerSeguimientoResidencia"></i>
+                                    </a>
+                                    Primer evaluacion de seguimiento<br>
+                                    {{#if tieneEvaluacion2_soyAsesor}}
                                         <a href="#">
-                                            3<i class="verEvaluacion3 fa fa-check text-success" aria-hidden="true" data-toggle="modal" data-target="#verTercerSeguimientoResidencia"></i>
+                                            2<i class="verEvaluacion2 fa fa-check text-success" aria-hidden="true" data-toggle="modal" data-target="#verSegundoSeguimientoResidencia"></i>
                                         </a>
-                                        Tercer evaluacion de seguimiento<br>
+                                        Segunda evaluacion de seguimiento<br>
+                                        {{#if tieneEvaluacion3_soyAsesor}}
+                                            <a href="#">
+                                                3<i class="verEvaluacion3 fa fa-check text-success" aria-hidden="true" data-toggle="modal" data-target="#verTercerSeguimientoResidencia"></i>
+                                            </a>
+                                            Tercer evaluacion de seguimiento<br>
+                                        {{/if}}
                                     {{/if}}
                                 {{/if}}
-                            {{/if}}
-                            <a href="#" class="sendeMail" data-toggle="modal" data-target="#sendeMail">
-                                <i class="fa fa-envelope-o text-success" aria-hidden="true"></i>
-                            </a>
-                            Enviar eMail
-                        </td> 
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    {{/each}}
-    {{> avisos}}
-    {{> addCalificacionAsesorExterno}}
-    {{> addAsesorInterno}}
-    {{> showDatosAlumnoEnResidencias}}
-    {{> solicitudNumOficioAsignacionAsesor}}
-    {{> uploadOficioAsignacionAsesorInterno}}
-    {{> solicitudNumOficioCartaPresentacion}}
-    {{> uploadCartaPresentacion}}
-    {{> dictaminarAnteproyecto}}
-    {{> solicitudDatosDictamenAnteproyecto}}
-    {{> verSeguimientoResidenciasAlumno}}
-    {{> verRealizacionResidenciasAlumnoEnJefe}}
-    {{> configurarResidencia}}
-    {{> modificarTituloAnteproyecto}}
-    {{> verPrimerSeguimientoResidencia}}
-    {{> verSegundoSeguimientoResidencia}}
-    {{> verTercerSeguimientoResidencia}}
-    {{> eliminarDocumento}}
-    {{> sendeMail}}
-    {{> graficaResidentes}}
+                                <a href="#" class="sendeMail" data-toggle="modal" data-target="#sendeMail">
+                                    <i class="fa fa-envelope-o text-success" aria-hidden="true"></i>
+                                </a>
+                                Enviar eMail
+                            </td> 
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        {{/each}}
+        {{> avisos}}
+        {{> addCalificacionAsesorExterno}}
+        {{> addAsesorInterno}}
+        {{> showDatosAlumnoEnResidencias}}
+        {{> solicitudNumOficioAsignacionAsesor}}
+        {{> uploadOficioAsignacionAsesorInterno}}
+        {{> solicitudNumOficioCartaPresentacion}}
+        {{> uploadCartaPresentacion}}
+        {{> dictaminarAnteproyecto}}
+        {{> solicitudDatosDictamenAnteproyecto}}
+        {{> verSeguimientoResidenciasAlumno}}
+        {{> verRealizacionResidenciasAlumnoEnJefe}}
+        {{> configurarResidencia}}
+        {{> modificarTituloAnteproyecto}}
+        {{> verPrimerSeguimientoResidencia}}
+        {{> verSegundoSeguimientoResidencia}}
+        {{> verTercerSeguimientoResidencia}}
+        {{> eliminarDocumento}}
+        {{> sendeMail}}
+    {{/if}}
+    </div>
 </template>
 <!-- ************************************************************************************************************** -->
 <!--                                REGISTRAR CALIFICACION DEL ASESOR EXTERNO                                       -->
@@ -1689,12 +1700,10 @@
 <!--                                              GRAFICA DE RESIDENTES                                             -->
 <!-- ************************************************************************************************************** -->
 <template name="graficaResidentes">
-    <div class="modal fade" id="graficaResidentes">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div id="myChartResidentes" class="modal-body" style="width:800px; height:500px;">
-                            
-                </div>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div id="myChartResidentes" style="width:800px; height:500px;">
+        
             </div>
         </div>
     </div>

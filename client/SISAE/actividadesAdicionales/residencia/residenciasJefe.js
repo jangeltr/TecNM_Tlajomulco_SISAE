@@ -12,11 +12,22 @@ let residenciaSeleccionada = new ReactiveVar();
 let configuracion = new ReactiveVar();
 let resultadosEvaluacion = new ReactiveVar([]);
 let num=0
+let grafica = new ReactiveVar(false);
 //*************************************************************************************************************************/
 //                        CODIGO DE LA PLATILLA DE BARRA DE HERRAMIENTAS RESIDENCIAS JEFES
 //*************************************************************************************************************************/
+Template.toolBoxResidenciasJefe.helpers({
+    grafica:function(){
+        return grafica.get()
+    }
+});
 Template.toolBoxResidenciasJefe.events({
-    
+    'click .graficaResidentes':function(){
+        grafica.set(true)
+    },
+    'click .regresarResidencias':function(){
+        grafica.set(false)
+    }
 });
 //*************************************************************************************************************************/
 //                                   CODIGO DE LA PLATILLA RESIDENCIAS JEFES
@@ -32,6 +43,9 @@ Template.residenciasJefe.onCreated(function(){
 	});
 });
 Template.residenciasJefe.helpers({
+    grafica:function(){
+        return grafica.get()
+    },
     residencias: function(){
         return residencias.find({'residente':{$exists:true}}) //Solo las residencias que tengan residente, el documento de configuracion no tiene residente
     },
@@ -1289,11 +1303,10 @@ Template.graficaResidentes.onRendered(function(){
     Meteor.call('cantResidentes',Session.get('periodo'),Session.get('carrera'),function(error,result){
 		if (error) alert("error")
 		else if (result){
-			cant=result;
+            cant=result;
+			
             let container=document.getElementById("myChartResidentes");
-
             let chart =  anychart.column();
-
             let datos={
                 title:'Grafica de Residentes',
                 header:['#','Terminaron','Industrial','Servicios','Público','Privado','Otro'],
@@ -1325,10 +1338,19 @@ Template.graficaResidentes.onRendered(function(){
                 .offsetY(5)
                 .titleFormat('{%X}')
                 .format('{%SeriesName} : {%Value}{groupsSeparator: }');
-
             chart.container(container).draw();
         }
     });
+
+});
+Template.graficaResidentes.onCreated(function(){
+    
+});
+Template.graficaResidentes.helpers({
+
+});
+Template.graficaResidentes.events({
+    
 });
 
 
