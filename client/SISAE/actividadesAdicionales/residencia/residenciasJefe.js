@@ -13,6 +13,7 @@ let configuracion = new ReactiveVar();
 let resultadosEvaluacion = new ReactiveVar([]);
 let num=0
 let grafica = new ReactiveVar(false);
+let datosGrafica = new ReactiveVar({});
 //*************************************************************************************************************************/
 //                        CODIGO DE LA PLATILLA DE BARRA DE HERRAMIENTAS RESIDENCIAS JEFES
 //*************************************************************************************************************************/
@@ -39,6 +40,30 @@ Template.residenciasJefe.onCreated(function(){
         this.subscribe('configuracionResidencias',Session.get('periodo'))
         if(this.subscriptionsReady()){
             configuracion.set(residencias.findOne({'configuracion.periodo':Session.get('periodo')}))
+            datos={
+                Total:residencias.find({'residente':{$exists:true}}).count(),
+                Terminaron:residencias.find({'evaluacionFecha3.Calificación Total':{$exists:true}}).count(),
+                Industrial:residencias.find({'empresa.giro':'Industrial'}).count(),
+                Servicios:residencias.find({'empresa.giro':'Servicios'}).count(),
+                Publico:residencias.find({'empresa.giro':'Público'}).count(),
+                Privado:residencias.find({'empresa.giro':'Privado'}).count(),
+                Otro:residencias.find({'empresa.giro':'Otro'}).count(),
+                HTotal:residencias.find({'residente.sexo':'Masculino'}).count(),
+                HTerminaron:residencias.find({'residente.sexo':'Masculino','evaluacionFecha3.Calificación Total':{$exists:true}}).count(),
+                HIndustrial:residencias.find({'residente.sexo':'Masculino','empresa.giro':'Industrial'}).count(),
+                HServicios:residencias.find({'residente.sexo':'Masculino','empresa.giro':'Servicios'}).count(),
+                HPublico:residencias.find({'residente.sexo':'Masculino','empresa.giro':'Público'}).count(),
+                HPrivado:residencias.find({'residente.sexo':'Masculino','empresa.giro':'Privado'}).count(),
+                HOtro:residencias.find({'residente.sexo':'Masculino','empresa.giro':'Otro'}).count(),
+                MTotal:residencias.find({'residente.sexo':'Femenino'}).count(),
+                MTerminaron:residencias.find({'residente.sexo':'Femenino','evaluacionFecha3.Calificación Total':{$exists:true}}).count(),
+                MIndustrial:residencias.find({'residente.sexo':'Femenino','empresa.giro':'Industrial'}).count(),
+                MServicios:residencias.find({'residente.sexo':'Femenino','empresa.giro':'Servicios'}).count(),
+                MPublico:residencias.find({'residente.sexo':'Femenino','empresa.giro':'Público'}).count(),
+                MPrivado:residencias.find({'residente.sexo':'Femenino','empresa.giro':'Privado'}).count(),
+                MOtro:residencias.find({'residente.sexo':'Femenino','empresa.giro':'Otro'}).count(),
+            };
+            datosGrafica.set(datos)
         }
 	});
 });
@@ -1300,58 +1325,117 @@ Template.eliminarDocumento.events({
 //                                                GRAFICA DE RESIDENTES
 //*************************************************************************************************************************/
 Template.graficaResidentes.onRendered(function(){
-    Meteor.call('cantResidentes',Session.get('periodo'),Session.get('carrera'),function(error,result){
-		if (error) alert("error")
-		else if (result){
-            cant=result;
-			
-            let container=document.getElementById("myChartResidentes");
-            let chart =  anychart.column();
-            let datos={
-                title:'Grafica de Residentes',
-                header:['#','Terminaron','Industrial','Servicios','Público','Privado','Otro'],
-                rows:[
-                    [Session.get("periodo"),cant.Terminaron,cant.Industrial,cant.Servicios,cant.Publico,cant.Privado,cant.Otro]
-                ]
-            };
-            chart.data(datos);
-            chart.animation(true);
-            chart.yAxis().labels().format('{%Value}{groupsSeparator: }');
-            chart.yAxis().title('Residentes: '+cant.Total);
-            chart.yScale().maximum(cant.tutorados);
-            chart.labels()
-                .enabled(true)
-                .position('center-top')
-                .anchor('center-bottom')
-                .format('{%Value}{groupsSeparator: }');
-                        chart.hovered().labels(false);
-                        chart.legend()
-                .enabled(true)
-                .fontSize(13)
-                            .padding([0, 0, 20, 0]);
-                        chart.interactivity().hoverMode('single');
-                        chart.tooltip()
-                .positionMode('point')
-                .position('center-top')
-                .anchor('center-bottom')
-                .offsetX(0)
-                .offsetY(5)
-                .titleFormat('{%X}')
-                .format('{%SeriesName} : {%Value}{groupsSeparator: }');
-            chart.container(container).draw();
-        }
-    });
+    cant=datosGrafica.get();
+    let container=document.getElementById("myChartResidentes");
+    let chart =  anychart.column();
+    let datos={
+        title:'Grafica de Residentes',
+        header:['#','Terminaron','Industrial','Servicios','Público','Privado','Otro'],
+        rows:[
+            [Session.get("periodo"),cant.Terminaron,cant.Industrial,cant.Servicios,cant.Publico,cant.Privado,cant.Otro]
+        ]
+    };
+    chart.data(datos);
+    chart.animation(true);
+    chart.yAxis().labels().format('{%Value}{groupsSeparator: }');
+    chart.yAxis().title('Residentes: '+cant.Total);
+    chart.yScale().maximum(cant.Total);
+    chart.labels()
+        .enabled(true)
+        .position('center-top')
+        .anchor('center-bottom')
+        .format('{%Value}{groupsSeparator: }');
+                chart.hovered().labels(false);
+                chart.legend()
+        .enabled(true)
+        .fontSize(13)
+                    .padding([0, 0, 20, 0]);
+                chart.interactivity().hoverMode('single');
+                chart.tooltip()
+        .positionMode('point')
+        .position('center-top')
+        .anchor('center-bottom')
+        .offsetX(0)
+        .offsetY(5)
+        .titleFormat('{%X}')
+        .format('{%SeriesName} : {%Value}{groupsSeparator: }');
+    chart.container(container).draw();
 
-});
-Template.graficaResidentes.onCreated(function(){
-    
-});
-Template.graficaResidentes.helpers({
+///////////////////////////////////////////GRAFICA DE HOMBRES//////////////////////////////////////////////////////////////
 
+    let containerH=document.getElementById("myChartResidentesHombres");
+    let chartH =  anychart.column();
+    let datosH={
+        title:'Hombres',
+        header:['#','Terminaron','Industrial','Servicios','Público','Privado','Otro'],
+        rows:[
+            [Session.get("periodo"),cant.HTerminaron,cant.HIndustrial,cant.HServicios,cant.HPublico,cant.HPrivado,cant.HOtro]
+        ]
+    };
+    chartH.data(datosH);
+    chartH.animation(true);
+    chartH.yAxis().labels().format('{%Value}{groupsSeparator: }');
+    chartH.yAxis().title('Hombres: '+cant.HTotal);
+    chartH.yScale().maximum(cant.Total);
+    chartH.labels()
+        .enabled(true)
+        .position('center-top')
+        .anchor('center-bottom')
+        .format('{%Value}{groupsSeparator: }');
+        chartH.hovered().labels(false);
+        chartH.legend()
+        .enabled(true)
+        .fontSize(13)
+                    .padding([0, 0, 20, 0]);
+                    chartH.interactivity().hoverMode('single');
+                    chartH.tooltip()
+        .positionMode('point')
+        .position('center-top')
+        .anchor('center-bottom')
+        .offsetX(0)
+        .offsetY(5)
+        .titleFormat('{%X}')
+        .format('{%SeriesName} : {%Value}{groupsSeparator: }');
+    chartH.container(containerH).draw();
+
+///////////////////////////////////////////GRAFICA DE MUJERES//////////////////////////////////////////////////////////////
+
+    let containerM=document.getElementById("myChartResidentesMujeres");
+    let chartM =  anychart.column();
+    let datosM={
+        title:'Mujeres',
+        header:['#','Terminaron','Industrial','Servicios','Público','Privado','Otro'],
+        rows:[
+            [Session.get("periodo"),cant.MTerminaron,cant.MIndustrial,cant.MServicios,cant.MPublico,cant.MPrivado,cant.MOtro]
+        ]
+    };
+    chartM.data(datosM);
+    chartM.animation(true);
+    chartM.yAxis().labels().format('{%Value}{groupsSeparator: }');
+    chartM.yAxis().title('Mujeres: '+cant.MTotal);
+    chartM.yScale().maximum(cant.Total);
+    chartM.labels()
+        .enabled(true)
+        .position('center-top')
+        .anchor('center-bottom')
+        .format('{%Value}{groupsSeparator: }');
+        chartM.hovered().labels(false);
+        chartM.legend()
+        .enabled(true)
+        .fontSize(13)
+                    .padding([0, 0, 20, 0]);
+                    chartM.interactivity().hoverMode('single');
+                    chartM.tooltip()
+        .positionMode('point')
+        .position('center-top')
+        .anchor('center-bottom')
+        .offsetX(0)
+        .offsetY(5)
+        .titleFormat('{%X}')
+        .format('{%SeriesName} : {%Value}{groupsSeparator: }');
+    chartM.container(containerM).draw();
 });
-Template.graficaResidentes.events({
-    
-});
+
 
 
 
