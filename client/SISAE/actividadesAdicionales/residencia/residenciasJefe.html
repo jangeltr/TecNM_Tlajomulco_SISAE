@@ -15,6 +15,7 @@
                 <i class="fa fa-bar-chart"></i>
             </button>
         {{else}}
+            <br>
             <button type="button" class="regresarResidencias btn btn-default" title="Regresar a la lista de residentes">
                 <i class="fa fa-arrow-left"></i>
             </button>
@@ -1700,21 +1701,27 @@
 <!--                                              GRAFICA DE RESIDENTES                                             -->
 <!-- ************************************************************************************************************** -->
 <template name="graficaResidentes">
+    <br>
     <div class="container">
         <div class="row justify-content-center">
-            <div id="myChartResidentes" style="width:800px; height:500px;">
-        
+            <h4 class="text-secondary">{{periodo}}</h4>
+        </div>
+        <div class="row justify-content-center">
+            <h4 class="text-secondary">{{carrera}}</h4><br>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-3 text-center">
+                <h5 class="text-secondary">Residentes: <span>{{cantidad}}</span></h5>
+            </div>
+            <div class="col-3 text-center">
+                <h5 class="text-secondary">Hombres: <span>{{cantidadH}}</span></h5>
+            </div>
+            <div class="col-3 text-center">
+                <h5 class="text-secondary">Mujeres: <span>{{cantidadM}}</span></h5>
             </div>
         </div>
-        <hr>
         <div class="row justify-content-center">
-            <div id="myChartResidentesHombres" style="width:800px; height:500px;">
-        
-            </div>
-        </div>
-        <hr>
-        <div class="row justify-content-center">
-            <div id="myChartResidentesMujeres" style="width:800px; height:500px;">
+            <div id="myChartResidentes" class="myChartResidentes" style="width:800px; height:500px;">
         
             </div>
         </div>
