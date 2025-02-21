@@ -484,12 +484,16 @@
 <!--                           VISTA PREVIA DE LA CONSTANCIA DE TERMINACION DE ACTIVIDAD                            -->
 <!-- ************************************************************************************************************** -->
 <template name="vistaConstanciaTerminacionActividadExtraescolar">
-    <div id="prueba" style="background-color: white">
+    <div id="prueba" style="width: 100%;">
         <br><br>
-        <div class="container" style="text-align: center">
-            <img src="/encabezadoConstanciaTerminacionActividadAcademica.png" width="100%">
-            <br>
-            <br>
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <img src="/encabezadoConstanciaTerminacionActividadAcademica.png" width="100%">
+                    <br>
+                    <br>
+                </div>
+            </div>
             <div class="row text-left">
                 <div class="col-md-12">
                     <br><br><br><br>
@@ -512,23 +516,26 @@
                     </p>
                 </div>
             </div>
-            <br><br><br><br><br>
+            <div class="draggable" style=" z-index: 7;">
+                <img src="/Extraescolares.jpeg" alt="" width="300">
+            </div>
+            <!-- <br><br><br><br><br> -->
             <div class="row text-center">
                 <div class="col-md-12">
                     A t e n t a m e n t e<br><br><br>
                 </div>
             </div> 
             <br><br>
-            <div class="row text-center">
-                <div class="col-md-5">
+            <div class="row justify-content-around">
+                <div class="col-md-5 text-center">
                     __________________________________________<br>
                     {{datos.responsableActividad}}<br>
                     RESPONSABLE DE LA ACTIVIDAD COMPLEMENTARIA
                 </div>
-                <div class="col-md-2">
-                
+                <div class="col-1">
+                    <br><br><br><br>
                 </div>
-                <div class="col-md-5">
+                <div class="col-md-5 text-center">
                     ______________________________________<br>
                     {{datos.nombreJefeDeptoAcademico}}<br>
                     Vo. Bo. JEFE DE DEPARTAMENTO ACADEMICO
@@ -536,16 +543,18 @@
             </div> 
             <br><br><br><br><br><br><br>
             <div class="row text-left">
-                <txt>C.p. Estudiante</txt><br>
-                <txt>C.p. Archivo</txt>
+                <div class="col-12">
+                    <txt>C.p. Estudiante</txt><br>
+                    <txt>C.p. Archivo</txt>
+                </div>
             </div>
         </div> 
     </div>
-    <button id="btnImprimir" type="button" class="imprimirConstancia btn btn-success btn-block" style="position: fixed; left:0px; top:0px; animation: blink 1s linear infinite;">
+    <button id="btnImprimir" type="button" class="imprimirConstancia btn btn-success btn-block" style="position: fixed; left:0px; top:0px; z-index: 10;">
         <i class="fa fa-file-pdf-o"></i>  Imprimir constancia de terminacion
     </button>
     <button id="btnRegresarActExtraescolares" type="button" class="regresarActExtraescolares btn btn-success btn-block" 
-            style="position: fixed; left:0px; top:30px; animation: blink 1s linear infinite;">
+            style="position: fixed; left:0px; top:30px; z-index: 10;">
         Regresar a Actividades Extraescolares
     </button>
 </template>

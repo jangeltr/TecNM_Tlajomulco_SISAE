@@ -4,6 +4,7 @@ let ncAlumno 	= new ReactiveVar();
 let nc = new ReactiveVar(null)
 let nAlumno		= 0;
 let jefeServiciosEcolares = new ReactiveVar()
+const position = { x: 0, y: 0 }
 //*************************************************************************************************************************/
 //                                         BARRA DE HERRAMIENTAS DE EXTRAESCOLES JEFE
 //*************************************************************************************************************************/
@@ -331,6 +332,25 @@ Template.solicitudDatosParaConstanciaTerminacionActividadExtraescolar.events({
 //*************************************************************************************************************************/
 //                                   CONSTANCIA DE TERMINACION DE ACTIVIDAD EXTRAESCOLAR
 //*************************************************************************************************************************/
+Template.vistaConstanciaTerminacionActividadExtraescolar.onRendered(function(){
+	const position = { x: 0, y: 0 }
+
+	interact('.draggable').draggable({
+		listeners: {
+			start (event) {
+				
+			},
+			move (event) {
+				position.x += event.dx
+				position.y += event.dy
+				event.target.style.transform =`translate(${position.x}px, ${position.y}px)`
+			},
+		}
+	})
+
+	interact(singleAxisTarget).draggable({startAxis: 'xy',lockAxis: 'start'});
+	interact(horizontalTarget).draggable({startAxis: 'x',lockAxis: 'x'});
+})
 Template.vistaConstanciaTerminacionActividadExtraescolar.helpers({
 	datos:function(){
 		return datosConstanciaTerminacion.get()
