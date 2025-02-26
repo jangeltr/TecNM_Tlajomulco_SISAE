@@ -1438,6 +1438,10 @@ Meteor.methods({
             'expedienteInicio.pathCartaCompromiso':fileName
         }})
     },
+    eliminarServicioSocial:function(SS_id){
+        servicioSocial.remove(SS_id)
+        Meteor.call('agregarRegistroBitacora','SISAE','Servicio Social','Eliminó la solicitud de Servicio Social: '+SS_id,Meteor.userId(),Meteor.user().profile.name);
+    },
 //*************************************************************************************************************************/
 //                                                 SAD: ASIGNACION DE MATERIAS
 //*************************************************************************************************************************/

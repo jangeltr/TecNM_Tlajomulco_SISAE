@@ -1,4 +1,6 @@
-let configuracion = new ReactiveVar()
+let ncAlumno = new ReactiveVar('')
+let alumno = new ReactiveVar({});
+let alumnoServicioSocial = new ReactiveVar({});
 //*************************************************************************************************************************/
 //                                   CODIGO DE LA PLATILLA SERVICIO SOCIAL JEFES
 //*************************************************************************************************************************/
@@ -6,15 +8,11 @@ Template.servicioSocialJefe.onCreated(function(){
 	this.autorun(() =>{
         this.subscribe('servicioSocial',Session.get('periodo'))
         this.subscribe('docentesActivos')
-        this.subscribe('configuracionServicioSocial',Session.get('periodo'))
-        if(this.subscriptionsReady()){
-            configuracion.set(servicioSocial.findOne({'configuracion.periodo':Session.get('periodo')}))
-        }
 	})
 })
 Template.servicioSocialJefe.helpers({
     servicioSocial: function(){
-        return servicioSocial.find({'periodo':Session.get('periodo')})
+        return servicioSocial.find({})
     },
     tieneSolicitudFirmada: function(){
         if (this?.expedienteInicio?.pathSolicitud)
@@ -43,6 +41,20 @@ Template.servicioSocialJefe.events({
         e.classList.toggle("bg-secondary")
         e.classList.toggle("text-white")
         e.classList.toggle("font-weight-bold")
+    },
+    "click .datosAlumno":function(){
+        ncAlumno.set(this?.alumno?.nc)
+    },
+    "click .solicitudServicioSocial":function(){
+        alumnoServicioSocial.set(this)
+    },
+    "click .eliminarServicioSocial":function(){
+        Meteor.call('eliminarServicioSocial',this._id,function(error,result){
+            if (error) 
+                console.log("error");
+            else  if (result)
+                console.log("Servicio Social eliminado")
+        })
     }
 });
 //*************************************************************************************************************************/
@@ -51,5 +63,40 @@ Template.servicioSocialJefe.events({
 Template.fechasServicioSocial.helpers({
     periodo:function(){
         return Session.get('periodo');
+    }
+})
+//*************************************************************************************************************************/
+//                                        MUESTRA LOS DATOS DEL ALUMNO
+//*************************************************************************************************************************/
+Template.showDatosAlumnoEnServicioSocial.onCreated(function(){
+	this.autorun(() =>{
+        Meteor.call('getAlumno',ncAlumno.get(),function(error,result){
+                if (error) 
+                    alert("error");
+                else  if (result)
+                    alumno.set(result);
+            })
+	});
+});
+Template.showDatosAlumnoEnServicioSocial.helpers({
+	foto:function(){
+		if (alumno.get()?.profile?.foto)
+            return Session.get("ipLocal")+Session.get("puerto")+"/fotos/alumnos/"+ncAlumno.get()+".jpg" 
+        else
+            return Session.get("ipLocal")+Session.get("puerto")+"/fotos/fotoPerfil.jpg";
+	},
+	alumnoDatos:function(){
+        return alumno.get();
+	},
+	eMailAlumno:function(){
+        if (alumno.get()?.emails)
+            return alumno.get().emails[0].address;
+        return ""
+	}
+});
+
+Template.showSolicitudServicioSocial.helpers({
+    'solicitudServicioSocial': function(){
+        return alumnoServicioSocial.get()
     }
 })

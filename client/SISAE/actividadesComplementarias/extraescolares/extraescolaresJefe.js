@@ -327,6 +327,9 @@ Template.solicitudDatosParaConstanciaTerminacionActividadExtraescolar.events({
 		datos.periodoEscolar = actividad.get().periodo
         datosConstanciaTerminacion.set(datos)
         BlazeLayout.render("impresion",{rellena2:"vistaConstanciaTerminacionActividadExtraescolar"})
+		/* setTimeout(() => {
+            BlazeLayout.render("impresion", { rellena2: "vistaConstanciaTerminacionActividadExtraescolar" });
+        }, 300); */
     }
 });
 //*************************************************************************************************************************/

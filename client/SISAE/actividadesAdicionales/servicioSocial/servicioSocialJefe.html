@@ -39,7 +39,6 @@
             </div>
         </div>
     </div>
-
     {{#each servicioSocial}}
         <div class="container small" id="myServicioSocial">
             <division class="row" style="height:50px" id="div{{_id}}">
@@ -52,7 +51,9 @@
                                 </a>
                             </div>
                             <div class="col-6 text-right">
-                                <a href="#" class="datosAlumno" data-toggle="modal" data-target="#showDatosAlumnoEnServicioSocial">{{alumno.nc}}</a>
+                                <a href="#" class="datosAlumno" data-toggle="modal" data-target="#showDatosAlumnoEnServicioSocial">
+                                    {{alumno.nc}}
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -103,10 +104,13 @@
                                 <a href="{{ip}}{{expedienteInicio.pathSolicitud}}" target="_blank">
                                     <i class="fa fa-file-pdf-o" aria-hidden="true"></i>
                                 </a>
+                                Solicitud Firmada
                             {{else}}
-                                <i class="fa fa-file-pdf-o text-danger" aria-hidden="true"></i>
+                                <a href="#" data-toggle="modal" data-target="#showSolicitudServicioSocial" class="solicitudServicioSocial">
+                                    <i class="fa fa-newspaper-o text-success" aria-hidden="true"></i>
+                                </a>
+                                Solicitud en proceso
                             {{/if}}
-                            Solicitud Firmada
                             <br>
                             {{#if tieneCartaCompromiso}}
                                 <a href="{{ip}}{{expedienteInicio.pathCartaCompromiso}}" target="_blank">
@@ -136,10 +140,12 @@
         </div>
     {{/each}}
     {{> fechasServicioSocial}}
+    {{> showDatosAlumnoEnServicioSocial}}
+    {{> showSolicitudServicioSocial}}
     {{> avisos}}
 </template>
 <!-- ************************************************************************************************************** -->
-<!--                                 CONFIGURAR EL SERVICIO SOCIAL DE ESTE PERIODO                                  -->
+<!--                                 FECHAS EL SERVICIO SOCIAL DE ESTE PERIODO                                  -->
 <!-- ************************************************************************************************************** -->
 <template name="fechasServicioSocial">
     <div class="modal fade" id="fechasServicioSocial">
@@ -158,6 +164,168 @@
                     <label>Tercer seguimiento: 6 meses despues de la solicitud</label>
                     <label>Entrega del reporte final: La misma del 3er seguimiento</label>
                     <label>Carta de terminación: 2 dias despues del reporte final</label>
+                </div>
+                <div class="modal-footer">
+                    <button id="btnCerrar" type="button" class="cerrar btn btn-success" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+<!-- ************************************************************************************************************** -->
+<!--                                MUESTRA LOS DATOS DE UN ALUMNO EN UNA MODAL                                     -->
+<!-- ************************************************************************************************************** -->
+<template name="showDatosAlumnoEnServicioSocial">
+    {{#if Template.subscriptionsReady}}
+        <div id="showDatosAlumnoEnServicioSocial" class="modal fade">
+            <div class="modal-dialog modal-md" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 class="text-primary">{{alumnoDatos.username}}<h4>{{alumnoDatos.profile.name}}</h4></h3>
+                        <img class="rounded" src="{{foto}}" height="120px" width="120px"> 
+                    </div>
+                    <div class="modal-body">
+                            <table class="table table-bordered">
+                                    <tbody>
+                                        <tr>
+                                            <td>Carrera</td>
+                                            <td>{{alumnoDatos.profile.carrera}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Semestre</td>
+                                            <td>{{alumnoDatos.profile.semestre}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Modalidad</td>
+                                            <td>{{alumnoDatos.profile.modalidad}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Módulo</td>
+                                            <td>{{alumnoDatos.profile.modulo}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Nivel</td>
+                                            <td>{{alumnoDatos.profile.nivelEscolar}}</td>
+                                        </tr>
+                                            <tr>
+                                            <td>Periodo de Ingreso</td>
+                                            <td>{{alumnoDatos.profile.periodoIngreso}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Fecha de Nacimiento</td>
+                                            <td>{{alumnoDatos.profile.fechaNacimiento}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Sexo</td>
+                                            <td>{{alumnoDatos.profile.sexo}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Telefono</td>
+                                            <td>{{alumnoDatos.profile.telefono}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Email</td>
+                                            <td>{{eMailAlumno}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Semestres con Tutoria Terminada</td>
+                                            <td>{{alumnoDatos.profile.semestresConTutoria}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {{else}}
+        {{> spinner}}
+	{{/if}}
+</template>
+<!-- ************************************************************************************************************** -->
+<!--                    MUESTRA LOS DATOS DE LA SOLICITUD DEL SERVICIO SOCIAL EN UNA MODAL                          -->
+<!-- ************************************************************************************************************** -->
+<template name="showSolicitudServicioSocial">
+    <div class="modal fade
+        " id="showSolicitudServicioSocial">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="text-primary">Solicitud de Servicio Social {{solicitudServicioSocial.periodo}}</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <h6>Num. Control: </h6>
+                                <h6>Nombre:</h6>
+                                <h6>Carrera:</h6>
+                                <h6>Semestre:</h6>
+                                <h6>Sexo:</h6>
+                                <h6>Telefono:</h6>
+                                <h6>Domicilio:</h6>
+                                <h6>ciudad:</h6>
+                                <h6>colonia:</h6>
+                                <h6>C.P.:</h6>
+                            </div>
+                            <div class="col-md-9">
+                                <h6 class="text-success">{{solicitudServicioSocial.alumno.nc}}</h6>
+                                <h6 class="text-success">{{solicitudServicioSocial.alumno.nombre}}</h6>
+                                <h6 class="text-success">{{solicitudServicioSocial.alumno.carrera}}</h6>
+                                <h6 class="text-success">{{solicitudServicioSocial.alumno.semestre}}</h6>
+                                <h6 class="text-success">{{solicitudServicioSocial.alumno.sexo}}</h6>
+                                <h6 class="text-success">{{solicitudServicioSocial.alumno.telefono}}</h6>
+                                <h6 class="text-success">{{solicitudServicioSocial.alumno.domicilio}}</h6>
+                                <h6 class="text-success">{{solicitudServicioSocial.alumno.ciudad}}</h6>
+                                <h6 class="text-success">{{solicitudServicioSocial.alumno.colonia}}</h6>
+                                <h6 class="text-success">{{solicitudServicioSocial.alumno.cp}}</h6>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h5 class="text-primary">Datos del programa</h5>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h6>Fecha de Inicio: </h6>
+                                <h6>Fecha para la carta de presentación: </h6>
+                                <h6>Fecha para la carta de aceptación: </h6>
+                                <h6>Fecha del 1er seguimiento: </h6>
+                                <h6>Fecha del 2do seguimiento: </h6>
+                                <h6>Fecha del 3er seguimiento: </h6>
+                                <h6>Fecha del reporte final: </h6>
+                                <h6>Fecha de la carta de terminación: </h6>
+                                <h6>Dependencia oficial: </h6>
+                                <h6>Titular de la dependencia: </h6>
+                                <h6>Puesto del titular: </h6>
+                                <h6>Domicilio de la dependencia: </h6>
+                                <h6>Nombre del programa: </h6>
+                                <h6>Modalidad: </h6>
+                                <h6>Tipo de programa: </h6>
+                                <h6>Actividades: </h6>
+                            </div>
+                            <div class="col-md-6">
+                                <h6 class="text-success">{{solicitudServicioSocial.programa.fechaInicio}}</h6>
+                                <h6 class="text-success">{{solicitudServicioSocial.programa.fechaCartaPresentacion}}</h6>
+                                <h6 class="text-success">{{solicitudServicioSocial.programa.fechaCartaAceptacion}}</h6>
+                                <h6 class="text-success">{{solicitudServicioSocial.programa.fechaPrimerSeguimiento}}</h6>
+                                <h6 class="text-success">{{solicitudServicioSocial.programa.fechaSegundoSeguimiento}}</h6>
+                                <h6 class="text-success">{{solicitudServicioSocial.programa.fechaTercerSeguimiento}}</h6>
+                                <h6 class="text-success">{{solicitudServicioSocial.programa.fechaReporteFinal}}</h6>
+                                <h6 class="text-success">{{solicitudServicioSocial.programa.fechaCartaTerminacion}}</h6>
+                                <h6 class="text-success">{{solicitudServicioSocial.programa.dependenciaOficial}}</h6>
+                                <h6 class="text-success">{{solicitudServicioSocial.programa.titularDependencia}}</h6>
+                                <h6 class="text-success">{{solicitudServicioSocial.programa.puestoTitularDependencia}}</h6>
+                                <h6 class="text-success">{{solicitudServicioSocial.programa.domicilioDependencia}}</h6>
+                                <h6 class="text-success">{{solicitudServicioSocial.programa.nombrePrograma}}</h6>
+                                <h6 class="text-success">{{solicitudServicioSocial.programa.modalidad}}</h6>
+                                <h6 class="text-success">{{solicitudServicioSocial.programa.tipoPrograma}}</h6>
+                                <h6 class="text-success">{{solicitudServicioSocial.programa.actividades}}</h6>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button id="btnCerrar" type="button" class="cerrar btn btn-success" data-dismiss="modal">Cerrar</button>

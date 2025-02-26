@@ -114,7 +114,7 @@ Template.solicitudServicioSocialAlumno.helpers({
     fechaInicio: function(){
       if (miServicioSocial.get()?._id)
         return miServicioSocial.get().programa.fechaInicio
-      return fechaLarga(new Date().toISOString().substring(0,10))
+      return fechaLarga(new Date())
     },
     fechaCartaPresentacion: function(){
       if (miServicioSocial.get()?._id) 
@@ -178,7 +178,6 @@ Template.solicitudServicioSocialAlumno.helpers({
       return Session.get("ipLocal")+Session.get("puerto")
     },
 })
-
 Template.solicitudServicioSocialAlumno.events({
   "click .imprimirSolicitud":function(){
 		//BlazeLayout.render("impresion",{rellena2:"vistaPreviaSolicitudServicioSocialAlumno"});
@@ -193,25 +192,29 @@ Template.solicitudServicioSocialAlumno.events({
         else{
           SS.periodo = Session.get('periodo')
           SS.alumno = {}
-          SS.alumno.username = Meteor.user().username
+          SS.alumno._id = Meteor.userId()
+          SS.alumno.nc = Meteor.user().username
           SS.alumno.nombre = Meteor.user().profile.name
+          SS.alumno.sexo = Meteor.user().profile.sexo
           SS.alumno.carrera = Meteor.user().profile.carrera
           SS.alumno.semestre = Meteor.user().profile.semestre
+          SS.alumno.telefono = Meteor.user().profile.telefono
           SS.alumno.email = Meteor.user().emails[0].address
           SS.alumno.domicilio = doc.domicilioAlumno.value
           SS.alumno.colonia = doc.coloniaAlumno.value
           SS.alumno.ciudad = doc.ciudadAlumno.value
           SS.alumno.cp = doc.CPAlumno.value
-          let fecha = new Date()
-          let fechaI = new Date()
           SS.programa = {}
-          SS.programa.fechaInicio = fechaI.toISOString().substring(0,10)
-          SS.programa.fechaCartaPresentacion = fecha.setDate(fecha.getDate()+2)
-          SS.programa.fechaCartaAceptacion = fecha.setDate(fecha.getDate()+1)
-          SS.programa.fechaPrimerSeguimiento = fecha.setMonth(fechaI.getMonth()+2)
-          SS.programa.fechaSegundoSeguimiento = fecha.setMonth(fecha.getMonth()+2)
-          SS.programa.fechaTercerSeguimiento = fecha.setMonth(fecha.getMonth()+2)
-          SS.programa.fechaReporteFinal = fecha.setDate(fecha.getDate()+2)
+          let fecha = new Date()
+          SS.programa.fechaInicio = fechaLarga(fecha)
+          SS.programa.fechaCartaPresentacion = fechaLarga(new Date().setDate(fecha.getDate()+2))
+          SS.programa.fechaCartaAceptacion = fechaLarga(new Date().setDate(fecha.getDate()+3))
+          SS.programa.fechaPrimerSeguimiento = fechaLarga(new Date().setMonth(fecha.getMonth()+2))
+          SS.programa.fechaSegundoSeguimiento = fechaLarga(new Date().setMonth(fecha.getMonth()+4))
+          SS.programa.fechaTercerSeguimiento = fechaLarga(new Date().setMonth(fecha.getMonth()+6))
+          SS.programa.fechaReporteFinal = fechaLarga(new Date().setMonth(fecha.getMonth()+6))
+          fecha.setMonth(fecha.getMonth()+6)
+          SS.programa.fechaCartaTerminacion = fechaLarga(fecha.setDate(fecha.getDate()+2))
           SS.programa.dependenciaOficial = doc.dependenciaOficial.value
           SS.programa.titularDependencia = doc.titularDependencia.value
           SS.programa.puestoTitularDependencia = doc.puestoTitularDependencia.value
