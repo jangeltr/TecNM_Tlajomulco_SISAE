@@ -86,6 +86,11 @@ Template.solicitudServicioSocialAlumno.helpers({
     username: function(){
         return Meteor.user().username
     },
+    foto:function(){
+      if (Meteor.user().profile.foto)
+          return true
+      return false
+    },
     nombre: function(){
         return Meteor.user().profile.name
     },
@@ -170,7 +175,7 @@ Template.solicitudServicioSocialAlumno.helpers({
       return false
     },
     seAceptoSolictud: function(){
-      if (miServicioSocial.get()?.solicitud?.dictamen=='Aceptado')
+      if (miServicioSocial.get()?.solicitud?.dictamen=='Aceptada')
           return true
       return false
     },
@@ -180,8 +185,11 @@ Template.solicitudServicioSocialAlumno.helpers({
 })
 Template.solicitudServicioSocialAlumno.events({
   "click .imprimirSolicitud":function(){
-		//BlazeLayout.render("impresion",{rellena2:"vistaPreviaSolicitudServicioSocialAlumno"});
+    BlazeLayout.render("impresion",{rellena2:"vistaPreviaSolicitudServicioSocialAlumno"});
 	},
+  "click .establecerFoto":function(){
+    FlowRouter.redirect('/sisae/miPerfil');
+  },
   "click .agregar":function(event){
         let doc=document.getElementById("solicitudServicioSocialForm");
         let SS = {}
@@ -235,7 +243,7 @@ Template.solicitudServicioSocialAlumno.events({
 //*************************************************************************************************************************/
 //                         VISTA PREVIA SOLICITUD SERVICIO SOCIAL ALUMNOS
 //*************************************************************************************************************************/
-/* Template.vistaPreviaSolicitudServicioSocialAlumno.onCreated(function(){
+Template.vistaPreviaSolicitudServicioSocialAlumno.onCreated(function(){
 	this.autorun(() =>{
     this.subscribe('miServicioSocial',Session.get('periodo'),Meteor.userId())
     if(this.subscriptionsReady()){
@@ -256,10 +264,9 @@ Template.vistaPreviaSolicitudServicioSocialAlumno.helpers({
         return `CALLE: ${miServicioSocial.get().alumno.domicilio}, COLONIA:${miServicioSocial.get().alumno.colonia}, CIUDAD:${miServicioSocial.get().alumno.ciudad}, C.P.:${miServicioSocial.get().alumno.cp}`
     },
     foto:function(){
-      if (Meteor.user().profile.foto)
-          return Session.get("ipLocal")+Session.get("puerto")+"/fotos/alumnos/"+usuario.get().username+".jpg" 
-      else
-          return Session.get("ipLocal")+Session.get("puerto")+"/fotos/fotoPerfil.jpg";
+      if (Meteor.user().profile?.foto)
+          return Session.get("ipLocal")+Session.get("puerto")+"/fotos/alumnos/"+Meteor.user().username+".jpg" 
+      return null//Session.get("ipLocal")+Session.get("puerto")+"/fotos/fotoPerfil.jpg"; 
     },
     EA: function(){
       return tipoPrograma.EA
@@ -292,14 +299,19 @@ Template.vistaPreviaSolicitudServicioSocialAlumno.helpers({
 Template.vistaPreviaSolicitudServicioSocialAlumno.events({
   "click .imprimirSolicitud":function(){
 		document.getElementById("btnImprimir").style.visibility = "hidden";
+    document.getElementById("btnRegresarServicioSocialAlumno").style.visibility = "hidden";
 		window.print()
 		document.getElementById("btnImprimir").style.visibility = "visible";
-	}
-})  */
+    document.getElementById("btnRegresarServicioSocialAlumno").style.visibility = "visible";
+	},
+  "click .regresarServicioSocial":function(){
+        BlazeLayout.render("main",{rellenaMenu:"menuSISAE",rellenaCuerpoSISAE:"solicitudServicioSocialAlumno"});
+    }
+}) 
 //*************************************************************************************************************************/
 //                           CODIGO DE LA PLATILLA PARA SUBIR LA SOLICITUD
 //*************************************************************************************************************************/
-/* Template.uploadSolicitudServicioSocial.onCreated(function(){
+Template.uploadSolicitudServicioSocial.onCreated(function(){
   this.autorun(() =>{
       subioSolicitudServicioSocial.set(false)
   })
@@ -327,7 +339,7 @@ Template.uploadSolicitudServicioSocial.events({
           Session.set("aviso",aviso);
       }
   }
-}) */
+})
 //*************************************************************************************************************************/
 //                               CARTA COMPROMISO SERVICIO SOCIAL ALUMNOS
 //*************************************************************************************************************************/
@@ -463,7 +475,7 @@ Template.vistaPreviaCartaCompromisoServicioSocialAlumno.events({
 	}
 }) */
 //*************************************************************************************************************************/
-//                           CODIGO DE LA PLATILLA PARA SUBIR LA SOLICITUD
+//                           CODIGO DE LA PLATILLA PARA SUBIR LA CARTA COMPROMISO
 //*************************************************************************************************************************/
 /* Template.uploadCartaCompromisoServicioSocial.onCreated(function(){
   this.autorun(() =>{

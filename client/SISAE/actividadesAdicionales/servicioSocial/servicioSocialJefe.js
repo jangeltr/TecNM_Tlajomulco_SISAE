@@ -26,7 +26,12 @@ Template.servicioSocialJefe.helpers({
     },
     ip:function(){
 		return Session.get("ipLocal")+Session.get("puerto")
-	}
+	},
+    dictamen:function(){
+        if (this?.solicitud?.dictamen == "Aceptada")
+            return "Aceptada"
+        return null
+    }
 }); 
 Template.servicioSocialJefe.events({
     "keyup .myTxtBoxFiltroResidencias":function(){
@@ -94,9 +99,33 @@ Template.showDatosAlumnoEnServicioSocial.helpers({
         return ""
 	}
 });
-
+//*************************************************************************************************************************/
+//                               MUESTRA LOS DATOS DE LA SOLICITUS DE SERVICIO SOCIAL
+//*************************************************************************************************************************/
 Template.showSolicitudServicioSocial.helpers({
     'solicitudServicioSocial': function(){
         return alumnoServicioSocial.get()
+    },
+    'solicitudServicioSocialAceptadoChecked': function(){
+        if (alumnoServicioSocial.get()?.solicitud?.dictamen == "Aceptada")
+            return 'checked'
+        return ''
     }
+})
+Template.showSolicitudServicioSocial.events({
+    'click .aceptarSolicitudServicioSocial':function(){
+        if (alumnoServicioSocial.get()?.solicitud?.dictamen == "Aceptada")
+        {
+            let solicitud = alumnoServicioSocial.get()
+            solicitud.solicitud.dictamen = "Rechazada"
+            alumnoServicioSocial.set(solicitud)
+            Meteor.call('rechazarSolicitudServicioSocial',solicitud._id,function(error,result){})
+        }
+        else {
+            let solicitud = alumnoServicioSocial.get()
+            solicitud.solicitud.dictamen = "Aceptada"
+            alumnoServicioSocial.set(solicitud)
+            Meteor.call('aceptarSolicitudServicioSocial',solicitud._id,function(error,result){})
+        }
+    },
 })

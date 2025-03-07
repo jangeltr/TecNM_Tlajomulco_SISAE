@@ -78,15 +78,14 @@
                 {{else}}
                     <h4 class="text-success">Fechas de tu Servicio Social</h4>
                     <br><br>
-                    <label>Inicio del Servicio Social: </label><br>
-                    <label>Carta de asignación: </label><br>
-                    <label>Carta de presentación: </label><br>
-                    <label>Carta de aceptación: </label><br>
-                    <label>Primer seguimiento: </label><br>
-                    <label>Segundo seguimiento: </label><br>
-                    <label>Tercer seguimiento: </label><br>
-                    <label>Entrega del reporte final: </label><br>
-                    <label>Carta de terminación: </label><br>
+                    <label>Inicio del Servicio Social: </label><label class="text-success">{{servicioSocial.programa.fechaInicio}}</label><br>
+                    <label>Carta de presentación: </label><label class="text-success">{{servicioSocial.programa.fechaCartaPresentacion}}</label><br>
+                    <label>Carta de aceptación: </label><label class="text-success">{{servicioSocial.programa.fechaCartaAceptacion}}</label><br>
+                    <label>Primer seguimiento: </label><label class="text-success">{{servicioSocial.programa.fechaPrimerSeguimiento}}</label><br>
+                    <label>Segundo seguimiento: </label><label class="text-success">{{servicioSocial.programa.fechaSegundoSeguimiento}}</label><br>
+                    <label>Tercer seguimiento: </label><label class="text-success">{{servicioSocial.programa.fechaTercerSeguimiento}}</label><br>
+                    <label>Entrega del reporte final: </label><label class="text-success">{{servicioSocial.programa.fechaReporteFinal}}</label><br>
+                    <label>Carta de terminación: </label><label class="text-success">{{servicioSocial.programa.fechaCartaTerminacion}}</label><br>
                 {{/unless}}
                 <br><br>
                 <p class="text-danger">
@@ -110,25 +109,37 @@
             <br>
             <div class="row text-left">
                 <ol>
-                    {{#if seAceptoSolictud}}
-                        <dt class="text-success">Ya subiste solicitud firmada y ha sido aceptada, descargala 
+                    {{#if yaSubioSolicitud}}
+                        <li class="text-success">Ya subiste solicitud firmada, descargala 
                             <a href="{{ip}}{{miServicioSocial.expedienteInicio.pathSolicitud}}" target="_blank">(aquí)</a>
-                        </dt>
+                        </li>
                     {{else}}
                         <li>Llena tu solicitud y registrala</li>
-                        {{#if tieneRegistradaSolicitud}}
-                            <li>Imprimela aquí [<i class="imprimirSolicitud text-primary fa fa-print"></i>], y firmala</li>
-                            <li>Subela firmada aquí [
-                                <i class="subirSolicitud fa fa-upload text-primary" aria-hidden="true" data-toggle="modal" data-target="#uploadSolicitudServicioSocial"></i>
-                            ]</li>
+                        <li>Imprimir solicitud una vez aceptada
+                            {{#unless foto}}
+                                <span class="text-danger">(Nota: la solicitud debe llevar foto, establece tu foto aqui
+                                    <a href="#">
+                                        <i class="fa fa-camera text-primary establecerFoto" aria-hidden="true"></i>
+                                    </a>
+                                    )
+                                </span>
+                            {{/unless}}
+                        </li>
+                        {{#if seAceptoSolictud}}
+                            {{#if foto}}
+                                <li>Subela firmada aquí [
+                                    <a href="#">
+                                        <i class="subirSolicitud fa fa-upload text-primary" aria-hidden="true" data-toggle="modal" data-target="#uploadSolicitudServicioSocial"></i>
+                                    </a>
+                                    ]
+                                </li>
+                            {{else}}
+                                <li>
+                                    <span>Agrega tu foto para imprimir la solicitud y una vez firmada podras subirla aqui</span>
+                                </li>
+                            {{/if}}
                         {{else}}
-                            <li>Despues de registrarla, imprimela aquí [<i class="text-primary fa fa-print"></i>], y firmala</li>
-                            <li>Después de firmarla podrás subirla aquí [<i class="text-primary subirSolicitud fa fa-upload" aria-hidden="true"></i>]</li>
-                        {{/if}}
-                        {{#if yaSubioSolicitud}}
-                            <li class="text-success">Ya subiste solicitud firmada aunque aun no ha sido aceptada, puedes descargarla 
-                                <a href="{{ip}}{{miServicioSocial.expedienteInicio.pathSolicitud}}" target="_blank">(aquí)</a>
-                            </li>
+                            <li>Después de firmarla podrás subirla</li>
                         {{/if}}
                     {{/if}}
                 </ol>
@@ -240,17 +251,38 @@
                     <br>
                 </div>
             </fieldset>
-            {{#unless seAceptoSolictud}}
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <button type = "button" class="agregar btn btn-success" data-toggle="modal" data-target="#avisos">
-                                Registar la solicitud
-                            </button>
-                        </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        {{#unless yaSubioSolicitud}}
+                            {{#if seAceptoSolictud}}
+                                {{#if foto}}
+                                    <button type = "button" class="imprimirSolicitud btn btn-success">
+                                        Imprimir la solicitud
+                                    </button>
+                                {{else}}
+                                    <label for="" class="text-danger">Tu solicitud ha sido aceptada pero para imprimise requiere tu foto, agregala aqui 
+                                        <a href="#">
+                                            <i class="fa fa-camera text-primary establecerFoto" aria-hidden="true"></i>
+                                        </a>
+                                    </label>
+                                {{/if}}
+                            {{else}}
+                                {{#if tieneRegistradaSolicitud}}
+                                    <button type = "button" class="agregar btn btn-success" data-toggle="modal" data-target="#avisos">
+                                        Guardar cambios
+                                    </button>
+                                    <label for="" class="text-danger">Tu solicitud aun no ha sido aceptada</label>
+                                {{else}}    
+                                    <button type = "button" class="agregar btn btn-success" data-toggle="modal" data-target="#avisos">
+                                        Registar la solicitud
+                                    </button>
+                                {{/if}} 
+                            {{/if}}
+                        {{/unless}}
                     </div>
                 </div>
-            {{/unless}}
+            </div>
         {{/autoForm}} 
     {{> uploadSolicitudServicioSocial}}
     {{> avisos}}
@@ -271,14 +303,14 @@
         <div class="container text-center">
             <div class="row">
                 <div class="col-md-2"></div>
-                <div class="col-md-8">
+                <div class="col-md-7">
                     <br><br>
                     <h5>DEPARTAMENTO DE GESTION TECNOLOGICA Y VINCULACION</h5>
                     <h5>SOLICITUD DE SERVICIO SOCIAL</h5>
-                    <br><br>
+                    <br>
                 </div>
-                <div class="col-md-2">
-                    <img id="imgFotoPerfil" class="rounded" src="{{foto}}" height="130px">
+                <div class="col-md-3">
+                    <img id="imgFotoPerfil" class="rounded" src="{{foto}}" height="130px" alt="Foto de perfil">
                 </div>
             </div>
         </div>
@@ -399,13 +431,18 @@
             <div class="row text-center">
                 <div class="col-md-12">
                     ___________________________________<br>
-                    NOMBRE Y FIRMA DEL ESTUIDIANTE
+                    NOMBRE Y FIRMA DEL ESTUDIANTE
                 </div>
             </div> 
         </div> 
     </div>
     <button id="btnImprimir" type="button" class="imprimirSolicitud btn btn-success btn-block" style="position: fixed; left:0px; top:0px; animation: blink 1s linear infinite;">
         <i class="fa fa-file-pdf-o"></i>  Imprimir solicitud de Servicio Social 
+    </button>
+    <a href=""></a>
+    <button id="btnRegresarServicioSocialAlumno" type="button" class="regresarServicioSocial btn btn-success btn-block" 
+            style="position: fixed; left:0px; top:30px; animation: blink 1s linear infinite;">
+        Regresar a Servicio Social
     </button>
 </template>
 <!-- ************************************************************************************************************** -->

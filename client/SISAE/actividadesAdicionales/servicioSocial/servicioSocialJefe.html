@@ -70,8 +70,6 @@
                             <div class="col-6 text-center">
                                 {{#if dictamen}}
                                     <span class="text-success">{{solicitud.dictamen}}</span>
-                                {{else}}
-                                    <span class="text-danger">{{solicitud.dictamen}}</span>
                                 {{/if}}
                             </div>
                             <div class="col-6 text-right">
@@ -288,15 +286,15 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-5">
                                 <h6>Fecha de Inicio: </h6>
-                                <h6>Fecha para la carta de presentación: </h6>
-                                <h6>Fecha para la carta de aceptación: </h6>
-                                <h6>Fecha del 1er seguimiento: </h6>
-                                <h6>Fecha del 2do seguimiento: </h6>
-                                <h6>Fecha del 3er seguimiento: </h6>
-                                <h6>Fecha del reporte final: </h6>
-                                <h6>Fecha de la carta de terminación: </h6>
+                                <h6>De la carta de presentación: </h6>
+                                <h6>De la carta de aceptación: </h6>
+                                <h6>Del 1er seguimiento: </h6>
+                                <h6>Del 2do seguimiento: </h6>
+                                <h6>Del 3er seguimiento: </h6>
+                                <h6>Del reporte final: </h6>
+                                <h6>De la carta de terminación: </h6>
                                 <h6>Dependencia oficial: </h6>
                                 <h6>Titular de la dependencia: </h6>
                                 <h6>Puesto del titular: </h6>
@@ -306,7 +304,7 @@
                                 <h6>Tipo de programa: </h6>
                                 <h6>Actividades: </h6>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-7">
                                 <h6 class="text-success">{{solicitudServicioSocial.programa.fechaInicio}}</h6>
                                 <h6 class="text-success">{{solicitudServicioSocial.programa.fechaCartaPresentacion}}</h6>
                                 <h6 class="text-success">{{solicitudServicioSocial.programa.fechaCartaAceptacion}}</h6>
@@ -327,8 +325,19 @@
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button id="btnCerrar" type="button" class="cerrar btn btn-success" data-dismiss="modal">Cerrar</button>
+                <div class="modal-footer ">
+                    <div class="container">
+                        <div class="row">  
+                            <div class="col-md-6">
+                                <input type="checkbox" value="aceptada" id="solicitudServicioSocialAceptadoChecked" {{solicitudServicioSocialAceptadoChecked}} 
+                                    class="aceptarSolicitudServicioSocial">
+                                <label for="solicitudServicioSocialAceptadoChecked" class="text-success">Aceptar solicitud de servicio social</label>
+                            </div>
+                            <div class="col-md-6 text-right">
+                                <button id="btnCerrar" type="button" class="cerrar btn btn-success" data-dismiss="modal">Cerrar</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
