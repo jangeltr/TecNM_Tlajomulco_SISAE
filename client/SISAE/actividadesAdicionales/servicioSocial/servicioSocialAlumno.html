@@ -439,7 +439,6 @@
     <button id="btnImprimir" type="button" class="imprimirSolicitud btn btn-success btn-block" style="position: fixed; left:0px; top:0px; animation: blink 1s linear infinite;">
         <i class="fa fa-file-pdf-o"></i>  Imprimir solicitud de Servicio Social 
     </button>
-    <a href=""></a>
     <button id="btnRegresarServicioSocialAlumno" type="button" class="regresarServicioSocial btn btn-success btn-block" 
             style="position: fixed; left:0px; top:30px; animation: blink 1s linear infinite;">
         Regresar a Servicio Social
@@ -473,9 +472,6 @@
 <!--                                   PLANTILLA PARA LA CARTA COMPROMISO                                           -->
 <!-- ************************************************************************************************************** -->
 <template name="cartaCompromisoServicioSocial">
-    <div class="toolBox well well-sm text-center">
-        <img src="/servicioSocial/servicioSocial.webp" height="150px">
-    </div>
     {{> toolBoxServicioSocialAlumno}}
     {{#if tieneSolicitudServicioSocial}}
         <div class="container bg-light">
@@ -514,7 +510,7 @@
             <div class="row">
                 <div class="col-md-12 text-center">
                     <br><br><br>
-                    <h4 class="text-success">No ha registrado solicitud de servicio social</h4>
+                    <h4 class="text-success">No ha subido solicitud de servicio social</h4>
                     <h4 class="text-danger">No puede generar la carta compromiso</h4>
                     <br><br><br>
                 </div>
@@ -558,36 +554,23 @@
                     </p>
                 </div>
             </div>
+            <br>
             <div class="row">
-                <div class="col-md-7">
-                    <span>NOMBRE:{{miServicioSocial.alumno.nombre}}</span><br><br>
-                    <span>DOMICILIO: {{domicilio}}</span><br><br>
-                </div>
-                <div class="col-md-5">
-                    <span>No. DE CONTROL:{{miServicioSocial.alumno.nc}}</span><br><br>
-                    <span>TELEFONO: {{miServicioSocial.alumno.telefono}}</span>
+                <div class="col-md-12">
+                    <p>No. DE CONTROL:{{miServicioSocial.alumno.nc}}</p>
+                    <p>NOMBRE:{{miServicioSocial.alumno.nombre}}</p>
+                    <p>DOMICILIO: {{domicilio}}</p>
+                    <p>TELEFONO: {{miServicioSocial.alumno.telefono}}</p>
+                    <p>CARRERA: {{miServicioSocial.alumno.carrera}}</p>
+                    <p>DEPENDENCIA: {{miServicioSocial.programa.dependenciaOficial}}</p>
+                    <p>DOMICILIO DE LA DEPENDENCIA: {{miServicioSocial.programa.domicilioDependencia}}</p>
+                    <p>RESPONSABLE DEL PROGRAMA: {{miServicioSocial.programa.titularDependencia}}</p>
+                    <p>SEMESTRE: {{miServicioSocial.alumno.semestre}}</p>
+                    <p>FECHA DE INICIO: {{miServicioSocial.programa.fechaInicio}}</p>
+                    <p>FECHA DE TERMINACION: {{miServicioSocial.programa.fechaCartaTerminacion}}</p>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-md-7">
-                    <span>CARRERA: {{miServicioSocial.alumno.carrera}}</span><br><br>
-                    <span>DEPENDENCIA: {{miServicioSocial.programa.dependenciaOficial}}</span><br><br>
-                    <span>DOMICILIO DE LA DEPENDENCIA: {{miServicioSocial.programa.domicilioDependencia}}</span><br><br>
-                    <span>RESPONSABLE DEL PROGRAMA: {{miServicioSocial.programa.titularDependencia}}</span><br><br>
-                </div>
-                <div class="col-md-5">
-                    <span>SEMESTRE: {{miServicioSocial.alumno.semestre}}</span>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-7">
-                    <span>FECHA DE INICIO: {{fechaInicio}}</span>
-                </div>
-                <div class="col-md-5">
-                    <span>FECHA DE TERMINACION: {{fechaTermino}}</span>
-                </div>
-            </div>
-            <br><br>
+            <br>
             <div class="row">
                 <div class="col-md-12 text-justify">
                     <p>
@@ -613,6 +596,10 @@
     </div>
     <button id="btnImprimir" type="button" class="imprimirCartaCompromiso btn btn-success btn-block" style="position: fixed; left:0px; top:0px; animation: blink 1s linear infinite;">
         <i class="fa fa-file-pdf-o"></i>  Imprimir la Carta Compromiso 
+    </button>
+    <button id="btnRegresarServicioSocialAlumno" type="button" class="regresarServicioSocial btn btn-success btn-block" 
+            style="position: fixed; left:0px; top:30px; animation: blink 1s linear infinite;">
+        Regresar a Servicio Social
     </button>
 </template>
 <!-- ************************************************************************************************************** -->

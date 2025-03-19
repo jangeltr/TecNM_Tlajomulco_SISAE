@@ -343,7 +343,7 @@ Template.uploadSolicitudServicioSocial.events({
 //*************************************************************************************************************************/
 //                               CARTA COMPROMISO SERVICIO SOCIAL ALUMNOS
 //*************************************************************************************************************************/
-/* Template.cartaCompromisoServicioSocial.onCreated(function(){
+Template.cartaCompromisoServicioSocial.onCreated(function(){
 	this.autorun(() =>{
     this.subscribe('miServicioSocial',Session.get('periodo'),Meteor.userId())
     this.subscribe('configuracionServicioSocial',Session.get('periodo'))
@@ -395,11 +395,6 @@ Template.cartaCompromisoServicioSocial.helpers({
     periodo: function(){
         return Session.get("periodo");
     },
-    tieneConfiguracion: function(){
-      if (configuracion.get())
-          return true
-      return false
-    },
     tieneSolicitudServicioSocial:function(){
       if (miServicioSocial.get().expedienteInicio.pathSolicitud)
         return true
@@ -415,11 +410,6 @@ Template.cartaCompromisoServicioSocial.helpers({
             return miServicioSocial.get()
         return null
     },
-    tieneRegistradaSolicitud: function(){
-        if (servicioSocial.find({'configuracion.periodo':Session.get('periodo')}).count()>0)
-            return true
-        return false
-    },
     yaSubioSolicitud: function(){
       if (miServicioSocial.get().expedienteInicio.pathSolicitud)
           return true
@@ -433,11 +423,11 @@ Template.cartaCompromisoServicioSocial.events({
   "click .imprimirCartaCompromiso":function(){
 		BlazeLayout.render("impresion",{rellena2:"vistaPreviaCartaCompromisoServicioSocialAlumno"});
 	}
-}) */
+})
 //*************************************************************************************************************************/
 //                           VISTA PREVIA CARTA COMPROMISO DEL SERVICIO SOCIAL ALUMNOS
 //*************************************************************************************************************************/
-/* Template.vistaPreviaCartaCompromisoServicioSocialAlumno.onCreated(function(){
+Template.vistaPreviaCartaCompromisoServicioSocialAlumno.onCreated(function(){
 	this.autorun(() =>{
     this.subscribe('miServicioSocial',Session.get('periodo'),Meteor.userId())
     if(this.subscriptionsReady()){
@@ -458,26 +448,25 @@ Template.vistaPreviaCartaCompromisoServicioSocialAlumno.helpers({
         return `CALLE: ${miServicioSocial.get().alumno.domicilio}, COLONIA:${miServicioSocial.get().alumno.colonia}, CIUDAD:${miServicioSocial.get().alumno.ciudad}, C.P.:${miServicioSocial.get().alumno.cp}`
     },
     fecha: function(){
-      return fechaLarga(configuracion.get().configuracion.fechaISS)
-    },
-    fechaInicio: function(){
-      return fechaLarga(miServicioSocial.get().programa.fechaInicio);
-    },
-    fechaTermino: function(){
-      return fechaLarga(miServicioSocial.get().programa.fechaTermino);
+      return miServicioSocial.get().programa.fechaInicio
     }
 })
 Template.vistaPreviaCartaCompromisoServicioSocialAlumno.events({
-  "click .imprimirSolicitud":function(){
+  "click .imprimirCartaCompromiso":function(){
 		document.getElementById("btnImprimir").style.visibility = "hidden";
+    document.getElementById("btnRegresarServicioSocialAlumno").style.visibility = "hidden";
 		window.print()
 		document.getElementById("btnImprimir").style.visibility = "visible";
-	}
-}) */
+    document.getElementById("btnRegresarServicioSocialAlumno").style.visibility = "visible";
+	},
+  "click .regresarServicioSocial":function(){
+      BlazeLayout.render("main",{rellenaMenu:"menuSISAE",rellenaCuerpoSISAE:"cartaCompromisoServicioSocial"});
+  }
+})
 //*************************************************************************************************************************/
 //                           CODIGO DE LA PLATILLA PARA SUBIR LA CARTA COMPROMISO
 //*************************************************************************************************************************/
-/* Template.uploadCartaCompromisoServicioSocial.onCreated(function(){
+Template.uploadCartaCompromisoServicioSocial.onCreated(function(){
   this.autorun(() =>{
     subioCartaCompromisoServicioSocial.set(false)
   })
@@ -505,4 +494,4 @@ Template.uploadCartaCompromisoServicioSocial.events({
           Session.set("aviso",aviso);
       }
   }
-}) */
+})
