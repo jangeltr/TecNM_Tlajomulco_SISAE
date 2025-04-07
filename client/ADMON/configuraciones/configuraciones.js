@@ -63,7 +63,7 @@ Template.configuracion.events({
 	},
 	"click .guardarConfiguracion":function(){
 		let newIP='http://'+document.getElementById('newIP').value;
-		let newPuerto=':'+document.getElementById('newPuerto').value;
+		let newPuerto=document.getElementById('newPuerto').value;
 		let newPer=Session.get("periodo");
 		Meteor.call('saveConfig',newIP,newPuerto,newPer)
 		let aviso={encabezado:"Configuración",aviso:"Se ha grabado la nueva configuración",positivo:true};
