@@ -37,7 +37,7 @@ Template.solicitudServicioSocialAlumno.onCreated(function(){
   this.autorun(() =>{
     this.subscribe('miServicioSocial',Session.get('periodo'),Meteor.userId())
     if(this.subscriptionsReady()){
-      miServicioSocial.set(servicioSocial.findOne({'periodo':Session.get('periodo')}))
+      miServicioSocial.set(servicioSocial.findOne())
       tipoPrograma.EA='___'
       tipoPrograma.DC='___'
       tipoPrograma.AD='___'
@@ -175,13 +175,33 @@ Template.solicitudServicioSocialAlumno.helpers({
       return false
     },
     seAceptoSolictud: function(){
-      if (miServicioSocial.get()?.solicitud?.dictamen=='Aceptada')
+      if (miServicioSocial.get()?.programa?.dictamen=='Aceptada')
           return true
       return false
     },
     ip:function(){
       return Session.get("ipLocal")+Session.get("puerto")
     },
+    datosFormulario: function(){
+      return {
+        domicilioAlumno: miServicioSocial.get().alumno.domicilio,
+        coloniaAlumno: miServicioSocial.get().alumno.colonia,
+        ciudadAlumno: miServicioSocial.get().alumno.ciudad,
+        CPAlumno: miServicioSocial.get().alumno.cp,
+        dependenciaOficial: miServicioSocial.get().programa.dependenciaOficial,
+        titularDependencia: miServicioSocial.get().programa.titularDependencia,
+        puestoTitularDependencia: miServicioSocial.get().programa.puestoTitularDependencia,
+        domicilioDependencia: miServicioSocial.get().programa.domicilioDependencia,
+        nombrePrograma: miServicioSocial.get().programa.nombrePrograma,
+        modalidad: miServicioSocial.get().programa.modalidad,
+        tipoPrograma: miServicioSocial.get().programa.tipoPrograma,
+        actividad1: miServicioSocial.get().programa.actividad1,
+        actividad2: miServicioSocial.get().programa.actividad2,
+        actividad3: miServicioSocial.get().programa.actividad3,
+        actividad4: miServicioSocial.get().programa.actividad4,
+        actividad5: miServicioSocial.get().programa.actividad5
+      }
+    }
 })
 Template.solicitudServicioSocialAlumno.events({
   "click .imprimirSolicitud":function(){
@@ -198,6 +218,9 @@ Template.solicitudServicioSocialAlumno.events({
           Session.set("aviso",aviso)
         }
         else{
+          if (miServicioSocial.get()?._id){
+            SS._id = miServicioSocial.get()._id
+          }
           SS.periodo = Session.get('periodo')
           SS.alumno = {}
           SS.alumno._id = Meteor.userId()
@@ -208,9 +231,9 @@ Template.solicitudServicioSocialAlumno.events({
           SS.alumno.semestre = Meteor.user().profile.semestre
           SS.alumno.telefono = Meteor.user().profile.telefono
           SS.alumno.email = Meteor.user().emails[0].address
-          SS.alumno.domicilio = doc.domicilioAlumno.value
-          SS.alumno.colonia = doc.coloniaAlumno.value
-          SS.alumno.ciudad = doc.ciudadAlumno.value
+          SS.alumno.domicilio = doc.domicilioAlumno.value.toUpperCase()
+          SS.alumno.colonia = doc.coloniaAlumno.value.toUpperCase()
+          SS.alumno.ciudad = doc.ciudadAlumno.value.toUpperCase()
           SS.alumno.cp = doc.CPAlumno.value
           SS.programa = {}
           let fecha = new Date()
@@ -223,14 +246,18 @@ Template.solicitudServicioSocialAlumno.events({
           SS.programa.fechaReporteFinal = fechaLarga(new Date().setMonth(fecha.getMonth()+6))
           fecha.setMonth(fecha.getMonth()+6)
           SS.programa.fechaCartaTerminacion = fechaLarga(fecha.setDate(fecha.getDate()+2))
-          SS.programa.dependenciaOficial = doc.dependenciaOficial.value
-          SS.programa.titularDependencia = doc.titularDependencia.value
-          SS.programa.puestoTitularDependencia = doc.puestoTitularDependencia.value
-          SS.programa.domicilioDependencia = doc.domicilioDependencia.value
-          SS.programa.nombrePrograma = doc.nombrePrograma.value
+          SS.programa.dependenciaOficial = doc.dependenciaOficial.value.toUpperCase()
+          SS.programa.titularDependencia = doc.titularDependencia.value.toUpperCase()
+          SS.programa.puestoTitularDependencia = doc.puestoTitularDependencia.value.toUpperCase()
+          SS.programa.domicilioDependencia = doc.domicilioDependencia.value.toUpperCase()
+          SS.programa.nombrePrograma = doc.nombrePrograma.value.toUpperCase()
           SS.programa.modalidad = doc.modalidad.value
           SS.programa.tipoPrograma = doc.tipoPrograma.value
-          SS.programa.actividades = doc.actividades.value
+          SS.programa.actividad1 = doc.actividad1.value.toUpperCase()
+          SS.programa.actividad2 = doc.actividad2.value.toUpperCase()
+          SS.programa.actividad3 = doc.actividad3.value.toUpperCase()
+          SS.programa.actividad4 = doc.actividad4.value.toUpperCase()
+          SS.programa.actividad5 = doc.actividad5.value.toUpperCase()
           miServicioSocial.set(SS)
           let aviso={encabezado:"Servivio Social",aviso:"Tu solicitud ha sido registrada",positivo:true}
           Session.set("aviso",aviso)
@@ -259,9 +286,6 @@ Template.vistaPreviaSolicitudServicioSocialAlumno.helpers({
         if (miServicioSocial.get())
             return miServicioSocial.get()
         return null
-    },
-    domicilio: function(){ 
-        return `CALLE: ${miServicioSocial.get().alumno.domicilio}, COLONIA:${miServicioSocial.get().alumno.colonia}, CIUDAD:${miServicioSocial.get().alumno.ciudad}, C.P.:${miServicioSocial.get().alumno.cp}`
     },
     foto:function(){
       if (Meteor.user().profile?.foto)
@@ -443,9 +467,6 @@ Template.vistaPreviaCartaCompromisoServicioSocialAlumno.helpers({
         if (miServicioSocial.get())
             return miServicioSocial.get()
         return null
-    },
-    domicilio: function(){ 
-        return `CALLE: ${miServicioSocial.get().alumno.domicilio}, COLONIA:${miServicioSocial.get().alumno.colonia}, CIUDAD:${miServicioSocial.get().alumno.ciudad}, C.P.:${miServicioSocial.get().alumno.cp}`
     },
     fecha: function(){
       return miServicioSocial.get().programa.fechaInicio

@@ -1443,17 +1443,18 @@ Meteor.methods({
         servicioSocial.remove(SS_id)
         Meteor.call('agregarRegistroBitacora','SISAE','Servicio Social','Eliminó la solicitud de Servicio Social: '+SS_id,Meteor.userId(),Meteor.user().profile.name);
     },
-    aceptarSolicitudServicioSocial:function(SS_id){
-        servicioSocial.update({_id:SS_id},{$set:{
-            'solicitud.dictamen':'Aceptada'
+    aceptarSolicitudServicioSocial:function(_id){
+        console.log("Aceptar Solicitud de Servicio Social: "+_id)
+        servicioSocial.update({_id},{$set:{
+            'programa.dictamen':'Aceptada'
         }})
-        Meteor.call('agregarRegistroBitacora','SISAE','Servicio Social','Acepto la solicitud de Servicio Social: '+SS_id,Meteor.userId(),Meteor.user().profile.name);
+        Meteor.call('agregarRegistroBitacora','SISAE','Servicio Social','Acepto la solicitud de Servicio Social: '+_id,Meteor.userId(),Meteor.user().profile.name);
     },
-    rechazarSolicitudServicioSocial:function(SS_id){
-        servicioSocial.update({_id:SS_id},{$set:{
-            'solicitud.dictamen':'Rechazada'
+    rechazarSolicitudServicioSocial:function(_id){
+        servicioSocial.update({_id},{$set:{
+            'programa.dictamen':'Rechazada'
         }})
-        Meteor.call('agregarRegistroBitacora','SISAE','Servicio Social','Rechazo la solicitud de Servicio Social: '+SS_id,Meteor.userId(),Meteor.user().profile.name);
+        Meteor.call('agregarRegistroBitacora','SISAE','Servicio Social','Rechazo la solicitud de Servicio Social: '+_id,Meteor.userId(),Meteor.user().profile.name);
     },
 //*************************************************************************************************************************/
 //                                                 SAD: ASIGNACION DE MATERIAS

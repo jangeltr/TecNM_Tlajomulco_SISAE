@@ -119,15 +119,7 @@
                             {{/if}}
                             Carta Compromiso
                             <br>
-                            {{#if tieneCartaAsignacion}}
-                                <a href="{{ip}}{{expedienteInicio.pathCartaAsignacion}}" target="_blank">
-                                    <i class="fa fa-file-pdf-o" aria-hidden="true"></i>
-                                </a>
-                            {{else}}
-                                <i class="fa fa-file-pdf-o text-danger" aria-hidden="true"></i>
-                            {{/if}}
-                                Carta de Asignación
-                            <br>
+                            
                         </td>
                         <td class="text-left small">
 
@@ -269,13 +261,13 @@
                             <div class="col-md-9">
                                 <h6 class="text-success">{{solicitudServicioSocial.alumno.nc}}</h6>
                                 <h6 class="text-success">{{solicitudServicioSocial.alumno.nombre}}</h6>
-                                <h6 class="text-success">{{solicitudServicioSocial.alumno.carrera}}</h6>
+                                <h6 class="text-success text-uppercase">{{solicitudServicioSocial.alumno.carrera}}</h6>
                                 <h6 class="text-success">{{solicitudServicioSocial.alumno.semestre}}</h6>
-                                <h6 class="text-success">{{solicitudServicioSocial.alumno.sexo}}</h6>
+                                <h6 class="text-success text-uppercase">{{solicitudServicioSocial.alumno.sexo}}</h6>
                                 <h6 class="text-success">{{solicitudServicioSocial.alumno.telefono}}</h6>
-                                <h6 class="text-success">{{solicitudServicioSocial.alumno.domicilio}}</h6>
-                                <h6 class="text-success">{{solicitudServicioSocial.alumno.ciudad}}</h6>
-                                <h6 class="text-success">{{solicitudServicioSocial.alumno.colonia}}</h6>
+                                <h6 class="text-success text-uppercase">{{solicitudServicioSocial.alumno.domicilio}}</h6>
+                                <h6 class="text-success text-uppercase">{{solicitudServicioSocial.alumno.ciudad}}</h6>
+                                <h6 class="text-success text-uppercase">{{solicitudServicioSocial.alumno.colonia}}</h6>
                                 <h6 class="text-success">{{solicitudServicioSocial.alumno.cp}}</h6>
                             </div>
                         </div>
@@ -313,14 +305,18 @@
                                 <h6 class="text-success">{{solicitudServicioSocial.programa.fechaTercerSeguimiento}}</h6>
                                 <h6 class="text-success">{{solicitudServicioSocial.programa.fechaReporteFinal}}</h6>
                                 <h6 class="text-success">{{solicitudServicioSocial.programa.fechaCartaTerminacion}}</h6>
-                                <h6 class="text-success">{{solicitudServicioSocial.programa.dependenciaOficial}}</h6>
-                                <h6 class="text-success">{{solicitudServicioSocial.programa.titularDependencia}}</h6>
-                                <h6 class="text-success">{{solicitudServicioSocial.programa.puestoTitularDependencia}}</h6>
-                                <h6 class="text-success">{{solicitudServicioSocial.programa.domicilioDependencia}}</h6>
-                                <h6 class="text-success">{{solicitudServicioSocial.programa.nombrePrograma}}</h6>
-                                <h6 class="text-success">{{solicitudServicioSocial.programa.modalidad}}</h6>
-                                <h6 class="text-success">{{solicitudServicioSocial.programa.tipoPrograma}}</h6>
-                                <h6 class="text-success">{{solicitudServicioSocial.programa.actividades}}</h6>
+                                <h6 class="text-success text-uppercase">{{solicitudServicioSocial.programa.dependenciaOficial}}</h6>
+                                <h6 class="text-success text-uppercase">{{solicitudServicioSocial.programa.titularDependencia}}</h6>
+                                <h6 class="text-success text-uppercase">{{solicitudServicioSocial.programa.puestoTitularDependencia}}</h6>
+                                <h6 class="text-success text-uppercase">{{solicitudServicioSocial.programa.domicilioDependencia}}</h6>
+                                <h6 class="text-success text-uppercase">{{solicitudServicioSocial.programa.nombrePrograma}}</h6>
+                                <h6 class="text-success text-uppercase">{{solicitudServicioSocial.programa.modalidad}}</h6>
+                                <h6 class="text-success text-uppercase">{{solicitudServicioSocial.programa.tipoPrograma}}</h6>
+                                <h6 class="text-success text-uppercase">1. {{solicitudServicioSocial.programa.actividad1}}</h6>
+                                <h6 class="text-success text-uppercase">2. {{solicitudServicioSocial.programa.actividad2}}</h6>
+                                <h6 class="text-success text-uppercase">3. {{solicitudServicioSocial.programa.actividad3}}</h6>
+                                <h6 class="text-success text-uppercase">4. {{solicitudServicioSocial.programa.actividad4}}</h6>
+                                <h6 class="text-success text-uppercase">5. {{solicitudServicioSocial.programa.actividad5}}</h6>
                             </div>
                         </div>
                     </div>

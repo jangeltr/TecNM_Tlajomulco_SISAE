@@ -107,23 +107,23 @@ Template.showSolicitudServicioSocial.helpers({
         return alumnoServicioSocial.get()
     },
     'solicitudServicioSocialAceptadoChecked': function(){
-        if (alumnoServicioSocial.get()?.solicitud?.dictamen == "Aceptada")
+        if (alumnoServicioSocial.get()?.programa?.dictamen == "Aceptada")
             return 'checked'
         return ''
     }
 })
 Template.showSolicitudServicioSocial.events({
     'click .aceptarSolicitudServicioSocial':function(){
-        if (alumnoServicioSocial.get()?.solicitud?.dictamen == "Aceptada")
-        {
+        if (alumnoServicioSocial.get().programa?.dictamen == "Aceptada"){
             let solicitud = alumnoServicioSocial.get()
-            solicitud.solicitud.dictamen = "Rechazada"
+            solicitud.programa.dictamen = "Rechazada"
             alumnoServicioSocial.set(solicitud)
             Meteor.call('rechazarSolicitudServicioSocial',solicitud._id,function(error,result){})
         }
         else {
+            console.log("Alumno de Servicio Social: "+alumnoServicioSocial.get()._id)
             let solicitud = alumnoServicioSocial.get()
-            solicitud.solicitud.dictamen = "Aceptada"
+            solicitud.programa.dictamen = "Aceptada"
             alumnoServicioSocial.set(solicitud)
             Meteor.call('aceptarSolicitudServicioSocial',solicitud._id,function(error,result){})
         }

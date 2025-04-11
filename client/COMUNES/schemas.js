@@ -754,12 +754,37 @@ solicitudServicioSocialSchema = new SimpleSchema({
 			options:optTipoProgramaServicioSocial
 		}
 	},
-	actividades:{
+	actividad1:{
 		type:String,
-		label:"Actividades",
+		label:"Actividad 1",
 		defaultValue:"",
-		max:1000
+		max:250
 	},
+	actividad2:{
+		type:String,
+		label:"Actividad 2",
+		defaultValue:"",
+		max:250
+	},
+	actividad3:{
+		type:String,
+		label:"Actividad 3",
+		defaultValue:"",
+		max:250
+	},
+	actividad4:{
+		type:String,
+		label:"Actividad 4",
+		defaultValue:"",
+		max:250
+	},
+	actividad5:{
+		type:String,
+		label:"Actividad 5",
+		defaultValue:"",
+		max:250
+	},
+	
 	//empieza la parte del estudiante
 	domicilioAlumno:{
 		type:String,

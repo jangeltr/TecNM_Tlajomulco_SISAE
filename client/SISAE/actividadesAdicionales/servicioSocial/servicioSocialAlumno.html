@@ -22,7 +22,6 @@
                                 <div class="dropdown-menu">
                                     <a class="dropdown-item" href="/sisae/servicioSocial/inicio/solicitud">1.1.Solicitud</a>
                                     <a class="dropdown-item" href="/sisae/servicioSocial/inicio/cartaCompromiso">1.2.Carta compromiso</a>
-                                    <a class="dropdown-item" href="/sisae/servicioSocial/inicio/cartaAsignacion">1.3.Carta de asignación</a>
                                 </div>
                             </li>
                             <li  class="nav-item dropdown">
@@ -146,7 +145,7 @@
             </div>
             <br>
         </div>
-        {{#autoForm schema="solicitudServicioSocialSchema" id="solicitudServicioSocialForm" autocomplete="off"}}
+        {{#autoForm schema="solicitudServicioSocialSchema" id="solicitudServicioSocialForm" autocomplete="off" doc=datosFormulario}}
             <fieldset>
                 <div class="container">
                     <div class="row">
@@ -175,10 +174,10 @@
                     </div>
                     <div class="row">
                         <div class="col-md-12">
-                            {{> afQuickField name='domicilioAlumno' class="text-uppercase" value=miServicioSocial.alumno.domicilio}}
-                            {{> afQuickField name='coloniaAlumno' class="text-uppercase" value=miServicioSocial.alumno.colonia}}
-                            {{> afQuickField name='ciudadAlumno' class="text-uppercase" value=miServicioSocial.alumno.ciudad}}
-                            {{> afQuickField name='CPAlumno' value=miServicioSocial.alumno.cp}}
+                            {{> afQuickField name='domicilioAlumno' class="text-uppercase" }}
+                            {{> afQuickField name='coloniaAlumno' class="text-uppercase" }}
+                            {{> afQuickField name='ciudadAlumno' class="text-uppercase" }}
+                            {{> afQuickField name='CPAlumno' }}
                         </div>
                     </div>
                     <div class="row">
@@ -238,14 +237,18 @@
                     <br>
                     <div class="row">
                         <div class="col-md-12">
-                            {{> afQuickField name='dependenciaOficial' class="text-uppercase" value=miServicioSocial.programa.dependenciaOficial}}
-                            {{> afQuickField name='titularDependencia' class="text-uppercase" value=miServicioSocial.programa.titularDependencia}}
-                            {{> afQuickField name='puestoTitularDependencia' class="text-uppercase" value=miServicioSocial.programa.puestoTitularDependencia}}
-                            {{> afQuickField name='domicilioDependencia' class="text-uppercase" value=miServicioSocial.programa.domicilioDependencia}}
-                            {{> afQuickField name='nombrePrograma' class="text-uppercase" value=miServicioSocial.programa.nombrePrograma}}
-                            {{> afQuickField name='modalidad' value=miServicioSocial.programa.modalidad}}
-                            {{> afQuickField name='tipoPrograma' value=miServicioSocial.programa.tipoPrograma}}
-                            {{> afQuickField name='actividades' class="text-uppercase" value=miServicioSocial.programa.actividades rows=5}}
+                            {{> afQuickField name='dependenciaOficial' class="text-uppercase" }}
+                            {{> afQuickField name='titularDependencia' class="text-uppercase" }}
+                            {{> afQuickField name='puestoTitularDependencia' class="text-uppercase" }}
+                            {{> afQuickField name='domicilioDependencia' class="text-uppercase" }}
+                            {{> afQuickField name='nombrePrograma' class="text-uppercase" }}
+                            {{> afQuickField name='modalidad' class="text-uppercase"}}
+                            {{> afQuickField name='tipoPrograma' class="text-uppercase"}}
+                            {{> afQuickField name='actividad1' class="text-uppercase"}}
+                            {{> afQuickField name='actividad2' class="text-uppercase"}}
+                            {{> afQuickField name='actividad3' class="text-uppercase"}}
+                            {{> afQuickField name='actividad4' class="text-uppercase"}}
+                            {{> afQuickField name='actividad5' class="text-uppercase"}}
                         </div>
                     </div>
                     <br>
@@ -272,7 +275,9 @@
                                     <button type = "button" class="agregar btn btn-success" data-toggle="modal" data-target="#avisos">
                                         Guardar cambios
                                     </button>
-                                    <label for="" class="text-danger">Tu solicitud aun no ha sido aceptada</label>
+                                    {{#unless seAceptoSolictud}}
+                                        <label for="" class="text-danger">Tu solicitud aun no ha sido aceptada</label>
+                                    {{/unless}}
                                 {{else}}    
                                     <button type = "button" class="agregar btn btn-success" data-toggle="modal" data-target="#avisos">
                                         Registar la solicitud
@@ -332,7 +337,11 @@
                         </tr>
                         <tr>
                             <td>Domicilio</td>
-                            <td colspan="3" class="text-uppercase">{{domicilio}}</td>
+                            <td colspan="3" class="text-uppercase">{{miServicioSocial.alumno.domicilio}}, 
+                                {{miServicioSocial.alumno.colonia}}, 
+                                {{miServicioSocial.alumno.ciudad}}, 
+                                {{miServicioSocial.alumno.cp}}
+                            </td>
                         </tr>
                     </table> 
                     <br>
@@ -380,7 +389,12 @@
                         </tr>
                         <tr>
                             <td>Actividades</td>
-                            <td colspan="4" class="text-uppercase">{{miServicioSocial.programa.actividades}}</td>
+                            <td colspan="4" class="text-uppercase">1. {{miServicioSocial.programa.actividad1}},
+                                2. {{miServicioSocial.programa.actividad2}},
+                                3. {{miServicioSocial.programa.actividad3}},
+                                4. {{miServicioSocial.programa.actividad4}},
+                                5. {{miServicioSocial.programa.actividad5}}
+                            </td>
                         </tr>
                     </table>
                     <h5>Tipo de Programa</h5>
@@ -415,7 +429,7 @@
                     <table  class="table table-bordered table-sm">
                         <tr>
                             <td style="width:10%">ACEPTADO</td>
-                            <td style="width:15%">SI (___)   NO (___)</td>
+                            <td style="width:15%">SI (_<span style="text-decoration: underline;">X</span>_)   NO (___)</td>
                             <td style="width:10%">MOTIVO</td>
                             <td style="width:75%"></td>
                         </tr>
@@ -557,17 +571,17 @@
             <br>
             <div class="row">
                 <div class="col-md-12">
-                    <p>No. DE CONTROL:{{miServicioSocial.alumno.nc}}</p>
-                    <p>NOMBRE:{{miServicioSocial.alumno.nombre}}</p>
-                    <p>DOMICILIO: {{domicilio}}</p>
-                    <p>TELEFONO: {{miServicioSocial.alumno.telefono}}</p>
-                    <p>CARRERA: {{miServicioSocial.alumno.carrera}}</p>
-                    <p>DEPENDENCIA: {{miServicioSocial.programa.dependenciaOficial}}</p>
-                    <p>DOMICILIO DE LA DEPENDENCIA: {{miServicioSocial.programa.domicilioDependencia}}</p>
-                    <p>RESPONSABLE DEL PROGRAMA: {{miServicioSocial.programa.titularDependencia}}</p>
-                    <p>SEMESTRE: {{miServicioSocial.alumno.semestre}}</p>
-                    <p>FECHA DE INICIO: {{miServicioSocial.programa.fechaInicio}}</p>
-                    <p>FECHA DE TERMINACION: {{miServicioSocial.programa.fechaCartaTerminacion}}</p>
+                    <p>No. DE CONTROL: <span style="text-decoration: underline;">{{miServicioSocial.alumno.nc}}</span></p>
+                    <p>NOMBRE: <span style="text-decoration: underline;">{{miServicioSocial.alumno.nombre}}</span></p>
+                    <p>DOMICILIO: <span style="text-decoration: underline;">{{miServicioSocial.alumno.domicilio}}, {{miServicioSocial.alumno.colonia}}, {{miServicioSocial.alumno.ciudad}}, {{miServicioSocial.alumno.cp}}</span></p>
+                    <p>TELEFONO: <span style="text-decoration: underline;">{{miServicioSocial.alumno.telefono}}</span></p>
+                    <p>CARRERA: <span style="text-decoration: underline;" class="text-uppercase">{{miServicioSocial.alumno.carrera}}</span></p>
+                    <p>DEPENDENCIA: <span style="text-decoration: underline;">{{miServicioSocial.programa.dependenciaOficial}}</span></p>
+                    <p>DOMICILIO DE LA DEPENDENCIA: <span style="text-decoration: underline;">{{miServicioSocial.programa.domicilioDependencia}}</span></p>
+                    <p>RESPONSABLE DEL PROGRAMA: <span style="text-decoration: underline;">{{miServicioSocial.programa.titularDependencia}}</span></p>
+                    <p>SEMESTRE: <span style="text-decoration: underline;">{{miServicioSocial.alumno.semestre}}</span></p>
+                    <p>FECHA DE INICIO: <span style="text-decoration: underline;">{{miServicioSocial.programa.fechaInicio}}</span></p>
+                    <p>FECHA DE TERMINACION: <span style="text-decoration: underline;">{{miServicioSocial.programa.fechaCartaTerminacion}}</span></p>
                 </div>
             </div>
             <br>

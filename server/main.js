@@ -7,7 +7,8 @@ import './methods'
 import './catalogos'
 
 Meteor.startup(() => {
-	process.env.MAIL_URL = 'smtps://ead@tlajomulco.tecnm.mx:3adittj86.@smtp.gmail.com:465?tls.rejectUnauthorized=false';
+	process.env.MAIL_URL = 'smtp://localhost:25';
+	//process.env.MAIL_URL = 'smtps://sisae@tlajomulco.tecnm.mx:3adittj86.@smtp.gmail.com:465';
 	//process.env.MAIL_URL = 'smtps://sisae@tlajomulco.tecnm.mx:sisae123.@smtp.gmail.com:465?tls.rejectUnauthorized=false';
 	if (Meteor.users.find().count()==0){
 		Roles.createRole('Alumno');
