@@ -1,7 +1,7 @@
 import { Accounts } from 'meteor/accounts-base'
 
 Accounts.emailTemplates.siteName='SISAE (Sistema de Servicios Academicos y Estudiantiles)';
-Accounts.emailTemplates.from = 'SISAE-TecNM-Tlajomulco <SISAE@tlajomulco.tecnm.mx>';
+Accounts.emailTemplates.from = 'SISAE-TecNM-Tlajomulco <sisae@tlajomulco.tecnm.mx>';
 Accounts.emailTemplates.resetPassword.subject = function (user) {
     return 'TecNM Tlajomulco - SISAE - Solicitud de cambio de contraseña';
 };
