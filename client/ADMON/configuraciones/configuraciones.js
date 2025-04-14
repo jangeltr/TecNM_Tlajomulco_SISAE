@@ -33,7 +33,7 @@ Template.configuracion.helpers({
         return periodos.find({});
 	},
 	ip:function(){
-		return Session.get("ipLocal").substring(7);
+		return Session.get("ipLocal");
 	},
 	puerto:function(){
 		return Session.get("puerto").substring(1);
