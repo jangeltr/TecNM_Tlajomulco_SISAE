@@ -62,7 +62,7 @@ Template.configuracion.events({
         Session.set("aviso",aviso);
 	},
 	"click .guardarConfiguracion":function(){
-		let newIP='http://'+document.getElementById('newIP').value;
+		let newIP=document.getElementById('newIP').value;
 		let newPuerto=document.getElementById('newPuerto').value;
 		let newPer=Session.get("periodo");
 		Meteor.call('saveConfig',newIP,newPuerto,newPer)
